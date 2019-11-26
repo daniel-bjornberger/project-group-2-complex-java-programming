@@ -19,7 +19,7 @@ public class MonsterModel {
     //experience points given to player after monster is defeated.
     private int experience;
 
-    public MonsterModel toModel(Monster monster) {
+    public MonsterModel toDTO(Monster monster) {
         MonsterModel monsterModel = new MonsterModel();
 
         monsterModel.setMonsterType(monster.getMonsterType());
