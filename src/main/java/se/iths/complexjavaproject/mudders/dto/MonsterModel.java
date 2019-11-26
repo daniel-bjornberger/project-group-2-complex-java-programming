@@ -8,6 +8,9 @@ import se.iths.complexjavaproject.mudders.model.Monster;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+/**
+ * Skapad av Elin och Tonny 26/11.
+ */
 public class MonsterModel {
 
     private Long id;
@@ -31,6 +34,8 @@ public class MonsterModel {
 
         return monsterModel;
     }
+
+
 
 
 
