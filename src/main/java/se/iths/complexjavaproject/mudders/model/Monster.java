@@ -12,7 +12,8 @@ import java.io.Serializable;
 @Getter
 @Setter
 /**
- * Skapad av Elin och Tonny 26/11
+ * Skapad av Elin och Tonny 26/11.
+ * Monster class.
  */
 public class Monster implements Serializable {
 
@@ -44,7 +45,8 @@ public class Monster implements Serializable {
     //private List<Loot
     // > monsterLoot;
 
-    public Monster toEntity(){
+    public Monster toModel(){
+        Monster monster = new Monster();
 
         return null;
 
