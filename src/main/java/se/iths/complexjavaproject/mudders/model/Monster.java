@@ -11,6 +11,9 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Getter
 @Setter
+/**
+ * Skapad av Elin och Tonny 26/11
+ */
 public class Monster implements Serializable {
 
     private static final long serialVersionUID = -2799455774396393279L;
