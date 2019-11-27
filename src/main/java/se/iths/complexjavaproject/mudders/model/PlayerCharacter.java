@@ -2,8 +2,6 @@ package se.iths.complexjavaproject.mudders.model;
 
 import lombok.*;
 import net.minidev.json.writer.JsonReader;
-
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.io.StringReader;
@@ -41,21 +39,5 @@ public class PlayerCharacter implements Serializable {
     @Column(name = "mana")
     private int mana = 10;
 
-    public PlayerCharacter toModel(String Character) {
-
-        List<String> temp = new ArrayList<>();
-
-        JsonReader reader = Json.createReader(new StringReader(playerCharacter));
-
-        JsonObject jsonObject = reader.readObject();
-
-        PlayerCharacter playerCharacter = new PlayerCharacter();
-        if (jsonObject.containsKey("characterName")) {
-            playerCharacter.setName(jsonObject.getString("characterName"));
-        } else {
-            playerCharacter.setName("");
-        }
-        return playerCharacter;
-    }
 
 }

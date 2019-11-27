@@ -11,6 +11,14 @@ public class PlayerCharacterModel {
     private int mana;
     private int level;
 
+    public PlayerCharacterModel toDto(String characterName){
+        PlayerCharacterModel playerCharacter = new PlayerCharacterModel();
+        playerCharacter.characterName = characterName;
+
+        return playerCharacter;
+
+    }
+
     public PlayerCharacterModel toDto(PlayerCharacter playerCharacter) {
         PlayerCharacterModel playerCharacterModel = new PlayerCharacterModel();
 
