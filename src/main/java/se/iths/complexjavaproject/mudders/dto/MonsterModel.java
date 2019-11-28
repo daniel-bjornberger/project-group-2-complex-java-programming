@@ -11,7 +11,7 @@ import se.iths.complexjavaproject.mudders.model.Monster;
 /**
  * Skapad av Elin och Tonny 26/11.
  */
-public class MonsterModel {
+public class MonsterModel implements ICombatActions {
 
     private Long id;
     private String name;
