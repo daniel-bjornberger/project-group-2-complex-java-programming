@@ -47,6 +47,7 @@ public class MonsterModel implements ICombatActions {
             return 0;
         }*/
         // TODO: throw exception
+        */
         return 0;
     }
 

@@ -1,6 +1,5 @@
 package se.iths.complexjavaproject.mudders.controller;
 
-import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -12,22 +11,21 @@ import se.iths.complexjavaproject.mudders.model.PlayerCharacter;
 import se.iths.complexjavaproject.mudders.repository.PlayerCharacterRepository;
 import se.iths.complexjavaproject.mudders.service.PlayerCharacterService;
 
-import java.util.logging.Logger;
-
 
 @Controller
 @RequestMapping("/player")
 public class PlayerCharacterController {
 
+    @Autowired
     private PlayerCharacterRepository playerCharacterRepository;
+
     private PlayerCharacterService playerCharacterService;
 
-    /*
-    public PlayerCharacterController(PlayerCharacterRepository playerCharacterRepository, PlayerCharacterService playerCharacterService) {
-        this.playerCharacterRepository = playerCharacterRepository;
-        this.playerCharacterService = playerCharacterService;
+    private PlayerCharacter playerCharacter;
+
+    public PlayerCharacterController() {
+        this.playerCharacterService = new PlayerCharacterService();
     }
-    */
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(path = "/add")

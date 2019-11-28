@@ -19,10 +19,11 @@ public class TravelService {
         //might find pot of gold
     }
 
+    /*
     public MonsterModel createNewMonster() {
         return monsterModel;
     }
-
+    */
     public void encounter(){
         //Loop
         //Send message:
