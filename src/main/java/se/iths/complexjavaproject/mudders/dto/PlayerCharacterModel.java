@@ -1,7 +1,12 @@
 package se.iths.complexjavaproject.mudders.dto;
 
+import lombok.Getter;
+import lombok.Setter;
+import org.modelmapper.ModelMapper;
 import se.iths.complexjavaproject.mudders.model.PlayerCharacter;
 
+@Getter
+@Setter
 public class PlayerCharacterModel {
 
     private Long id;
@@ -10,6 +15,7 @@ public class PlayerCharacterModel {
     private int health;
     private int mana;
     private int level;
+
 
     public PlayerCharacterModel toDto(String characterName){
         PlayerCharacterModel playerCharacter = new PlayerCharacterModel();
@@ -31,4 +37,5 @@ public class PlayerCharacterModel {
 
         return playerCharacterModel;
     }
+
 }

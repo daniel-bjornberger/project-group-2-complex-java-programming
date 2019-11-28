@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import se.iths.complexjavaproject.mudders.dto.PlayerCharacterModel;
 import se.iths.complexjavaproject.mudders.model.PlayerCharacter;
 import se.iths.complexjavaproject.mudders.repository.PlayerCharacterRepository;
+import se.iths.complexjavaproject.mudders.service.PlayerCharacterService;
+
+import java.util.logging.Logger;
 
 
 @Controller
@@ -17,23 +20,27 @@ import se.iths.complexjavaproject.mudders.repository.PlayerCharacterRepository;
 public class PlayerCharacterController {
 
     private PlayerCharacterRepository playerCharacterRepository;
+    private PlayerCharacterService playerCharacterService;
 
-    public PlayerCharacterController(PlayerCharacterRepository playerCharacterRepository) {
+    /*
+    public PlayerCharacterController(PlayerCharacterRepository playerCharacterRepository, PlayerCharacterService playerCharacterService) {
         this.playerCharacterRepository = playerCharacterRepository;
+        this.playerCharacterService = playerCharacterService;
     }
+    */
 
     @PostMapping(path = "/add")
     public @ResponseBody String addNewPlayerCharacter (@RequestParam String characterName){
+        Logger logger;
+        PlayerCharacterModel playerCharacterModel = new PlayerCharacterModel();
 
-        //PlayerCharacterModel playerCharacterModel = new PlayerCharacterModel();
-        PlayerCharacter playerCharacter = new PlayerCharacter();
+        playerCharacterModel.toDto(characterName);
+        logger.sls4j("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        System.out.println(playerCharacterModel.getCharacterName());
+        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        playerCharacterRepository.save(playerCharacterService.convertToEntity(playerCharacterModel));
 
-        playerCharacter.setCharacterName(characterName);
-        //playerCharacterModel.toDto(characterName);
-
-        playerCharacterRepository.save(playerCharacter);
-
-        return "Character created" + playerCharacter;
+        return "Character created";
     }
 
 }

@@ -40,4 +40,10 @@ public class PlayerCharacter implements Serializable {
     private int mana = 10;
 
 
+    public PlayerCharacter toConvertPlayerCharacter(){
+        PlayerCharacter playerCharacter = new PlayerCharacter();
+
+        return playerCharacter;
+    }
+
 }
