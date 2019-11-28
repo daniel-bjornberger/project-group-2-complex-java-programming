@@ -18,7 +18,7 @@ public class TownModel {
         TownModel townModel = new TownModel();
 
         townModel.setName(town.getName());
-        
+
         return townModel;
     }
 }
