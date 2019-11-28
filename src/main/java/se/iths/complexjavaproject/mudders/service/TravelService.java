@@ -23,7 +23,8 @@ public class TravelService {
         return monsterModel;
     }
 
-    public void ambush(){
+    public void encounter(){
+        //Loop
         //Send message:
         System.out.println("You are being ambushed by a " + monsterModel.getName()
                 + "\n Escape or Attack?");
