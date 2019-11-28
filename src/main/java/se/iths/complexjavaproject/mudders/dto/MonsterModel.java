@@ -34,7 +34,7 @@ public class MonsterModel implements ICombatActions {
 
     @Override
     public int attack(Object target) {
-        if (target instanceof PlayerModel) {
+        if (target instanceof PlayerCharacterModel) {
             return 0;
         }
         // TODO: throw exception
@@ -43,7 +43,7 @@ public class MonsterModel implements ICombatActions {
 
     @Override
     public int flee(Object target) {
-        if (target instanceof PlayerModel) {
+        if (target instanceof PlayerCharacterModel) {
             return 0;
         }
         // TODO: throw exception

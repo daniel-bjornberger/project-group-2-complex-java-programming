@@ -2,6 +2,7 @@ package se.iths.complexjavaproject.mudders.service;
 
 import lombok.AllArgsConstructor;
 import se.iths.complexjavaproject.mudders.dto.MonsterModel;
+import se.iths.complexjavaproject.mudders.dto.PlayerCharacterModel;
 
 import java.util.Random;
 
@@ -17,12 +18,12 @@ public class CombatService {
     public void fight() {
         int result = player.attack(monster);
         if (result == 0) {
-            monsterKilled();
+//            monsterKilled();
         }
         else {
             result = monster.attack(player);
             if (result == 0) {
-                playerKilled();
+//                playerKilled();
             }
         }
     }

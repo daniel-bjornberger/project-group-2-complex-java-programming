@@ -7,7 +7,7 @@ import se.iths.complexjavaproject.mudders.model.PlayerCharacter;
 
 @Getter
 @Setter
-public class PlayerCharacterModel {
+public class PlayerCharacterModel implements ICombatActions {
 
     private Long id;
     private String characterName;
@@ -38,4 +38,16 @@ public class PlayerCharacterModel {
         return playerCharacterModel;
     }
 
+    @Override
+    public int attack(Object target) {
+        if (target instanceof MonsterModel) {
+
+        }
+        return 0;
+    }
+
+    @Override
+    public int flee(Object target) {
+        return 0;
+    }
 }

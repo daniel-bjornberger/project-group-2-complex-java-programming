@@ -20,7 +20,8 @@ public class TravelService {
     }
 
     public MonsterModel createNewMonster() {
-        return monsterModel.toDTO(addMonster);
+//        return monsterModel.toDTO(addMonster);
+        return null;
     }
 
     public void encounter(){
