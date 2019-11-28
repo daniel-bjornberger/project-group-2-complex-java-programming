@@ -1,22 +1,20 @@
 package se.iths.complexjavaproject.mudders.service;
 
+import lombok.AllArgsConstructor;
 import se.iths.complexjavaproject.mudders.dto.ICombatActions;
+import se.iths.complexjavaproject.mudders.dto.MonsterModel;
 import se.iths.complexjavaproject.mudders.model.Monster;
 
 /**
  * Skapad av Elin och Tonny.
  */
-public class CombatService implements ICombatActions {
+@AllArgsConstructor
+public class CombatService {
 
-    Monster monster;
-    Player player;
+    MonsterModel monster;
+    PlayerCharacterModel player;
 
-    int attack = monster.getAttackPoints();
-    int playerHP = player.getHealth();
-
-
-    @Override
-    public void attack(){
+    public void inCombat() {
         //start fight event.
         //player first hit - reduce monster hp
         //send info to player
@@ -26,43 +24,28 @@ public class CombatService implements ICombatActions {
         //monster flees when hp lower than x
         //start flee event for monster
         //send info to player
-
     }
 
-    /*
-    attack(User user){
-    DMG = user.AP
-    user.attack(ap)
-    target.getHit(ap)
+    public void fight() {
+        int result = player.attack(monster);
+        if (result <= 0){
+            monsterKilled();
+        }
+        else {
+            result = monster.attack(player);
+            if (result <= 0) {
+                playerKilled();
+            }
+        }
     }
 
-     */
-
-    private int monsterAttack(){
+    /*private int monsterAttack(){
         int playerDamage = 0;
 
         playerDamage = playerHP - attack;
 
         return playerDamage;
-    }
-
-    public void playerHit(){
-        int hit;
-    }
-
-    @Override
-    public void flee() {
-        //start run away event.
-    }
-
-    public int playerTakeDamage(){
-
-       // int damage = player.setPlayerHP(playerDamage);
-
-        return 0;
-
-
-    }
+    }*/
 
     public void randomNumberGenerator(){
 
