@@ -20,13 +20,17 @@ public class PlayerCharacterController {
 
     private PlayerCharacter playerCharacter;
 
+    public PlayerCharacterController() {
+        this.playerCharacterService = new PlayerCharacterService();
+    }
+
     @PostMapping("/add")
-    public PlayerCharacterModel addNewPlayerCharacter (@RequestBody PlayerCharacterModel playerCharacterModel){
-        playerCharacter = playerCharacterService.convertToEntity(playerCharacterModel);
+    public PlayerCharacter addNewPlayerCharacter (@RequestParam String characterName){
+        playerCharacter = playerCharacterService.convertToEntity(characterName);
 
-        playerCharacterRepository.save(playerCharacter);
+        PlayerCharacter save = playerCharacterRepository.save(playerCharacter);
 
-        return playerCharacterModel;
+        return save;
     }
 
 }

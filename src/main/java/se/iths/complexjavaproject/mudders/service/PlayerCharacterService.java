@@ -9,11 +9,11 @@ import javax.persistence.Id;
 
 public class PlayerCharacterService {
 
-    public PlayerCharacter convertToEntity (PlayerCharacterModel playerCharacterModel){
+    public PlayerCharacter convertToEntity (String characterName){
         PlayerCharacter playerCharacter = new PlayerCharacter();
 
         playerCharacter.setId(2);
-        playerCharacter.setCharacterName(playerCharacterModel.getCharacterName());
+        playerCharacter.setCharacterName(characterName);
         playerCharacter.setExperience(0);
         playerCharacter.setHealth(10);
         playerCharacter.setHomeTown("Village");
