@@ -22,7 +22,7 @@ public class PlayerCharacter implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-    private Long id;
+    private int id;
 
     @Column(name = "characterName")
     private String characterName;

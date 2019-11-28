@@ -2,6 +2,7 @@ package se.iths.complexjavaproject.mudders.service;
 
 import lombok.AllArgsConstructor;
 import se.iths.complexjavaproject.mudders.dto.MonsterModel;
+import se.iths.complexjavaproject.mudders.dto.PlayerCharacterModel;
 
 import java.util.Random;
 
@@ -14,6 +15,7 @@ public class CombatService {
     MonsterModel monster;
     PlayerCharacterModel player;
 
+    /*
     public void fight() {
         int result = player.attack(monster);
         if (result == 0) {
@@ -26,7 +28,7 @@ public class CombatService {
             }
         }
     }
-
+*/
     public void escape(Object escaper) {
         if (escaper instanceof MonsterModel) {
             // TODO: Get chance to use escaper.flee();

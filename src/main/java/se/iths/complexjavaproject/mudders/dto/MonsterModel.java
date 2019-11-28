@@ -34,19 +34,21 @@ public class MonsterModel implements ICombatActions {
 
     @Override
     public int attack(Object target) {
-        if (target instanceof PlayerModel) {
+      /*  if (target instanceof PlayerModel) {
             return 0;
         }
-        // TODO: throw exception
+       */ // TODO: throw exception
         return 0;
     }
 
     @Override
     public int flee(Object target) {
+        /*
         if (target instanceof PlayerModel) {
             return 0;
         }
         // TODO: throw exception
+        */
         return 0;
     }
 
