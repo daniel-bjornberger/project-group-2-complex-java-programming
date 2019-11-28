@@ -50,6 +50,4 @@ public class MonsterModel implements ICombatActions {
         return 0;
     }
 
-
-
 }
