@@ -14,28 +14,41 @@ import se.iths.complexjavaproject.mudders.model.Monster;
 public class MonsterModel {
 
     private Long id;
-    private String monsterType;
+    private String name;
     private int level;
-    private int manaPoints;
-    private int healthPoints;
-    private int attackPoints;
-    //experience points given to player after monster is defeated.
-    private int experience;
+    private int health;
+    private int damage;
+    private int givenExperience;
 
     public MonsterModel toDTO(Monster monster) {
         MonsterModel monsterModel = new MonsterModel();
 
-        monsterModel.setMonsterType(monster.getMonsterType());
+        monsterModel.setName(monster.getName());
         monsterModel.setLevel(monster.getLevel());
-        monsterModel.setHealthPoints(monster.getHealthPoints());
-        monsterModel.setManaPoints(monster.getManaPoints());
-        monsterModel.setAttackPoints(monster.getAttackPoints());
-        monsterModel.setExperience(monster.getExperience());
+        monsterModel.setHealth(monster.getHealth());
+        monsterModel.setDamage(monster.getDamage());
+        monsterModel.setGivenExperience(monster.getGivenExperience());
 
         return monsterModel;
     }
 
+    @Override
+    public int attack(Object target) {
+        if (target instanceof PlayerModel) {
+            return 0;
+        }
+        // TODO: throw exception
+        return 0;
+    }
 
+    @Override
+    public int flee(Object target) {
+        if (target instanceof PlayerModel) {
+            return 0;
+        }
+        // TODO: throw exception
+        return 0;
+    }
 
 
 

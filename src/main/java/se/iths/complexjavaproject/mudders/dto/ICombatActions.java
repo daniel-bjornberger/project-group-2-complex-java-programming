@@ -2,8 +2,9 @@ package se.iths.complexjavaproject.mudders.dto;
 
 public interface ICombatActions {
 
-    void attack();
+    int attack(Object target);
 
-    void flee();
+    int flee(Object target);
+
 
 }

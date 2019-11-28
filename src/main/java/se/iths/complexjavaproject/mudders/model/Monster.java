@@ -23,27 +23,22 @@ public class Monster implements Serializable {
     @Column(name="id")
     private Long id;
 
-    @Column(name="monsterType")
-    private String monsterType;
+    @Column(name="name")
+    private String name;
 
     @Column(name="level")
     private int level;
 
-    @Column(name="manaPoints")
-    private int manaPoints;
+    @Column(name="health")
+    private int health;
 
-    @Column(name="healthPoints")
-    private int healthPoints;
+    @Column(name="damage")
+    private int damage;
 
-    @Column(name="attackPoints")
-    private int attackPoints;
+    @Column(name="givenExperience")
+    private int givenExperience;
 
-    //experience points given to player after monster is defeated.
-    @Column(name="experience")
-    private int experience;
-
-    //private List<Loot
-    // > monsterLoot;
+    //private List<Loot> monsterLoot;
 
     public Monster toModel(){
         Monster monster = new Monster();
