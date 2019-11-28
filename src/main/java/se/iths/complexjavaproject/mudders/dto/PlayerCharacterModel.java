@@ -15,6 +15,7 @@ public class PlayerCharacterModel {
     private int health;
     private int mana;
     private int level;
+    private String homeTown;
 
 
     public PlayerCharacterModel toDto(String characterName){

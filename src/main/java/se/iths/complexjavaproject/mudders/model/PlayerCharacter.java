@@ -39,6 +39,8 @@ public class PlayerCharacter implements Serializable {
     @Column(name = "mana")
     private int mana = 10;
 
+    @Column(name = "homeTown")
+    private String homeTown = "VillageOne";
 
     public PlayerCharacter toConvertPlayerCharacter(){
         PlayerCharacter playerCharacter = new PlayerCharacter();
