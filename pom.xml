@@ -18,6 +18,22 @@
 		<java.version>11</java.version>
 	</properties>
 
+	<developers>
+		<developer>
+			<name>Elin Sexton</name>
+		</developer>
+		<developer>
+			<name>Tonny Frisk</name>
+		</developer>
+		<developer>
+			<name>Daniel Björnberger</name>
+		</developer>
+		<developer>
+			<name>Filip Christofferson</name>
+		</developer>
+	</developers>
+
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
