@@ -20,7 +20,7 @@ public class PlayerCharacter implements Serializable {
     private static final long serialVersionUID = 2982112410056449932L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)     // TODO: AUTO eller IDENTITY? Borde vara samma för alla models, eller? /Daniel
     @Column(name = "id")
     private int id;
 
@@ -41,6 +41,10 @@ public class PlayerCharacter implements Serializable {
 
     @Column(name = "homeTown")
     private String homeTown = "VillageOne";
+
+    // TODO: Kolumn-namn skrivs med "snake_case"? character_name, home_town?   /Daniel
+    // https://stackoverflow.com/questions/26535614/jpa-naming-convention
+    // https://vladmihalcea.com/map-camel-case-properties-snake-case-column-names-hibernate/
 
     public PlayerCharacter toConvertPlayerCharacter(){
         PlayerCharacter playerCharacter = new PlayerCharacter();
