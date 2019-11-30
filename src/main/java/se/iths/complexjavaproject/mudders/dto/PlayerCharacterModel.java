@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import lombok.Setter;
+import se.iths.complexjavaproject.mudders.exception.UnsupportedObjectException;
 
 @Getter
 @Setter
@@ -15,6 +16,7 @@ public class PlayerCharacterModel implements ICombatActions {
     private int health;
     private int mana;
     private int level;
+    private int damage;
 
     public String toJson(PlayerCharacterModel model) {
         ObjectMapper mapper = new ObjectMapper();
@@ -28,15 +30,23 @@ public class PlayerCharacterModel implements ICombatActions {
     }
 
     @Override
-    public int attack(Object target) {
+    public int attack(Object target) throws UnsupportedObjectException {
         if (target instanceof MonsterModel) {
-
+            int result = ((MonsterModel) target).getHealth() - getDamage();
+            if (result <= 0) {
+                ((MonsterModel) target).setHealth(0);
+                return 0;
+            }
+            else {
+                ((MonsterModel) target).setHealth(result);
+                return result;
+            }
         }
-        return 0;
+        throw new UnsupportedObjectException("Not a MonsterModel");
     }
 
     @Override
-    public int flee(Object target) {
+    public int flee() {
         return 0;
     }
 }
