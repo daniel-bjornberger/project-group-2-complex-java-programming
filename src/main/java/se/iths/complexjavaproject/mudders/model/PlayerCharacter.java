@@ -20,7 +20,7 @@ public class PlayerCharacter implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-    private int id;
+    private Long id;
 
     @Column(name = "characterName")
     private String characterName;
@@ -39,6 +39,7 @@ public class PlayerCharacter implements Serializable {
 
     @Column(name = "homeTown")
     private String homeTown = "VillageOne";
+
     @Column(name = "damage")
     private int damage = 1;
 
@@ -51,6 +52,7 @@ public class PlayerCharacter implements Serializable {
         playerCharacterModel.setLevel(getLevel());
         playerCharacterModel.setHealth(getHealth());
         playerCharacterModel.setMana(getMana());
+        playerCharacterModel.setHomeTown(getHomeTown());
         playerCharacterModel.setDamage(getDamage());
 
         return playerCharacterModel;

@@ -36,7 +36,7 @@ public class MonsterModel implements ICombatActions {
     public int attack(Object target) {
         if (target instanceof PlayerCharacterModel) {
             return 0;
-        }*/
+        }
         // TODO: throw exception
         return 0;
     }

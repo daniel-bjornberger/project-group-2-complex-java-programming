@@ -30,7 +30,7 @@ public class CombatService {
 //                playerKilled();
             }
         }
-    }*/
+    }
 
     public void escape(Object escaper) throws UnsupportedObjectException {
         if (escaper instanceof MonsterModel) {
