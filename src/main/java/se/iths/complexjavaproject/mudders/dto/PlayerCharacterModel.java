@@ -1,13 +1,14 @@
 package se.iths.complexjavaproject.mudders.dto;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import lombok.Setter;
-import org.modelmapper.ModelMapper;
-import se.iths.complexjavaproject.mudders.model.PlayerCharacter;
+import se.iths.complexjavaproject.mudders.exception.UnsupportedObjectException;
 
 @Getter
 @Setter
-public class PlayerCharacterModel {
+public class PlayerCharacterModel implements ICombatActions {
 
     private Long id;
     private String characterName;
@@ -16,27 +17,37 @@ public class PlayerCharacterModel {
     private int mana;
     private int level;
     private String homeTown;
+    private int damage;
 
+    public String toJson(PlayerCharacterModel model) {
+        ObjectMapper mapper = new ObjectMapper();
 
-    public PlayerCharacterModel toDto(String characterName){
-        PlayerCharacterModel playerCharacter = new PlayerCharacterModel();
-        playerCharacter.characterName = characterName;
-
-        return playerCharacter;
-
+        try {
+            return mapper.writeValueAsString(model);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
-    public PlayerCharacterModel toDto(PlayerCharacter playerCharacter) {
-        PlayerCharacterModel playerCharacterModel = new PlayerCharacterModel();
-
-        playerCharacterModel.id = null;
-        playerCharacterModel.characterName = playerCharacter.getCharacterName();
-        playerCharacterModel.experience = playerCharacter.getExperience();
-        playerCharacterModel.level = playerCharacter.getLevel();
-        playerCharacterModel.health = playerCharacter.getHealth();
-        playerCharacterModel.mana = playerCharacter.getMana();
-
-        return playerCharacterModel;
+    @Override
+    public int attack(Object target) throws UnsupportedObjectException {
+        if (target instanceof MonsterModel) {
+            int result = ((MonsterModel) target).getHealth() - getDamage();
+            if (result <= 0) {
+                ((MonsterModel) target).setHealth(0);
+                return 0;
+            }
+            else {
+                ((MonsterModel) target).setHealth(result);
+                return result;
+            }
+        }
+        throw new UnsupportedObjectException("Not a MonsterModel");
     }
 
+    @Override
+    public int flee() {
+        return 0;
+    }
 }
