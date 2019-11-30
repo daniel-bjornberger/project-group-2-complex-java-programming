@@ -37,6 +37,8 @@ public class PlayerCharacter implements Serializable {
     @Column(name = "mana")
     private int mana = 10;
 
+    @Column(name = "damage")
+    private int damage = 1;
 
     public PlayerCharacterModel toDTO() {
         PlayerCharacterModel playerCharacterModel = new PlayerCharacterModel();
@@ -47,6 +49,7 @@ public class PlayerCharacter implements Serializable {
         playerCharacterModel.setLevel(getLevel());
         playerCharacterModel.setHealth(getHealth());
         playerCharacterModel.setMana(getMana());
+        playerCharacterModel.setDamage(getDamage());
 
         return playerCharacterModel;
     }
