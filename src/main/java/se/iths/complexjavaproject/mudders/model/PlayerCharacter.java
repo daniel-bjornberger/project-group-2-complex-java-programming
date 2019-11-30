@@ -1,12 +1,10 @@
 package se.iths.complexjavaproject.mudders.model;
 
 import lombok.*;
-import net.minidev.json.writer.JsonReader;
+import se.iths.complexjavaproject.mudders.dto.PlayerCharacterModel;
+
 import javax.persistence.*;
 import java.io.Serializable;
-import java.io.StringReader;
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Setter
@@ -40,10 +38,17 @@ public class PlayerCharacter implements Serializable {
     private int mana = 10;
 
 
-    public PlayerCharacter toConvertPlayerCharacter(){
-        PlayerCharacter playerCharacter = new PlayerCharacter();
+    public PlayerCharacterModel toDTO() {
+        PlayerCharacterModel playerCharacterModel = new PlayerCharacterModel();
 
-        return playerCharacter;
+        playerCharacterModel.setId(getId());
+        playerCharacterModel.setCharacterName(getCharacterName());
+        playerCharacterModel.setExperience(getExperience());
+        playerCharacterModel.setLevel(getLevel());
+        playerCharacterModel.setHealth(getHealth());
+        playerCharacterModel.setMana(getMana());
+
+        return playerCharacterModel;
     }
 
 }

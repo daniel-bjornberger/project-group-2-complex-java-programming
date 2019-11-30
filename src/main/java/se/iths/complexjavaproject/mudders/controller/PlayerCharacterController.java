@@ -1,22 +1,16 @@
 package se.iths.complexjavaproject.mudders.controller;
 
-import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import net.minidev.json.JSONObject;
-import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import se.iths.complexjavaproject.mudders.dto.PlayerCharacterModel;
-import se.iths.complexjavaproject.mudders.model.PlayerCharacter;
+import se.iths.complexjavaproject.mudders.exception.BadDataException;
 import se.iths.complexjavaproject.mudders.repository.PlayerCharacterRepository;
 import se.iths.complexjavaproject.mudders.service.PlayerCharacterService;
 
-@Controller
-@AllArgsConstructor
+@RestController
 @NoArgsConstructor
 @RequestMapping("/player")
 public class PlayerCharacterController {
@@ -24,21 +18,18 @@ public class PlayerCharacterController {
     @Autowired
     private PlayerCharacterRepository playerCharacterRepository;
 
-    private PlayerCharacterService playerCharacterService;
-
-    /*public PlayerCharacterController(PlayerCharacterRepository playerCharacterRepository, PlayerCharacterService playerCharacterService) {
-        this.playerCharacterRepository = playerCharacterRepository;
-        this.playerCharacterService = playerCharacterService;
-    }*/
-
     @PostMapping(path = "/add")
-    public @ResponseBody String addNewPlayerCharacter (@RequestParam String characterName){
-        PlayerCharacterModel playerCharacterModel = new PlayerCharacterModel();
+    public ResponseEntity addNewPlayerCharacter (@RequestBody String characterName){
+        PlayerCharacterModel playerCharacterModel = null;
+        try {
+            playerCharacterModel = playerCharacterRepository
+                    .save(PlayerCharacterService.convertToModel(characterName))
+                    .toDTO();
+        } catch (BadDataException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
 
-        playerCharacterModel.toDto(characterName);
-        playerCharacterRepository.save(playerCharacterService.convertToEntity(playerCharacterModel));
-
-        return "Character created";
+        return ResponseEntity.status(HttpStatus.CREATED).body(playerCharacterModel.toJson(playerCharacterModel));
     }
 
 }
