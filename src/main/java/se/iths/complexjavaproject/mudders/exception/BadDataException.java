@@ -1,4 +1,7 @@
 package se.iths.complexjavaproject.mudders.exception;
 
-public class BadDataException {
+public class BadDataException extends Exception {
+    public BadDataException(String message) {
+        super(message);
+    }
 }

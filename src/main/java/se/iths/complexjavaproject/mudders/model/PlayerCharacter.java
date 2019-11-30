@@ -1,12 +1,10 @@
 package se.iths.complexjavaproject.mudders.model;
 
 import lombok.*;
-import net.minidev.json.writer.JsonReader;
+import se.iths.complexjavaproject.mudders.dto.PlayerCharacterModel;
+
 import javax.persistence.*;
 import java.io.Serializable;
-import java.io.StringReader;
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Setter
@@ -22,7 +20,7 @@ public class PlayerCharacter implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)     // TODO: AUTO eller IDENTITY? Borde vara samma för alla models, eller? /Daniel
     @Column(name = "id")
-    private int id;
+    private Long id;
 
     @Column(name = "characterName")
     private String characterName;
@@ -46,10 +44,22 @@ public class PlayerCharacter implements Serializable {
     // https://stackoverflow.com/questions/26535614/jpa-naming-convention
     // https://vladmihalcea.com/map-camel-case-properties-snake-case-column-names-hibernate/
 
-    public PlayerCharacter toConvertPlayerCharacter(){
-        PlayerCharacter playerCharacter = new PlayerCharacter();
+    @Column(name = "damage")
+    private int damage = 1;
 
-        return playerCharacter;
+    public PlayerCharacterModel toDTO() {
+        PlayerCharacterModel playerCharacterModel = new PlayerCharacterModel();
+
+        playerCharacterModel.setId(getId());
+        playerCharacterModel.setCharacterName(getCharacterName());
+        playerCharacterModel.setExperience(getExperience());
+        playerCharacterModel.setLevel(getLevel());
+        playerCharacterModel.setHealth(getHealth());
+        playerCharacterModel.setMana(getMana());
+        playerCharacterModel.setHomeTown(getHomeTown());
+        playerCharacterModel.setDamage(getDamage());
+
+        return playerCharacterModel;
     }
 
 }
