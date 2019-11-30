@@ -20,16 +20,18 @@ public class PlayerCharacterController {
 
     @PostMapping(path = "/add")
     public ResponseEntity addNewPlayerCharacter (@RequestBody String characterName){
-        PlayerCharacterModel playerCharacterModel = null;
         try {
-            playerCharacterModel = playerCharacterRepository
+            PlayerCharacterModel playerCharacterModel = playerCharacterRepository
                     .save(PlayerCharacterService.convertToModel(characterName))
                     .toDTO();
+
+            return ResponseEntity
+                    .status(HttpStatus.CREATED)
+                    .body(playerCharacterModel.toJson(playerCharacterModel));
+
         } catch (BadDataException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(playerCharacterModel.toJson(playerCharacterModel));
     }
 
 }
