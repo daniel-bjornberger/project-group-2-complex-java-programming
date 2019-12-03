@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import se.iths.complexjavaproject.mudders.model.TownModel;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -25,6 +26,15 @@ public class Town implements Serializable {
 
     @Column(name="name")
     private String name;
+
+    public TownModel toModel() {
+        TownModel townModel = new TownModel();
+
+        townModel.setId(null);
+        townModel.setName(getName());
+
+        return townModel;
+    }
 
     //player should have a Last Town variable that allows us to save info of the last town
     //player should automatically return to last town the next time they play.

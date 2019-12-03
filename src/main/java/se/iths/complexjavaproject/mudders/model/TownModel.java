@@ -14,7 +14,7 @@ public class TownModel {
     private Long id;
     private String name;
 
-    public TownModel toDTO(Town town){
+    public TownModel toModel(Town town){
         TownModel townModel = new TownModel();
 
         townModel.setName(town.getName());
