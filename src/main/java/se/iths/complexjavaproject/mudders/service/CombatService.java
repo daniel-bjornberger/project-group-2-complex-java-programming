@@ -2,8 +2,8 @@ package se.iths.complexjavaproject.mudders.service;
 
 import lombok.AllArgsConstructor;
 import se.iths.complexjavaproject.mudders.dto.MonsterModel;
-
-import java.util.Random;
+import se.iths.complexjavaproject.mudders.dto.PlayerCharacterModel;
+import se.iths.complexjavaproject.mudders.exception.UnsupportedObjectException;
 
 /**
  * Skapad av Elin och Tonny.
@@ -15,19 +15,24 @@ public class CombatService {
     PlayerCharacterModel player;
 
     public void fight() {
-        int result = player.attack(monster);
+        int result = 0;
+        try {
+            result = player.attack(monster);
+        } catch (UnsupportedObjectException e) {
+            e.printStackTrace();
+        }
         if (result == 0) {
-            monsterKilled();
+//            monsterKilled();
         }
         else {
             result = monster.attack(player);
             if (result == 0) {
-                playerKilled();
+//                playerKilled();
             }
         }
     }
 
-    public void escape(Object escaper) {
+    public void escape(Object escaper) throws UnsupportedObjectException {
         if (escaper instanceof MonsterModel) {
             // TODO: Get chance to use escaper.flee();
         }
@@ -35,7 +40,7 @@ public class CombatService {
             // TODO: Get chance to use escaper.flee();
         }
         else {
-            // TODO: throw exception?
+            throw new UnsupportedObjectException("Not a MonsterModel or PlayerCharacterModel");
         }
     }
 }

@@ -38,6 +38,10 @@ public class Monster implements Serializable {
     @Column(name="givenExperience")
     private int givenExperience;
 
+    // TODO: Kolumn-namn skrivs med "snake_case"? given_experience?   /Daniel
+    // https://stackoverflow.com/questions/26535614/jpa-naming-convention
+    // https://vladmihalcea.com/map-camel-case-properties-snake-case-column-names-hibernate/
+
     //private List<Loot> monsterLoot;
 
     public Monster toModel(){

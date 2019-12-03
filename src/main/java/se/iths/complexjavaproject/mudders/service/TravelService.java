@@ -19,10 +19,12 @@ public class TravelService {
         //might find pot of gold
     }
 
+    /*
     public MonsterModel createNewMonster() {
-        return monsterModel.toDTO(addMonster);
+//        return monsterModel.toDTO(addMonster);
+        return null;
     }
-
+    */
     public void encounter(){
         //Loop
         //Send message:
