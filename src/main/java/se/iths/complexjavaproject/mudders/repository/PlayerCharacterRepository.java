@@ -7,4 +7,8 @@ import se.iths.complexjavaproject.mudders.entity.PlayerCharacter;
 @Repository
 public interface PlayerCharacterRepository extends CrudRepository<PlayerCharacter, Long>{
 
+    PlayerCharacter findByCharacterName(String name);
+
+    //PlayerCharacter findById(Long id);
+
 }
