@@ -1,23 +1,23 @@
 package se.iths.complexjavaproject.mudders.entity;
 
 import lombok.*;
+import se.iths.complexjavaproject.mudders.model.MonsterModel;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Entity
-@Table(name="monster")
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
 /**
  * Skapad av Elin och Tonny 26/11.
  * Monster class.
  */
+
+@Entity
+@Table(name="monster")
+@Data
 public class Monster implements Serializable {
 
     private static final long serialVersionUID = -2799455774396393279L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
@@ -35,20 +35,13 @@ public class Monster implements Serializable {
     @Column(name="damage")
     private int damage;
 
-    @Column(name="givenExperience")
+    @Column(name="given_experience")
     private int givenExperience;
-
-    // TODO: Kolumn-namn skrivs med "snake_case"? given_experience?   /Daniel
-    // https://stackoverflow.com/questions/26535614/jpa-naming-convention
-    // https://vladmihalcea.com/map-camel-case-properties-snake-case-column-names-hibernate/
 
     //private List<Loot> monsterLoot;
 
-    public Monster toModel(){
-        Monster monster = new Monster();
-
-        return null;
-
+    public MonsterModel toModel(){
+        return new MonsterModel(getName(), getLevel(), getHealth(), getDamage(), getGivenExperience());
     }
 
 }

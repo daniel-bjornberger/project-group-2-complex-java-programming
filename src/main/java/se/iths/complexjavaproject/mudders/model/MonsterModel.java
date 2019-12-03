@@ -1,50 +1,35 @@
 package se.iths.complexjavaproject.mudders.model;
 
 import lombok.*;
-import se.iths.complexjavaproject.mudders.entity.Monster;
+import se.iths.complexjavaproject.mudders.exception.UnsupportedObjectException;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@ToString
 /**
  * Skapad av Elin och Tonny 26/11.
  */
+
+@Data
 public class MonsterModel implements ICombatActions {
 
-    private Long id;
-    private String name;
-    private int level;
-    private int health;
-    private int damage;
-    private int givenExperience;
-
-    public MonsterModel toDTO(Monster monster) {
-        MonsterModel monsterModel = new MonsterModel();
-
-        monsterModel.setName(monster.getName());
-        monsterModel.setLevel(monster.getLevel());
-        monsterModel.setHealth(monster.getHealth());
-        monsterModel.setDamage(monster.getDamage());
-        monsterModel.setGivenExperience(monster.getGivenExperience());
-
-        return monsterModel;
-    }
+    private final String name;
+    private final int level;
+    private final int health;
+    private final int damage;
+    private final int givenExperience;
 
     @Override
-    public int attack(Object target) {
+    public int attack(Object target) throws UnsupportedObjectException {
         if (target instanceof PlayerCharacterModel) {
             return 0;
         }
-        // TODO: throw exception
-        return 0;
+        else {
+            throw new UnsupportedObjectException("Not a PlayerCharacterModel");
+        }
     }
 
     @Override
-    public int flee() {
+    public boolean flee() {
 
-        return 0;
+        return false;
     }
 
 }
