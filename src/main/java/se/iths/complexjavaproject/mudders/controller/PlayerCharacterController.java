@@ -32,6 +32,18 @@ public class PlayerCharacterController {
         }
     }
 
+    @GetMapping(path = "/find")
+    public ResponseEntity findPlayerCharacterByName(@RequestParam String characterName){
+        try{
+            PlayerCharacter playerCharacter = playerCharacterRepository.findByCharacterName(characterName);
+            return ResponseEntity
+                    .status(HttpStatus.FOUND)
+                    .body(playerCharacter.toModel());
+        }catch (Exception e){
+            return  ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+
     @PostMapping(path = "/add")
     public ResponseEntity addNewPlayerCharacter (@RequestBody String characterName){
         try {

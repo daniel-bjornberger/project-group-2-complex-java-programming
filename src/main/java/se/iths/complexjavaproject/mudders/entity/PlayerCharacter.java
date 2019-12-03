@@ -65,6 +65,7 @@ public class PlayerCharacter implements Serializable {
         playerCharacterModel.setMana(getMana());
         playerCharacterModel.setHomeTown(getHomeTown());
         playerCharacterModel.setDamage(getDamage());
+        playerCharacterModel.setCurrency(getCurrency());
 
         return playerCharacterModel;
     }

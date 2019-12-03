@@ -17,6 +17,7 @@ public class PlayerCharacterModel implements ICombatActions {
     private int level;
     private String homeTown;
     private int damage;
+    private int currency;
 
     public String toJson(PlayerCharacterModel model) {
         ObjectMapper mapper = new ObjectMapper();
