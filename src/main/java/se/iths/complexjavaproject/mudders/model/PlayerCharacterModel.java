@@ -15,6 +15,7 @@ public class PlayerCharacterModel implements ICombatActions {
     private int level;
     private String homeTown;
     private int damage;
+    private int currency;
 
     @Override
     public int attack(Object target) throws UnsupportedObjectException {

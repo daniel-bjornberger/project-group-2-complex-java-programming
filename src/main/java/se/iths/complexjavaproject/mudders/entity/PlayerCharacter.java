@@ -40,6 +40,9 @@ public class PlayerCharacter implements Serializable {
     @Column(name = "home_town")
     private String homeTown = "VillageOne";
 
+    @Column(name = "currency")
+    private int currency = 0;
+
     /*TODO: Add one to one relation with user to keep track of owner
     @Column(name = "user_id")
     private Long id;
@@ -62,6 +65,7 @@ public class PlayerCharacter implements Serializable {
         playerCharacterModel.setMana(getMana());
         playerCharacterModel.setHomeTown(getHomeTown());
         playerCharacterModel.setDamage(getDamage());
+        playerCharacterModel.setCurrency(getCurrency());
 
         return playerCharacterModel;
     }

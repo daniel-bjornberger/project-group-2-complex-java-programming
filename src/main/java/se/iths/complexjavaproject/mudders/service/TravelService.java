@@ -1,6 +1,8 @@
 package se.iths.complexjavaproject.mudders.service;
 
+import se.iths.complexjavaproject.mudders.entity.PlayerCharacter;
 import se.iths.complexjavaproject.mudders.model.MonsterModel;
+import se.iths.complexjavaproject.mudders.model.PlayerCharacterModel;
 import se.iths.complexjavaproject.mudders.util.ServiceUtilities;
 
 /**
@@ -8,18 +10,26 @@ import se.iths.complexjavaproject.mudders.util.ServiceUtilities;
  */
 public class TravelService {
 
+    private int diceRoll;
+    DiceService diceService;
     MonsterModel monsterModel;
-    ServiceUtilities serviceUtilities;
 
     public void daysToTown(){
         int daysToTown = 0;
         //List of towns, days to town corresponds to index.
     }
 
-    public void travel(){
+    public void travel(PlayerCharacter playerCharacter){
+        diceRoll = diceService.rollDice(20, 1);
         //Travelling to next town.
-        //might be ambushed
-        //might find pot of gold
+        if (diceRoll <= 18){
+            //might be ambushed
+            encounter(playerCharacter);
+        }
+        else{
+            //might find pot of gold
+            potOfGold(playerCharacter);
+        }
     }
 
     /*
@@ -28,7 +38,7 @@ public class TravelService {
         return null;
     }
     */
-    public void encounter(){
+    public void encounter(PlayerCharacter playerCharacter){
         //Loop
         //Send message:
         System.out.println("You are being ambushed by a " + monsterModel.getName()
@@ -38,11 +48,13 @@ public class TravelService {
 
     }
 
-    public String potOfGold(){
-        int coins = 0;
+    public String potOfGold(PlayerCharacter playerCharacter){
+        int coins = ServiceUtilities.generateRandomIntIntRange(1, 5);
         String msg = "You have found " + coins + " gold coins!";
+        //TODO: Check if coins gained returns the actual value
+        int coinsGained = coins += playerCharacter.getCurrency();
+        playerCharacter.setCurrency(coinsGained);
 
-        serviceUtilities.randomNumberGenerator(1, 5);
         //daysToTown =- 1;
         return msg;
     }
