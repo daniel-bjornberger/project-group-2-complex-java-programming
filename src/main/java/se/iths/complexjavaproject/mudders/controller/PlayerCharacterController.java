@@ -44,7 +44,7 @@ public class PlayerCharacterController {
             System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             return ResponseEntity
                     .status(HttpStatus.CREATED)
-                    .body(playerCharacterModel.toJson(playerCharacterModel));
+                    .body(playerCharacterModel);
 
         } catch (BadDataException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
