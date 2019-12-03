@@ -1,4 +1,4 @@
-package se.iths.complexjavaproject.mudders.dto;
+package se.iths.complexjavaproject.mudders.model;
 
 import se.iths.complexjavaproject.mudders.exception.UnsupportedObjectException;
 

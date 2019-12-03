@@ -1,7 +1,7 @@
-package se.iths.complexjavaproject.mudders.model;
+package se.iths.complexjavaproject.mudders.entity;
 
 import lombok.*;
-import se.iths.complexjavaproject.mudders.dto.PlayerCharacterModel;
+import se.iths.complexjavaproject.mudders.model.PlayerCharacterModel;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -47,10 +47,10 @@ public class PlayerCharacter implements Serializable {
     @Column(name = "damage")
     private int damage = 1;
 
-    public PlayerCharacterModel toDTO() {
+    public PlayerCharacterModel toModel() {
         PlayerCharacterModel playerCharacterModel = new PlayerCharacterModel();
 
-        playerCharacterModel.setId(getId());
+        playerCharacterModel.setId(null);
         playerCharacterModel.setCharacterName(getCharacterName());
         playerCharacterModel.setExperience(getExperience());
         playerCharacterModel.setLevel(getLevel());

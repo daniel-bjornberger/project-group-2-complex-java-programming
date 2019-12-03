@@ -1,8 +1,8 @@
 package se.iths.complexjavaproject.mudders.service;
 
 import lombok.AllArgsConstructor;
-import se.iths.complexjavaproject.mudders.dto.MonsterModel;
-import se.iths.complexjavaproject.mudders.dto.PlayerCharacterModel;
+import se.iths.complexjavaproject.mudders.model.MonsterModel;
+import se.iths.complexjavaproject.mudders.model.PlayerCharacterModel;
 import se.iths.complexjavaproject.mudders.exception.UnsupportedObjectException;
 
 /**

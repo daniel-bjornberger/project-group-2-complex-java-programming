@@ -1,7 +1,7 @@
-package se.iths.complexjavaproject.mudders.dto;
+package se.iths.complexjavaproject.mudders.model;
 
 import lombok.*;
-import se.iths.complexjavaproject.mudders.model.Monster;
+import se.iths.complexjavaproject.mudders.entity.Monster;
 
 @Getter
 @Setter

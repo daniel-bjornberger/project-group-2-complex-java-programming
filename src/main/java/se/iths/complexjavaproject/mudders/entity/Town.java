@@ -1,4 +1,4 @@
-package se.iths.complexjavaproject.mudders.model;
+package se.iths.complexjavaproject.mudders.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

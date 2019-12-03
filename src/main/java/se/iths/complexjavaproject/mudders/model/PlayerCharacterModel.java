@@ -1,4 +1,4 @@
-package se.iths.complexjavaproject.mudders.dto;
+package se.iths.complexjavaproject.mudders.model;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

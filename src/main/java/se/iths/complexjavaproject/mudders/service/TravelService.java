@@ -1,6 +1,6 @@
 package se.iths.complexjavaproject.mudders.service;
 
-import se.iths.complexjavaproject.mudders.dto.MonsterModel;
+import se.iths.complexjavaproject.mudders.model.MonsterModel;
 
 /**
  * Skapad av Elin och Tonny.

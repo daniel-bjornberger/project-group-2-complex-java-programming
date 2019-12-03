@@ -3,15 +3,11 @@ package se.iths.complexjavaproject.mudders.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import se.iths.complexjavaproject.mudders.exception.BadDataException;
-import se.iths.complexjavaproject.mudders.model.PlayerCharacter;
-
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import se.iths.complexjavaproject.mudders.entity.PlayerCharacter;
 
 public class PlayerCharacterService {
 
-    public static PlayerCharacter convertToModel (String playerJson) throws BadDataException {
+    public static PlayerCharacter convertToEntity (String playerJson) throws BadDataException {
         PlayerCharacter playerCharacter = new PlayerCharacter();
         ObjectMapper objectMapper = new ObjectMapper();
 

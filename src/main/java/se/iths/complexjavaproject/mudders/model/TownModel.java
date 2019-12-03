@@ -1,8 +1,8 @@
-package se.iths.complexjavaproject.mudders.dto;
+package se.iths.complexjavaproject.mudders.model;
 
 
 import lombok.*;
-import se.iths.complexjavaproject.mudders.model.Town;
+import se.iths.complexjavaproject.mudders.entity.Town;
 
 @Getter
 @Setter
