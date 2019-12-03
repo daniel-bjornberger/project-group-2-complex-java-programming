@@ -7,7 +7,9 @@ import se.iths.complexjavaproject.mudders.model.MonsterModel;
  */
 public class TravelService {
 
+    private int daysToTown = 3;
     MonsterModel monsterModel;
+    DiceService diceService;
 
     public void daysToTown(){
         //List of towns, days to town corresponds to index.
@@ -16,7 +18,13 @@ public class TravelService {
     public void travel(){
         //Travelling to next town.
         //might be ambushed
-        //might find pot of gold
+        if(diceService.rollDice(20, 1) <= 18){
+            encounter();
+        }
+        else{
+            //might find pot of gold
+            //event()
+        }
     }
 
     /*
@@ -30,8 +38,9 @@ public class TravelService {
         //Send message:
         System.out.println("You are being ambushed by a " + monsterModel.getName()
                 + "\n Escape or Attack?");
-
+        daysToTown -= 1;
         //Send to CombatService
 
     }
+
 }
