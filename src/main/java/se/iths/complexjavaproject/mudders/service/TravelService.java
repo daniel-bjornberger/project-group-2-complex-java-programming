@@ -1,32 +1,25 @@
 package se.iths.complexjavaproject.mudders.service;
 
 import se.iths.complexjavaproject.mudders.model.MonsterModel;
+import se.iths.complexjavaproject.mudders.util.ServiceUtilities;
 
 /**
  * Skapad av Elin och Tonny.
  */
 public class TravelService {
 
-    private int diceRoll;
-    private int daysToTown = 3;
     MonsterModel monsterModel;
-    DiceService diceService;
+    ServiceUtilities serviceUtilities;
 
     public void daysToTown(){
+        int daysToTown = 0;
         //List of towns, days to town corresponds to index.
     }
 
     public void travel(){
-        diceRoll = diceService.rollDice(20, 1);
         //Travelling to next town.
         //might be ambushed
-        if(diceRoll <= 18){
-            encounter();
-        }
-        else{
-            //might find pot of gold
-            potOfGold();
-        }
+        //might find pot of gold
     }
 
     /*
@@ -40,9 +33,17 @@ public class TravelService {
         //Send message:
         System.out.println("You are being ambushed by a " + monsterModel.getName()
                 + "\n Escape or Attack?");
-        daysToTown -= 1;
+
         //Send to CombatService
 
     }
 
+    public String potOfGold(){
+        int coins = 0;
+        String msg = "You have found " + coins + " gold coins!";
+
+        serviceUtilities.randomNumberGenerator(1, 5);
+        //daysToTown =- 1;
+        return msg;
+    }
 }
