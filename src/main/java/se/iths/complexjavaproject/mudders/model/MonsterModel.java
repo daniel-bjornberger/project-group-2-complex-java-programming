@@ -8,13 +8,14 @@ import se.iths.complexjavaproject.mudders.exception.UnsupportedObjectException;
  */
 
 @Data
+@AllArgsConstructor
 public class MonsterModel implements ICombatActions {
 
-    private final String name;
-    private final int level;
-    private final int health;
-    private final int damage;
-    private final int givenExperience;
+    private String name;
+    private int level;
+    private int health;
+    private int damage;
+    private int givenExperience;
 
     @Override
     public int attack(Object target) throws UnsupportedObjectException {
