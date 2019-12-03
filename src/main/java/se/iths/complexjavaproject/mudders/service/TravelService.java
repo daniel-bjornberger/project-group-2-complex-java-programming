@@ -7,6 +7,7 @@ import se.iths.complexjavaproject.mudders.model.MonsterModel;
  */
 public class TravelService {
 
+    private int diceRoll;
     private int daysToTown = 3;
     MonsterModel monsterModel;
     DiceService diceService;
@@ -16,14 +17,15 @@ public class TravelService {
     }
 
     public void travel(){
+        diceRoll = diceService.rollDice(20, 1);
         //Travelling to next town.
         //might be ambushed
-        if(diceService.rollDice(20, 1) <= 18){
+        if(diceRoll <= 18){
             encounter();
         }
         else{
             //might find pot of gold
-            //event()
+            potOfGold();
         }
     }
 

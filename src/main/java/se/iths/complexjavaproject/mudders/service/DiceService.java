@@ -6,8 +6,7 @@ public class DiceService {
 
     public int rollDice(int max, int min){
         Random random = new Random();
-        int result = random.nextInt(max-min) + min;
-        return result;
+        return random.nextInt(max-min) + min;
     }
 
 }
