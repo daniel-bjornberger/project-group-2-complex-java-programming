@@ -1,7 +1,5 @@
 package se.iths.complexjavaproject.mudders.model;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import lombok.Setter;
 import se.iths.complexjavaproject.mudders.exception.UnsupportedObjectException;
@@ -18,17 +16,6 @@ public class PlayerCharacterModel implements ICombatActions {
     private int level;
     private String homeTown;
     private int damage;
-
-    public String toJson(PlayerCharacterModel model) {
-        ObjectMapper mapper = new ObjectMapper();
-
-        try {
-            return mapper.writeValueAsString(model);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 
     @Override
     public int attack(Object target) throws UnsupportedObjectException {
@@ -47,7 +34,7 @@ public class PlayerCharacterModel implements ICombatActions {
     }
 
     @Override
-    public int flee() {
-        return 0;
+    public boolean flee() {
+        return false;
     }
 }

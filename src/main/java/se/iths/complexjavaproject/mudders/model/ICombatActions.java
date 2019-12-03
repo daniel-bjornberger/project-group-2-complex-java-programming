@@ -6,7 +6,7 @@ public interface ICombatActions {
 
     int attack(Object target) throws UnsupportedObjectException;
 
-    int flee();
+    boolean flee();
 
 
 }
