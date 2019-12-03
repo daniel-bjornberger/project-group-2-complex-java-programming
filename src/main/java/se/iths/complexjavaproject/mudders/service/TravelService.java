@@ -8,6 +8,9 @@ import se.iths.complexjavaproject.mudders.util.ServiceUtilities;
  */
 public class TravelService {
 
+    private int diceRoll;
+
+    DiceService diceService;
     MonsterModel monsterModel;
     ServiceUtilities serviceUtilities;
 
@@ -17,9 +20,16 @@ public class TravelService {
     }
 
     public void travel(){
+        diceRoll = diceService.rollDice(20, 1);
         //Travelling to next town.
-        //might be ambushed
-        //might find pot of gold
+        if (diceRoll <= 18){
+            //might be ambushed
+            encounter();
+        }
+        else{
+            //might find pot of gold
+            potOfGold();
+        }
     }
 
     /*
