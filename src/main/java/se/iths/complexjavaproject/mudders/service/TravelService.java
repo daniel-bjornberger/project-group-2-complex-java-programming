@@ -1,6 +1,7 @@
 package se.iths.complexjavaproject.mudders.service;
 
 import se.iths.complexjavaproject.mudders.model.MonsterModel;
+import se.iths.complexjavaproject.mudders.util.ServiceUtilities;
 
 /**
  * Skapad av Elin och Tonny.
@@ -8,8 +9,10 @@ import se.iths.complexjavaproject.mudders.model.MonsterModel;
 public class TravelService {
 
     MonsterModel monsterModel;
+    ServiceUtilities serviceUtilities;
 
     public void daysToTown(){
+        int daysToTown = 0;
         //List of towns, days to town corresponds to index.
     }
 
@@ -33,5 +36,14 @@ public class TravelService {
 
         //Send to CombatService
 
+    }
+
+    public String potOfGold(){
+        int coins = 0;
+        String msg = "You have found " + coins + " gold coins!";
+
+        serviceUtilities.randomNumberGenerator(1, 5);
+        //daysToTown =- 1;
+        return msg;
     }
 }
