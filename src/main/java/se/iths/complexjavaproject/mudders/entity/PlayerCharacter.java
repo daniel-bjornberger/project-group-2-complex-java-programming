@@ -22,7 +22,7 @@ public class PlayerCharacter implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "characterName")
+    @Column(name = "character_name")
     private String characterName;
 
     @Column(name = "experience")
@@ -37,8 +37,13 @@ public class PlayerCharacter implements Serializable {
     @Column(name = "mana")
     private int mana = 10;
 
-    @Column(name = "homeTown")
+    @Column(name = "home_town")
     private String homeTown = "VillageOne";
+
+    /*TODO: Add one to one relation with user to keep track of owner
+    @Column(name = "user_id")
+    private Long id;
+    */
 
     // TODO: Kolumn-namn skrivs med "snake_case"? character_name, home_town?   /Daniel
     // https://stackoverflow.com/questions/26535614/jpa-naming-convention
@@ -50,7 +55,6 @@ public class PlayerCharacter implements Serializable {
     public PlayerCharacterModel toModel() {
         PlayerCharacterModel playerCharacterModel = new PlayerCharacterModel();
 
-        playerCharacterModel.setId(null);
         playerCharacterModel.setCharacterName(getCharacterName());
         playerCharacterModel.setExperience(getExperience());
         playerCharacterModel.setLevel(getLevel());

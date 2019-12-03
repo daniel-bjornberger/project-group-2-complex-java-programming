@@ -10,7 +10,6 @@ import se.iths.complexjavaproject.mudders.exception.UnsupportedObjectException;
 @Setter
 public class PlayerCharacterModel implements ICombatActions {
 
-    private Long id;
     private String characterName;
     private int experience;
     private int health;
