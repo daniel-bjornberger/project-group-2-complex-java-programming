@@ -25,14 +25,18 @@ public class CombatService {
 //            monsterKilled();
         }
         else {
-            result = monster.attack(player);
+            try {
+                result = monster.attack(player);
+            } catch (UnsupportedObjectException e) {
+                e.printStackTrace();
+            }
             if (result == 0) {
 //                playerKilled();
             }
         }
     }
 
-    public void escape(Object escaper) throws UnsupportedObjectException {
+    public void escape(Object escaper) {
         if (escaper instanceof MonsterModel) {
             // TODO: Get chance to use escaper.flee();
         }
@@ -40,7 +44,7 @@ public class CombatService {
             // TODO: Get chance to use escaper.flee();
         }
         else {
-            throw new UnsupportedObjectException("Not a MonsterModel or PlayerCharacterModel");
+//            throw new UnsupportedObjectException("Not a MonsterModel or PlayerCharacterModel");
         }
     }
 }
