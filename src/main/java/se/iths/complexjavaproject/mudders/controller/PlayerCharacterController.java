@@ -12,6 +12,7 @@ import se.iths.complexjavaproject.mudders.repository.PlayerCharacterRepository;
 import se.iths.complexjavaproject.mudders.service.PlayerCharacterService;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @NoArgsConstructor
@@ -31,6 +32,17 @@ public class PlayerCharacterController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+   /* @GetMapping(path = "/find/{id}")
+    public ResponseEntity getTravelByName(@RequestBody Long id){
+        try{
+            PlayerCharacterModel playerCharacterModel = playerCharacterRepository.findById(id);
+            return ResponseEntity.ok().body(playerCharacterModel.toJson(playerCharacterModel));
+        }
+        catch(Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }*/
 
     @PostMapping(path = "/add")
     public ResponseEntity addNewPlayerCharacter (@RequestBody String characterName){
