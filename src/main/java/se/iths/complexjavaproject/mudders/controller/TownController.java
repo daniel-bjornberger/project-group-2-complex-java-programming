@@ -31,6 +31,17 @@ public class TownController {
         }
     }
 
+    @GetMapping(path = "/findName/{townName}")
+    public ResponseEntity getTownByName(@PathVariable String townName){
+        try{
+            Town findTownByName = townRepository.findTownByName(townName);
+            return ResponseEntity.ok().body(findTownByName);
+        }
+        catch(Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
     @PostMapping(path = "/add")
     public ResponseEntity addNewTown(@RequestBody String name){
         try{
