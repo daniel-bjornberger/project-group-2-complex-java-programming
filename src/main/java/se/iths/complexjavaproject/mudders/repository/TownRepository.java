@@ -6,4 +6,10 @@ import se.iths.complexjavaproject.mudders.entity.Town;
 
 @Repository
 public interface TownRepository extends CrudRepository<Town, Long> {
+
+    Town findTownById(Long id);
+
+    Town findTownByName(String townName);
+
+    void deleteTownByName(String townName);
 }
