@@ -1,6 +1,7 @@
 package se.iths.complexjavaproject.mudders.service;
 
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 import se.iths.complexjavaproject.mudders.model.MonsterModel;
 import se.iths.complexjavaproject.mudders.model.PlayerCharacterModel;
@@ -10,6 +11,7 @@ import se.iths.complexjavaproject.mudders.exception.UnsupportedObjectException;
  * Skapad av Elin och Tonny.
  */
 @AllArgsConstructor
+@NoArgsConstructor
 public class CombatService {
 
     MonsterModel monster;
@@ -20,11 +22,9 @@ public class CombatService {
 
         System.out.println(monsterModel.toString());
         playerCharacterModel.attack(monsterModel);
-        System.out.println(monsterModel.toString());
         monsterModel.attack(playerCharacterModel);
 
-        return playerCharacterModel;
-
+        return null;
         /*int result = 0;
         try {
             result = player.attack(monster);

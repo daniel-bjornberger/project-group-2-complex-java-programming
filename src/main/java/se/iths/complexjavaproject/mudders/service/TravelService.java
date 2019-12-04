@@ -16,7 +16,7 @@ public class TravelService {
 
     private int diceRoll;
     MonsterModel monsterModel;
-    CombatService combatService;
+    CombatService combatService = new CombatService();
 
     public void daysToTown(){
         int daysToTown = 0;
@@ -51,13 +51,14 @@ public class TravelService {
         //Send message:
         Monster newRandomMonster = MonsterService.createNewRandomMonster(playerCharacterModel.getLevel());
         MonsterModel monsterModel = newRandomMonster.toModel();
-        System.out.println(monsterModel.toString());
+
         System.out.println("You are being ambushed by a " + monsterModel.getName()
                 + "\n Escape or Attack?");
 
         //Send to CombatService
         //Fight does not work, gets stuck and does not change any of the player or monster model health stats, gets "stuck in limbo
         //when the program gets there currently
+        System.out.println(monsterModel.toString());
         combatService.fight(playerCharacterModel, monsterModel);
 
         System.out.println(playerCharacterModel.toString());
