@@ -8,6 +8,8 @@ import se.iths.complexjavaproject.mudders.model.TownModel;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name="towns")
@@ -26,6 +28,9 @@ public class Town implements Serializable {
 
     @Column(name="name")
     private String name;
+
+    @OneToMany(mappedBy = "town")
+    private Set<NonPlayerCharacter> npcs = new HashSet<>();
 
     public TownModel toModel() {
         TownModel townModel = new TownModel();
