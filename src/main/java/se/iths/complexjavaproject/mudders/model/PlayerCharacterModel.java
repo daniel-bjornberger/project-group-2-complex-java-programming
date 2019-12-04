@@ -2,6 +2,7 @@ package se.iths.complexjavaproject.mudders.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import se.iths.complexjavaproject.mudders.entity.PlayerCharacter;
 import se.iths.complexjavaproject.mudders.exception.UnsupportedObjectException;
 
 @Getter
@@ -16,6 +17,22 @@ public class PlayerCharacterModel implements ICombatActions {
     private String homeTown;
     private int damage;
     private int currency;
+
+    public PlayerCharacter saveToEntity(PlayerCharacter playerCharacter){
+
+        playerCharacter.setCurrency(getCurrency());
+        playerCharacter.setCharacterName(getCharacterName());
+        playerCharacter.setDamage(getDamage());
+        playerCharacter.setHealth(getHealth());
+        playerCharacter.setDamage(getDamage());
+        playerCharacter.setExperience(getExperience());
+        playerCharacter.setLevel(getLevel());
+        playerCharacter.setMana(getMana());
+        playerCharacter.setHomeTown(getHomeTown());
+
+        return playerCharacter;
+
+    }
 
     @Override
     public int attack(Object target) throws UnsupportedObjectException {

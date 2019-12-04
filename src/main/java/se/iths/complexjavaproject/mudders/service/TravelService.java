@@ -18,17 +18,21 @@ public class TravelService {
         //List of towns, days to town corresponds to index.
     }
 
-    public void travel(PlayerCharacter playerCharacter){
+    public PlayerCharacterModel travel(PlayerCharacterModel playerCharacterModel){
+        /*
         diceRoll = ServiceUtilities.generateRandomIntIntRange(1, 20);
+
         //Travelling to next town.
         if (diceRoll <= 0){
             //might be ambushed
             encounter(playerCharacter);
+            return playerCharacter;
         }
-        else{
-            //might find pot of gold
-            potOfGold(playerCharacter);
-        }
+        */
+        //else{//might find pot of gold
+            potOfGold(playerCharacterModel);
+            return playerCharacterModel;
+        //}
     }
 
     /*
@@ -47,14 +51,14 @@ public class TravelService {
 
     }
 
-    public String potOfGold(PlayerCharacter playerCharacter){
+    public PlayerCharacterModel potOfGold(PlayerCharacterModel playerCharacterModel){
         int coins = ServiceUtilities.generateRandomIntIntRange(1, 5);
-        String msg = "You have found " + coins + " gold coins!";
+        //String msg = "You have found " + coins + " gold coins!";
         //TODO: Check if coins gained returns the actual value
-        int coinsGained = coins += playerCharacter.getCurrency();
-        playerCharacter.setCurrency(coinsGained);
+        int coinsGained = coins += playerCharacterModel.getCurrency();
+        playerCharacterModel.setCurrency(coinsGained);
 
         //daysToTown =- 1;
-        return msg;
+        return playerCharacterModel;
     }
 }

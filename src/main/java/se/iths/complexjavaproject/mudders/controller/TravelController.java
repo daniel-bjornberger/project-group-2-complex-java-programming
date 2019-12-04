@@ -9,6 +9,7 @@ import se.iths.complexjavaproject.mudders.entity.PlayerCharacter;
 import se.iths.complexjavaproject.mudders.model.PlayerCharacterModel;
 import se.iths.complexjavaproject.mudders.model.TownModel;
 import se.iths.complexjavaproject.mudders.repository.PlayerCharacterRepository;
+import se.iths.complexjavaproject.mudders.service.PlayerCharacterService;
 import se.iths.complexjavaproject.mudders.service.TownService;
 import se.iths.complexjavaproject.mudders.service.TravelService;
 
@@ -28,7 +29,12 @@ public class TravelController {
     public ResponseEntity getTravelPlayerByName(@RequestParam String characterName){
         try{
             PlayerCharacter playerCharacter = playerCharacterRepository.findByCharacterName(characterName);
-            travelService.travel(playerCharacter);
+            PlayerCharacterModel playerCharacterModel = playerCharacter.toModel();
+            travelService.travel(playerCharacterModel);
+            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            System.out.println(playerCharacterModel);
+            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            playerCharacterRepository.save(playerCharacterModel.saveToEntity(playerCharacter));
             return ResponseEntity
                     .status(HttpStatus.FOUND)
                     .body(playerCharacter.toModel());
