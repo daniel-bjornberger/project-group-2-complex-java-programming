@@ -22,8 +22,8 @@ public class NonPlayerCharacter implements Serializable {
     @Column(name = "name", unique = true)
     private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "town_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "town_id")
     private Town town;
 
     public NonPlayerCharacterModel toModel() {

@@ -29,7 +29,7 @@ public class Town implements Serializable {
     @Column(name="name")
     private String name;
 
-    @OneToMany(mappedBy = "town")
+    @OneToMany(mappedBy = "town", cascade = CascadeType.ALL)
     private Set<NonPlayerCharacter> npcs = new HashSet<>();
 
     public TownModel toModel() {
