@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import se.iths.complexjavaproject.mudders.entity.PlayerCharacter;
+import se.iths.complexjavaproject.mudders.entity.Town;
 import se.iths.complexjavaproject.mudders.model.TownModel;
 import se.iths.complexjavaproject.mudders.repository.TownRepository;
 import se.iths.complexjavaproject.mudders.service.TownService;
@@ -17,6 +19,17 @@ public class TownController {
 
     @Autowired
     private TownRepository townRepository ;
+
+    @GetMapping(path = "/all")
+    public ResponseEntity getAllTowns() {
+        try{
+            Iterable<Town> findAllTowns = townRepository.findAll();
+            return ResponseEntity.ok().body(findAllTowns);
+        }
+        catch(Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 
     @PostMapping(path = "/add")
     public ResponseEntity addNewTown(@RequestBody String name){
