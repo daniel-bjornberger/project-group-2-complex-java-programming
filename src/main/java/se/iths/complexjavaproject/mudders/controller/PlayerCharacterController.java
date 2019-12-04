@@ -33,7 +33,7 @@ public class PlayerCharacterController {
         }
     }
 
-   /* @GetMapping(path = "/find/{id}")
+   /* @GetMapping(path = "/find")
     public ResponseEntity getTravelByName(@RequestBody Long id){
         try{
             PlayerCharacterModel playerCharacterModel = playerCharacterRepository.findById(id);
@@ -52,7 +52,7 @@ public class PlayerCharacterController {
                     .toModel();
 
             System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            System.out.println(playerCharacterModel.toJson(playerCharacterModel));
+            System.out.println(playerCharacterModel);
             System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             return ResponseEntity
                     .status(HttpStatus.CREATED)

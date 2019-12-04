@@ -22,7 +22,7 @@ public class PlayerCharacter implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "character_name")
+    @Column(name = "character_name", unique = true)
     private String characterName;
 
     @Column(name = "experience")

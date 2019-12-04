@@ -10,6 +10,7 @@ import se.iths.complexjavaproject.mudders.model.PlayerCharacterModel;
 import se.iths.complexjavaproject.mudders.model.TownModel;
 import se.iths.complexjavaproject.mudders.repository.PlayerCharacterRepository;
 import se.iths.complexjavaproject.mudders.service.TownService;
+import se.iths.complexjavaproject.mudders.service.TravelService;
 
 import java.util.Optional;
 
@@ -21,10 +22,13 @@ public class TravelController {
     @Autowired
     PlayerCharacterRepository playerCharacterRepository;
 
+    TravelService travelService;
+
     @GetMapping(path = "/find")
     public ResponseEntity getTravelPlayerByName(@RequestParam String characterName){
         try{
             PlayerCharacter playerCharacter = playerCharacterRepository.findByCharacterName(characterName);
+            travelService.travel(playerCharacter);
             return ResponseEntity
                     .status(HttpStatus.FOUND)
                     .body(playerCharacter.toModel());

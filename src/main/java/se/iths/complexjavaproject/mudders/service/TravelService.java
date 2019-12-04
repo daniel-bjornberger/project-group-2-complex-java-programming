@@ -11,7 +11,6 @@ import se.iths.complexjavaproject.mudders.util.ServiceUtilities;
 public class TravelService {
 
     private int diceRoll;
-    DiceService diceService;
     MonsterModel monsterModel;
 
     public void daysToTown(){
@@ -20,9 +19,9 @@ public class TravelService {
     }
 
     public void travel(PlayerCharacter playerCharacter){
-        diceRoll = diceService.rollDice(20, 1);
+        diceRoll = ServiceUtilities.generateRandomIntIntRange(1, 20);
         //Travelling to next town.
-        if (diceRoll <= 18){
+        if (diceRoll <= 0){
             //might be ambushed
             encounter(playerCharacter);
         }
