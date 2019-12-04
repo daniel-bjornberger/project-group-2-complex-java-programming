@@ -22,7 +22,7 @@ public class NonPlayerCharacter implements Serializable {
     @Column(name = "name", unique = true)
     private String name;
 
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne
     @JoinColumn(name = "town_id", nullable = false)
     private Town town;
 
