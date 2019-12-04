@@ -14,8 +14,8 @@ public class CombatService {
     MonsterModel monster;
     PlayerCharacterModel player;
 
-    public void fight() {
-        int result = 0;
+    public void fight() {           // TODO Ska inte 'player' vara argument till metoden 'fight'?
+        int result = 0;             // Jämför med metoden 'travel' i 'TravelService'.
         try {
             result = player.attack(monster);
         } catch (UnsupportedObjectException e) {
