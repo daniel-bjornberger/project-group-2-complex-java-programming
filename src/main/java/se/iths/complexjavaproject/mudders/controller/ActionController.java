@@ -9,15 +9,38 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/action")
 public class ActionController {
 
-    @GetMapping("/rest/{userName}/{characterName}")
-    public String rest(@PathVariable("userName") String userName,
-                       @PathVariable("characterName") String characterName) {
+    @GetMapping("/rest/{characterName}")
+    public String rest(@PathVariable("characterName") String characterName) {
 
         return "rest";
 
     }
 
-    // TODO: Vad behöver skickas med från klienten? userName och characterName?
+
+    @GetMapping("/attack/{characterName}")
+    public String attack(@PathVariable("characterName") String characterName) {
+
+        return "attack";
+
+    }
+
+
+    @GetMapping("/travel/{characterName}")
+    public String travel(@PathVariable("characterName") String characterName) {
+
+        return "travel";
+
+    }
+
+
+    @GetMapping("/flee/{characterName}")
+    public String flee(@PathVariable("characterName") String characterName) {
+
+        return "flee";
+
+    }
+
+
 
 
     // travel, attack, flee osv.
