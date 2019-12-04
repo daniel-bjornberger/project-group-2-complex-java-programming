@@ -14,6 +14,7 @@ public class CombatService {
     MonsterModel monster;
     PlayerCharacterModel player;
 
+
     public void fight() {
         int result = 0;
         try {

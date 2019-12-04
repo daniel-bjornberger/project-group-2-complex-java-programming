@@ -1,5 +1,7 @@
 package se.iths.complexjavaproject.mudders.service;
 
+import org.springframework.stereotype.Service;
+import se.iths.complexjavaproject.mudders.entity.Monster;
 import se.iths.complexjavaproject.mudders.entity.PlayerCharacter;
 import se.iths.complexjavaproject.mudders.model.MonsterModel;
 import se.iths.complexjavaproject.mudders.model.PlayerCharacterModel;
@@ -8,10 +10,12 @@ import se.iths.complexjavaproject.mudders.util.ServiceUtilities;
 /**
  * Skapad av Elin och Tonny.
  */
+@Service
 public class TravelService {
 
     private int diceRoll;
     MonsterModel monsterModel;
+    CombatService combatService;
 
     public void daysToTown(){
         int daysToTown = 0;
@@ -19,20 +23,18 @@ public class TravelService {
     }
 
     public PlayerCharacterModel travel(PlayerCharacterModel playerCharacterModel){
-        /*
         diceRoll = ServiceUtilities.generateRandomIntIntRange(1, 20);
-
         //Travelling to next town.
-        if (diceRoll <= 0){
+        if (diceRoll <= 20){
             //might be ambushed
-            encounter(playerCharacter);
-            return playerCharacter;
+            encounter(playerCharacterModel);
+            return playerCharacterModel;
         }
-        */
-        //else{//might find pot of gold
+
+        else{//might find pot of gold
             potOfGold(playerCharacterModel);
             return playerCharacterModel;
-        //}
+        }
     }
 
     /*
@@ -41,14 +43,19 @@ public class TravelService {
         return null;
     }
     */
-    public void encounter(PlayerCharacter playerCharacter){
+    public PlayerCharacterModel encounter (PlayerCharacterModel playerCharacterModel){
         //Loop
         //Send message:
+        Monster newRandomMonster = MonsterService.createNewRandomMonster(playerCharacterModel.getLevel());
+        MonsterModel monsterModel = newRandomMonster.toModel();
+        System.out.println(monsterModel.toString());
         System.out.println("You are being ambushed by a " + monsterModel.getName()
                 + "\n Escape or Attack?");
 
         //Send to CombatService
+        combatService.fight();
 
+        return playerCharacterModel;
     }
 
     public PlayerCharacterModel potOfGold(PlayerCharacterModel playerCharacterModel){

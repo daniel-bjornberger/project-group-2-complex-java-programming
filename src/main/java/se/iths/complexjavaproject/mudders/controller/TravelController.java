@@ -23,6 +23,7 @@ public class TravelController {
     @Autowired
     PlayerCharacterRepository playerCharacterRepository;
 
+    @Autowired
     TravelService travelService;
 
     @GetMapping(path = "/find")
@@ -31,13 +32,10 @@ public class TravelController {
             PlayerCharacter playerCharacter = playerCharacterRepository.findByCharacterName(characterName);
             PlayerCharacterModel playerCharacterModel = playerCharacter.toModel();
             travelService.travel(playerCharacterModel);
-            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            System.out.println(playerCharacterModel);
-            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             playerCharacterRepository.save(playerCharacterModel.saveToEntity(playerCharacter));
             return ResponseEntity
                     .status(HttpStatus.FOUND)
-                    .body(playerCharacter.toModel());
+                    .body(playerCharacterModel);
         }catch (Exception e){
             return  ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }

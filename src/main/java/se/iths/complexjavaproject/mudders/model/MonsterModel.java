@@ -18,13 +18,17 @@ public class MonsterModel implements ICombatActions {
     private int givenExperience;
 
     @Override
-    public int attack(Object target) throws UnsupportedObjectException {
-        if (target instanceof PlayerCharacterModel) {
-            return 0;
-        }
-        else {
-            throw new UnsupportedObjectException("Not a PlayerCharacterModel");
-        }
+    public int attack(Object target)  {
+        //throws UnsupportedObjectException
+        //if (target instanceof PlayerCharacterModel) {
+            int damageTaken = ((PlayerCharacterModel) target).getHealth() - getDamage();
+            ((PlayerCharacterModel) target).setHealth(damageTaken);
+            return damageTaken;
+        //}
+
+        //else {
+        //    throw new UnsupportedObjectException("Not a PlayerCharacterModel");
+        //}
     }
 
     @Override
