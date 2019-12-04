@@ -22,7 +22,7 @@ public class PlayerCharacter implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "character_name")
+    @Column(name = "character_name", unique = true)
     private String characterName;
 
     @Column(name = "experience")
@@ -42,6 +42,10 @@ public class PlayerCharacter implements Serializable {
 
     @Column(name = "currency")
     private int currency = 0;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "town_id", referencedColumnName = "id")
+    private Town town;
 
     /*TODO: Add one to one relation with user to keep track of owner
     @Column(name = "user_id")
