@@ -33,16 +33,16 @@ public class PlayerCharacterController {
         }
     }
 
-   /* @GetMapping(path = "/find/{id}")
+    @GetMapping(path = "/find")
     public ResponseEntity getTravelByName(@RequestBody Long id){
         try{
-            PlayerCharacterModel playerCharacterModel = playerCharacterRepository.findById(id);
-            return ResponseEntity.ok().body(playerCharacterModel.toJson(playerCharacterModel));
+            Optional<PlayerCharacter> playerCharacter = playerCharacterRepository.findById(id);
+            return ResponseEntity.ok().body(playerCharacter.get().toModel());
         }
         catch(Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
-    }*/
+    }
 
     @PostMapping(path = "/add")
     public ResponseEntity addNewPlayerCharacter (@RequestBody String characterName){
@@ -60,6 +60,17 @@ public class PlayerCharacterController {
 
         } catch (BadDataException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping(path = "/delete/{characterName}")
+    public void removePlayer(@PathVariable String characterName){
+        try{
+            playerCharacterRepository.deletePlayerCharacterByCharacterName(characterName);
+
+        }catch (Exception e){
+            ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
