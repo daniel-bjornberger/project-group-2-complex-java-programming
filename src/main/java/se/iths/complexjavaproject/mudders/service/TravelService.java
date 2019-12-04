@@ -1,5 +1,6 @@
 package se.iths.complexjavaproject.mudders.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import se.iths.complexjavaproject.mudders.entity.Monster;
 import se.iths.complexjavaproject.mudders.entity.PlayerCharacter;
@@ -22,19 +23,21 @@ public class TravelService {
         //List of towns, days to town corresponds to index.
     }
 
+    //TODO: Goes through to encounter does not work afterwards
     public PlayerCharacterModel travel(PlayerCharacterModel playerCharacterModel){
-        diceRoll = ServiceUtilities.generateRandomIntIntRange(1, 20);
+       // diceRoll = ServiceUtilities.generateRandomIntIntRange(1, 20);
         //Travelling to next town.
-        if (diceRoll <= 20){
+        //if (diceRoll <= 20){
             //might be ambushed
             encounter(playerCharacterModel);
             return playerCharacterModel;
-        }
-
+        //}
+        /*
         else{//might find pot of gold
             potOfGold(playerCharacterModel);
             return playerCharacterModel;
         }
+        */
     }
 
     /*
@@ -53,7 +56,11 @@ public class TravelService {
                 + "\n Escape or Attack?");
 
         //Send to CombatService
-        combatService.fight();
+        //Fight does not work, gets stuck and does not change any of the player or monster model health stats, gets "stuck in limbo
+        //when the program gets there currently
+        combatService.fight(playerCharacterModel, monsterModel);
+
+        System.out.println(playerCharacterModel.toString());
 
         return playerCharacterModel;
     }

@@ -38,6 +38,7 @@ public class PlayerCharacterModel implements ICombatActions {
     public int attack(Object target)  {
         //throws UnsupportedObjectException
         //if (target instanceof MonsterModel) {
+        System.out.println(target.toString());
             int damageTaken = ((MonsterModel) target).getHealth() - getDamage();
             ((MonsterModel) target).setHealth(damageTaken);
             /*

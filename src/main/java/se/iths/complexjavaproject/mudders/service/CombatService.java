@@ -1,6 +1,7 @@
 package se.iths.complexjavaproject.mudders.service;
 
 import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 import se.iths.complexjavaproject.mudders.model.MonsterModel;
 import se.iths.complexjavaproject.mudders.model.PlayerCharacterModel;
 import se.iths.complexjavaproject.mudders.exception.UnsupportedObjectException;
@@ -13,10 +14,18 @@ public class CombatService {
 
     MonsterModel monster;
     PlayerCharacterModel player;
+    //TODO: Make it so attack causes enemy / player to lose health
+    //TODO: Make turns work correctly, monster attack after player has damaged it, check if monster health <= 0 before attack
+    public PlayerCharacterModel fight(PlayerCharacterModel playerCharacterModel, MonsterModel monsterModel) {
 
+        System.out.println(monsterModel.toString());
+        playerCharacterModel.attack(monsterModel);
+        System.out.println(monsterModel.toString());
+        monsterModel.attack(playerCharacterModel);
 
-    public void fight() {
-        int result = 0;
+        return playerCharacterModel;
+
+        /*int result = 0;
         try {
             result = player.attack(monster);
         } catch (UnsupportedObjectException e) {
@@ -34,7 +43,7 @@ public class CombatService {
             if (result == 0) {
 //                playerKilled();
             }
-        }
+        }*/
     }
 
     public void escape(Object escaper) {
