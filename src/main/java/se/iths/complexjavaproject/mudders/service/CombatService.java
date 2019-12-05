@@ -1,5 +1,7 @@
 package se.iths.complexjavaproject.mudders.service;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 import se.iths.complexjavaproject.mudders.model.MonsterModel;
 import se.iths.complexjavaproject.mudders.model.PlayerCharacterModel;
@@ -8,6 +10,8 @@ import se.iths.complexjavaproject.mudders.util.ServiceUtilities;
 /**
  * Skapad av Elin och Tonny.
  */
+@AllArgsConstructor
+@NoArgsConstructor
 @Service
 public class CombatService {
 

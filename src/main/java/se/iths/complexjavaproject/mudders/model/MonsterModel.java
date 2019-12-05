@@ -1,6 +1,7 @@
 package se.iths.complexjavaproject.mudders.model;
 
 import lombok.*;
+import org.springframework.stereotype.Component;
 import se.iths.complexjavaproject.mudders.exception.UnsupportedObjectException;
 
 /**

@@ -18,6 +18,7 @@ public class TravelService {
 
     private int diceRoll;
     MonsterModel monsterModel;
+    CombatService combatService = new CombatService();
 
     public void daysToTown(){
         int daysToTown = 0;
@@ -51,6 +52,9 @@ public class TravelService {
         //Loop
         monsterModel = MonsterService.createNewRandomMonster(playerCharacter.getLevel());
         //Send message:
+        Monster newRandomMonster = MonsterService.createNewRandomMonster(playerCharacterModel.getLevel());
+        MonsterModel monsterModel = newRandomMonster.toModel();
+
         System.out.println("You are being ambushed by a " + monsterModel.getName()
                 + "\n Escape or Attack?");
         //Send to CombattController

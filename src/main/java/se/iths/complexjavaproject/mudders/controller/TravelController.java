@@ -9,6 +9,7 @@ import se.iths.complexjavaproject.mudders.entity.PlayerCharacter;
 import se.iths.complexjavaproject.mudders.model.PlayerCharacterModel;
 import se.iths.complexjavaproject.mudders.model.TownModel;
 import se.iths.complexjavaproject.mudders.repository.PlayerCharacterRepository;
+import se.iths.complexjavaproject.mudders.service.PlayerCharacterService;
 import se.iths.complexjavaproject.mudders.service.TownService;
 import se.iths.complexjavaproject.mudders.service.TravelService;
 
