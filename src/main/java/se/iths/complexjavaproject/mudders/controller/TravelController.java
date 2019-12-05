@@ -22,17 +22,20 @@ public class TravelController {
     @Autowired
     PlayerCharacterRepository playerCharacterRepository;
 
+    @Autowired
     TravelService travelService;
 
     @GetMapping(path = "/find")
-    public ResponseEntity getTravelPlayerByName(@RequestParam String characterName){
-        try{
+    public ResponseEntity getTravelPlayerByName(@RequestParam String characterName) {
+        try {
             PlayerCharacter playerCharacter = playerCharacterRepository.findByCharacterName(characterName);
-            travelService.travel(playerCharacter);
+            PlayerCharacter tempUpdatedCharacter = travelService.travel(playerCharacter);
+            tempUpdatedCharacter.setId(playerCharacter.getId());
+            playerCharacterRepository.save(tempUpdatedCharacter);
             return ResponseEntity
-                    .status(HttpStatus.FOUND)
-                    .body(playerCharacter.toModel());
-        }catch (Exception e){
+                    .status(HttpStatus.OK)
+                    .body(tempUpdatedCharacter.toModel());
+        } catch (Exception e) {
             return  ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
 

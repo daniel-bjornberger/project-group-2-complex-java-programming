@@ -9,27 +9,29 @@ import se.iths.complexjavaproject.mudders.exception.UnsupportedObjectException;
 
 @Data
 @AllArgsConstructor
-public class MonsterModel implements ICombatActions {
+public class MonsterModel {
 
     private String name;
     private int level;
     private int health;
     private int damage;
     private int givenExperience;
+//    private Set<Loot> monsterLoot;
 
-    @Override
-    public int attack(Object target) throws UnsupportedObjectException {
-        if (target instanceof PlayerCharacterModel) {
-            return 0;
+    public PlayerCharacterModel attack(PlayerCharacterModel player) {
+        int result = player.getHealth() - getDamage();
+        if (result <= 0) {
+            player.setHealth(0);
+            return player;
         }
         else {
-            throw new UnsupportedObjectException("Not a PlayerCharacterModel");
+            player.setHealth(result);
+            return player;
         }
     }
 
-    @Override
     public boolean flee() {
-
+        // Random chans att fly?
         return false;
     }
 
