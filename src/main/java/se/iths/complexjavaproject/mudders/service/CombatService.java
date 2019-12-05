@@ -1,50 +1,38 @@
 package se.iths.complexjavaproject.mudders.service;
 
-import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 import se.iths.complexjavaproject.mudders.model.MonsterModel;
 import se.iths.complexjavaproject.mudders.model.PlayerCharacterModel;
-import se.iths.complexjavaproject.mudders.exception.UnsupportedObjectException;
+import se.iths.complexjavaproject.mudders.util.ServiceUtilities;
 
 /**
  * Skapad av Elin och Tonny.
  */
-@AllArgsConstructor
+@Service
 public class CombatService {
 
-    MonsterModel monster;
-    PlayerCharacterModel player;
-
-    public void fight() {           // TODO Ska inte 'player' vara argument till metoden 'fight'?
-        int result = 0;             // Jämför med metoden 'travel' i 'TravelService'.
-        try {
-            result = player.attack(monster);
-        } catch (UnsupportedObjectException e) {
-            e.printStackTrace();
-        }
-        if (result == 0) {
-//            monsterKilled();
+    public PlayerCharacterModel fight(PlayerCharacterModel player, MonsterModel monster) {
+        MonsterModel updatedMonster = player.attack(monster);
+        if (updatedMonster.getHealth() == 0) {
+            player.setExperience(player.getExperience() + updatedMonster.getGivenExperience());
+            System.out.println("=========== " + updatedMonster.getName() + " killed! ===========");
+            System.out.println("=========== " + updatedMonster.getGivenExperience() + " experience gained! ===========");
+            return player;
         }
         else {
-            try {
-                result = monster.attack(player);
-            } catch (UnsupportedObjectException e) {
-                e.printStackTrace();
+            PlayerCharacterModel updatedPlayer = monster.attack(player);
+            if (updatedPlayer.getHealth() == 0) {
+                System.out.println("=========== You died! ===========");
             }
-            if (result == 0) {
-//                playerKilled();
-            }
+            return updatedPlayer;
         }
     }
 
-    public void escape(Object escaper) {
-        if (escaper instanceof MonsterModel) {
-            // TODO: Get chance to use escaper.flee();
-        }
-        else if (escaper instanceof PlayerCharacterModel) {
-            // TODO: Get chance to use escaper.flee();
-        }
-        else {
-//            throw new UnsupportedObjectException("Not a MonsterModel or PlayerCharacterModel");
+    public void escape(PlayerCharacterModel player) {
+        int firstRandom = ServiceUtilities.generateRandomIntIntRange(1,2);
+        int secondRandom = ServiceUtilities.generateRandomIntIntRange(1,2);
+        if (firstRandom == secondRandom) {
+            player.flee();
         }
     }
 }
