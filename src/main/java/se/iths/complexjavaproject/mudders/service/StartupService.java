@@ -43,7 +43,6 @@ public class StartupService {
 
             // 			TODO: Save
             townRepository.save(firstTown);
-            npcRepository.save(firstNPC);
         }
     }
 

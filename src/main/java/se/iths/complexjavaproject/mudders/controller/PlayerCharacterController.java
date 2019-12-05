@@ -11,9 +11,6 @@ import se.iths.complexjavaproject.mudders.exception.BadDataException;
 import se.iths.complexjavaproject.mudders.repository.PlayerCharacterRepository;
 import se.iths.complexjavaproject.mudders.service.PlayerCharacterService;
 
-import java.util.List;
-import java.util.Optional;
-
 @RestController
 @NoArgsConstructor
 @RequestMapping("/player")
@@ -33,17 +30,6 @@ public class PlayerCharacterController {
         }
     }
 
-   /* @GetMapping(path = "/find")
-    public ResponseEntity getTravelByName(@RequestBody Long id){
-        try{
-            PlayerCharacterModel playerCharacterModel = playerCharacterRepository.findById(id);
-            return ResponseEntity.ok().body(playerCharacterModel.toJson(playerCharacterModel));
-        }
-        catch(Exception e){
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-    }*/
-
     @PostMapping(path = "/add")
     public ResponseEntity addNewPlayerCharacter (@RequestBody String characterName){
         try {
@@ -51,15 +37,12 @@ public class PlayerCharacterController {
                     .save(PlayerCharacterService.convertToEntity(characterName))
                     .toModel();
 
-            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            System.out.println(playerCharacterModel);
-            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             return ResponseEntity
                     .status(HttpStatus.CREATED)
                     .body(playerCharacterModel);
 
-        } catch (BadDataException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         }
     }
 
