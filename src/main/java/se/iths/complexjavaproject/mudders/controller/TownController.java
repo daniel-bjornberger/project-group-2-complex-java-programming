@@ -21,7 +21,9 @@ public class TownController {
     @Autowired
     private TownRepository townRepository ;
 
-    @PostMapping(path = "/add")
+//    ska hantera event i en stad. t.ex besöka en npc.
+
+    /*@PostMapping(path = "/add")
     public ResponseEntity addNewTown(@RequestBody String name){
         try{
             TownModel townModel = townRepository
@@ -35,5 +37,5 @@ public class TownController {
         catch(Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
-    }
+    }*/
 }
