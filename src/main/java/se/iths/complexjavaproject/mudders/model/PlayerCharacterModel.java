@@ -34,6 +34,7 @@ public class PlayerCharacterModel {
 
     }
 
+    /*
     @Override
     public int attack(Object target)  {
         //throws UnsupportedObjectException
@@ -41,7 +42,7 @@ public class PlayerCharacterModel {
         System.out.println(target.toString());
             int damageTaken = ((MonsterModel) target).getHealth() - getDamage();
             ((MonsterModel) target).setHealth(damageTaken);
-            /*
+
             int result = ((MonsterModel) target).getHealth() - getDamage();
             if (result <= 0) {
                 monster.setHealth(0);
@@ -51,11 +52,12 @@ public class PlayerCharacterModel {
                 monster.setHealth(result);
                 return monster;
             }
-            */
+
             return damageTaken;
         //}
         //throw new UnsupportedObjectException("Not a MonsterModel");
     }
+    */
 
     public boolean flee() {
         return false;
