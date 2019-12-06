@@ -1,42 +1,44 @@
 package se.iths.complexjavaproject.mudders.service;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
+import se.iths.complexjavaproject.mudders.entity.PlayerCharacter;
 import se.iths.complexjavaproject.mudders.model.MonsterModel;
-import se.iths.complexjavaproject.mudders.model.PlayerCharacterModel;
 import se.iths.complexjavaproject.mudders.util.ServiceUtilities;
 
 /**
  * Skapad av Elin och Tonny.
  */
-@AllArgsConstructor
-@NoArgsConstructor
 @Service
 public class CombatService {
 
-    public PlayerCharacterModel fight(PlayerCharacterModel player, MonsterModel monster) {
-        MonsterModel updatedMonster = player.attack(monster);
-        if (updatedMonster.getHealth() == 0) {
-            player.setExperience(player.getExperience() + updatedMonster.getGivenExperience());
-            System.out.println("=========== " + updatedMonster.getName() + " killed! ===========");
-            System.out.println("=========== " + updatedMonster.getGivenExperience() + " experience gained! ===========");
-            return player;
+    public void fight(PlayerCharacter player, MonsterModel monster) {
+//        Player attacks monster
+        monster.setHealth(attack(monster.getHealth(), player.getDamage()));
+        if (monster.getHealth() == 0) {
+            player.setExperience(player.getExperience() + monster.getGivenExperience());
+            System.out.println("=========== " + monster.getName() + " killed! ===========");
+            System.out.println("=========== " + monster.getGivenExperience() + " experience gained! ===========");
         }
         else {
-            PlayerCharacterModel updatedPlayer = monster.attack(player);
-            if (updatedPlayer.getHealth() == 0) {
+//            Monster attacks player
+            player.setHealth(attack(player.getHealth(), monster.getDamage()));
+            if (player.getHealth() == 0) {
                 System.out.println("=========== You died! ===========");
             }
-            return updatedPlayer;
         }
     }
 
-    public void escape(PlayerCharacterModel player) {
+    public boolean escape() {
         int firstRandom = ServiceUtilities.generateRandomIntIntRange(1,2);
         int secondRandom = ServiceUtilities.generateRandomIntIntRange(1,2);
-        if (firstRandom == secondRandom) {
-            player.flee();
+        return firstRandom == secondRandom;
+    }
+
+    private int attack(int health, int damage) {
+        int healthLeft = health - damage;
+        if (healthLeft <= 0) {
+            return 0;
         }
+        return healthLeft;
     }
 }
