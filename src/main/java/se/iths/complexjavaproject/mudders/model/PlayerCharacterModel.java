@@ -3,7 +3,6 @@ package se.iths.complexjavaproject.mudders.model;
 import lombok.Getter;
 import lombok.Setter;
 import se.iths.complexjavaproject.mudders.entity.PlayerCharacter;
-import se.iths.complexjavaproject.mudders.exception.UnsupportedObjectException;
 
 @Getter
 @Setter
@@ -18,6 +17,7 @@ public class PlayerCharacterModel {
     private int damage;
     private int currency;
 
+    /*
     public PlayerCharacter saveToEntity(PlayerCharacter playerCharacter){
 
         playerCharacter.setCurrency(getCurrency());
@@ -33,33 +33,5 @@ public class PlayerCharacterModel {
         return playerCharacter;
 
     }
-
-    /*
-    @Override
-    public int attack(Object target)  {
-        //throws UnsupportedObjectException
-        //if (target instanceof MonsterModel) {
-        System.out.println(target.toString());
-            int damageTaken = ((MonsterModel) target).getHealth() - getDamage();
-            ((MonsterModel) target).setHealth(damageTaken);
-
-            int result = ((MonsterModel) target).getHealth() - getDamage();
-            if (result <= 0) {
-                monster.setHealth(0);
-                return monster;
-            }
-            else {
-                monster.setHealth(result);
-                return monster;
-            }
-
-            return damageTaken;
-        //}
-        //throw new UnsupportedObjectException("Not a MonsterModel");
-    }
     */
-
-    public boolean flee() {
-        return false;
-    }
 }
