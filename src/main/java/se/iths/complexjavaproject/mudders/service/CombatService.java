@@ -1,7 +1,5 @@
 package se.iths.complexjavaproject.mudders.service;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 import se.iths.complexjavaproject.mudders.entity.PlayerCharacter;
 import se.iths.complexjavaproject.mudders.model.MonsterModel;
@@ -49,6 +47,15 @@ public class CombatService {
     public MonsterModel playerAttack(MonsterModel monster, PlayerCharacter playerCharacter){
         monster.setHealth(monster.getHealth() - playerCharacter.getDamage());
         return monster;
+    }
+
+    //TODO: How to make it so correct user gets to use the method?
+    public boolean flee(){
+        int roll = ServiceUtilities.generateRandomIntIntRange(1, 10);
+        if(roll >= 7){
+            return false;
+        }
+        return true;
     }
 
 }
