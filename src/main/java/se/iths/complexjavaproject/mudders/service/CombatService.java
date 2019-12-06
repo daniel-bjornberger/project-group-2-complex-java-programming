@@ -13,18 +13,22 @@ public class CombatService {
 
     public void fight(PlayerCharacter player, MonsterModel monster) {
 //        Player attacks monster
-        monster.setHealth(attack(monster.getHealth(), player.getDamage()));
-        if (monster.getHealth() == 0) {
-            player.setExperience(player.getExperience() + monster.getGivenExperience());
-            System.out.println("=========== " + monster.getName() + " killed! ===========");
-            System.out.println("=========== " + monster.getGivenExperience() + " experience gained! ===========");
+        if(!player.isInCombat()){
+            player.setInCombat(true);
         }
-        else {
+            monster.setHealth(attack(monster.getHealth(), player.getDamage()));
+            System.out.println("!------------------Monster now has " + monster.getHealth() + " health-----------------------------------!");
+            if (monster.getHealth() == 0) {
+                player.setExperience(player.getExperience() + monster.getGivenExperience());
+                System.out.println("=========== " + monster.getName() + " killed! ===========");
+                System.out.println("=========== " + monster.getGivenExperience() + " experience gained! ===========");
+                player.setInCombat(false);
+            } else {
 //            Monster attacks player
-            player.setHealth(attack(player.getHealth(), monster.getDamage()));
-            if (player.getHealth() == 0) {
-                System.out.println("=========== You died! ===========");
-            }
+                player.setHealth(attack(player.getHealth(), monster.getDamage()));
+                if (player.getHealth() == 0) {
+                    System.out.println("=========== You died! ===========");
+                }
         }
     }
 
@@ -41,4 +45,14 @@ public class CombatService {
         }
         return healthLeft;
     }
+
+    //TODO: How to make it so correct user gets to use the method?
+    public boolean flee(){
+        int roll = ServiceUtilities.generateRandomIntIntRange(1, 10);
+        if(roll >= 7){
+            return false;
+        }
+        return true;
+    }
+
 }
