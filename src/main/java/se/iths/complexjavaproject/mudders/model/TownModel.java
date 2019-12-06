@@ -12,12 +12,12 @@ import se.iths.complexjavaproject.mudders.entity.Town;
 public class TownModel {
 
     private Long id;
-    private String name;
+    private String townName;
 
     public TownModel toModel(Town town){
         TownModel townModel = new TownModel();
 
-        townModel.setName(town.getName());
+        townModel.setTownName(town.getTownName());
 
         return townModel;
     }

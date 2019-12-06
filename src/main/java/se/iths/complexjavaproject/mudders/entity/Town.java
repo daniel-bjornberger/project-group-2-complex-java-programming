@@ -27,7 +27,7 @@ public class Town implements Serializable {
     private Long id;
 
     @Column(name="name")
-    private String name;
+    private String townName;
 
     @OneToMany(mappedBy = "town", cascade = CascadeType.ALL)
     private Set<NonPlayerCharacter> npcs = new HashSet<>();
@@ -36,7 +36,7 @@ public class Town implements Serializable {
         TownModel townModel = new TownModel();
 
         townModel.setId(null);
-        townModel.setName(getName());
+        townModel.setTownName(getTownName());
 
         return townModel;
     }

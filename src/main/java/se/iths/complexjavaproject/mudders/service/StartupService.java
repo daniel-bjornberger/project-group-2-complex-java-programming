@@ -26,7 +26,7 @@ public class StartupService {
 
             //			TODO: Create Towns
             Town firstTown = new Town();
-            firstTown.setName("First");
+            firstTown.setTownName("First");
             
             // 			TODO: Create NPCs
             List<NonPlayerCharacter> npcsToAdd = new ArrayList<>();

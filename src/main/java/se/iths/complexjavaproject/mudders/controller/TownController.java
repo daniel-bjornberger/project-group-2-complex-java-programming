@@ -5,10 +5,8 @@ import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import se.iths.complexjavaproject.mudders.entity.Town;
 import se.iths.complexjavaproject.mudders.model.TownModel;
 import se.iths.complexjavaproject.mudders.repository.TownRepository;
 import se.iths.complexjavaproject.mudders.service.TownService;
@@ -23,7 +21,29 @@ public class TownController {
 
 //    ska hantera event i en stad. t.ex besöka en npc.
 
-    /*@PostMapping(path = "/add")
+    @GetMapping(path = "/all")
+    public ResponseEntity getAllTowns() {
+        try{
+            Iterable<Town> findAllTowns = townRepository.findAll();
+            return ResponseEntity.ok().body(findAllTowns);
+        }
+        catch(Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping(path = "/findName")
+    public ResponseEntity getTownByName(@RequestBody String townName){
+        try{
+            Town findTownByName = townRepository.findTownByName(townName);
+            return ResponseEntity.ok().body(findTownByName);
+        }
+        catch(Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PostMapping(path = "/add")
     public ResponseEntity addNewTown(@RequestBody String name){
         try{
             TownModel townModel = townRepository
@@ -37,5 +57,17 @@ public class TownController {
         catch(Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
         }
-    }*/
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping(path = "/delete")
+    public void removeTown(@RequestParam String townName){
+        try{
+            townRepository.deleteTownByName(townName);
+
+        }catch (Exception e){
+            ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+    
 }
