@@ -32,6 +32,9 @@ public class TravelController {
             PlayerCharacter playerCharacter = playerCharacterRepository.findByCharacterName(characterName);
             PlayerCharacter tempUpdatedCharacter = travelService.travel(playerCharacter);
             tempUpdatedCharacter.setId(playerCharacter.getId());
+            if(playerCharacter.getHealth() == 0) {
+                playerCharacterRepository.delete(playerCharacter);
+            }
             playerCharacterRepository.save(tempUpdatedCharacter);
             return ResponseEntity
                     .status(HttpStatus.OK)
