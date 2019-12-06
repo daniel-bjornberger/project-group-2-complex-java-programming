@@ -1,10 +1,14 @@
 package se.iths.complexjavaproject.mudders.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import se.iths.complexjavaproject.mudders.entity.PlayerCharacter;
+import se.iths.complexjavaproject.mudders.exception.BadDataException;
 import se.iths.complexjavaproject.mudders.model.MonsterModel;
 import se.iths.complexjavaproject.mudders.model.PlayerCharacterModel;
+import se.iths.complexjavaproject.mudders.repository.PlayerCharacterRepository;
 import se.iths.complexjavaproject.mudders.util.ServiceUtilities;
 
 /**
@@ -14,62 +18,55 @@ import se.iths.complexjavaproject.mudders.util.ServiceUtilities;
 public class TravelService {
 
     @Autowired
+    PlayerCharacterRepository playerCharacterRepository;
+
+    @Autowired
     CombatService combatService;
 
     private int diceRoll;
     MonsterModel monsterModel;
-    CombatService combatService = new CombatService();
 
-    public void daysToTown(){
+    public void daysToTown() {
         int daysToTown = 0;
         //List of towns, days to town corresponds to index.
     }
 
-    public PlayerCharacter travel(PlayerCharacter playerCharacter){
+    public PlayerCharacterModel travel(String requestBody) throws BadDataException {
+        PlayerCharacter playerCharacter = playerCharacterRepository.findByCharacterName(PlayerCharacterService.convertToEntity(requestBody).getCharacterName());
         diceRoll = ServiceUtilities.generateRandomIntIntRange(1, 20);
         //Travelling to next town.
         if (diceRoll >= 18){
             //might be ambushed
-            PlayerCharacterModel characterModel = encounter(playerCharacter);
-            return new PlayerCharacter(null,characterModel.getCharacterName(),
-                    characterModel.getExperience(),characterModel.getLevel(),
-                    characterModel.getHealth(),characterModel.getMana()
-                    ,characterModel.getHomeTown(),characterModel.getCurrency(),characterModel.getDamage());
+            return encounter(playerCharacter).toModel();
         }
-        else{
+        else {
             //might find pot of gold
-            return potOfGold(playerCharacter);
+            return potOfGold(playerCharacter).toModel();
         }
     }
 
-    /*
-    public MonsterModel createNewMonster() {
-//        return monsterModel.toDTO(addMonster);
-        return null;
-    }
-    */
-    private PlayerCharacterModel encounter(PlayerCharacter playerCharacter){
+    private PlayerCharacter encounter(PlayerCharacter playerCharacter){
         //Loop
         monsterModel = MonsterService.createNewRandomMonster(playerCharacter.getLevel());
         //Send message:
-        Monster newRandomMonster = MonsterService.createNewRandomMonster(playerCharacterModel.getLevel());
-        MonsterModel monsterModel = newRandomMonster.toModel();
 
         System.out.println("You are being ambushed by a " + monsterModel.getName()
                 + "\n Escape or Attack?");
-        //Send to CombattController
+        //Send to CombatController
 //        return combatService.fight(playerCharacter.toModel(), monsterModel);
-        return playerCharacter.toModel();
+        playerCharacterRepository.save(playerCharacter);
+        return playerCharacter;
     }
 
     private PlayerCharacter potOfGold(PlayerCharacter playerCharacter){
         int coinsGained = ServiceUtilities.generateRandomIntIntRange(1, 5);
-        String msg = "You have found " + coinsGained + " gold coins!";
+        System.out.println("======== You have found " + coinsGained + " gold coins! ========");
         //TODO: Check if coins gained returns the actual value
         int newCurrencyValue = coinsGained + playerCharacter.getCurrency();
         playerCharacter.setCurrency(newCurrencyValue);
 
         //daysToTown =- 1;
+        playerCharacterRepository.save(playerCharacter);
         return playerCharacter;
     }
 }
