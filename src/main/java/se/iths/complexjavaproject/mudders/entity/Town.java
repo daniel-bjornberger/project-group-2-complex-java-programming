@@ -10,6 +10,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name="towns")
@@ -35,11 +36,22 @@ public class Town implements Serializable {
     public TownModel toModel() {
         TownModel townModel = new TownModel();
 
-        townModel.setId(null);
+       // townModel.setId(null);
         townModel.setTownName(getTownName());
+        townModel.setNpcs(npcs.stream().map(NonPlayerCharacter::getName).collect(Collectors.toSet()));
 
         return townModel;
     }
+
+  /*  public Town toEntity(TownModel townModel){
+        Town town = new Town();
+        town.setTownName(townModel.getTownName()
+        );
+        return town;
+
+    }*/
+
+
 
     //player should have a Last Town variable that allows us to save info of the last town
     //player should automatically return to last town the next time they play.

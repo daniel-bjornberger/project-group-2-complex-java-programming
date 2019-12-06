@@ -27,6 +27,8 @@ public class StartupService {
             //			TODO: Create Towns
             Town firstTown = new Town();
             firstTown.setTownName("First");
+//            Town secondTown = new Town();
+//            firstTown.setTownName("Second");
             
             // 			TODO: Create NPCs
             List<NonPlayerCharacter> npcsToAdd = new ArrayList<>();
@@ -34,15 +36,23 @@ public class StartupService {
             NonPlayerCharacter firstNPC = new NonPlayerCharacter();
             firstNPC.setName("Ragnar");
             npcsToAdd.add(firstNPC);
+//            NonPlayerCharacter secondNPC = new NonPlayerCharacter();
+//            secondNPC.setName("Smed");
+//            npcsToAdd.add(secondNPC);
+
 
             // 			TODO: Set child reference in parent entity
             firstTown.setNpcs(new HashSet<>(npcsToAdd));
+         /*   secondTown.setNpcs(new HashSet<>(npcsToAdd));*/
 
             // 			TODO: Set parent reference in child entity
             firstNPC.setTown(firstTown);
+           /* secondNPC.setTown(firstTown);*/
 
             // 			TODO: Save
             townRepository.save(firstTown);
+            //townRepository.save(secondTown);
+
         }
     }
 
