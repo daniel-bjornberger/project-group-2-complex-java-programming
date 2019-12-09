@@ -46,6 +46,9 @@ public class PlayerCharacter implements Serializable {
     @Column(name = "in_combat")
     private boolean inCombat = false;
 
+    @Column(name = "combat_choice")
+    private int combatChoice = 0;
+
     /*TODO: Add one to one relation with user to keep track of owner
     @Column(name = "user_id")
     private Long id;

@@ -21,6 +21,9 @@ public class PlayerCharacterController {
     private PlayerCharacterRepository playerCharacterRepository;
 
     @Autowired
+    PlayerCharacterService playerCharacterService;
+
+    @Autowired
     World world;
 
     @Autowired
@@ -39,9 +42,9 @@ public class PlayerCharacterController {
     }
 
     @PostMapping(path = "choice")
-    public ResponseEntity playerCombatChoice(@RequestBody int choice){
+    public ResponseEntity playerCombatChoice(@RequestBody int choice, String characterName){
         try {
-            PlayerCharacterService.choice(choice);
+            playerCharacterService.choice(choice, characterName);
             return ResponseEntity
                     .status(HttpStatus.OK)
                     .body(choice);

@@ -1,5 +1,6 @@
 package se.iths.complexjavaproject.mudders.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import se.iths.complexjavaproject.mudders.entity.PlayerCharacter;
 import se.iths.complexjavaproject.mudders.model.MonsterModel;
@@ -11,12 +12,18 @@ import se.iths.complexjavaproject.mudders.util.ServiceUtilities;
 @Service
 public class CombatService {
 
+    @Autowired
+    PlayerCharacterService playerCharacterService;
+
     public void fight(PlayerCharacter player, MonsterModel monster) {
 //        Player attacks monster
         if(!player.isInCombat()){
             player.setInCombat(true);
         }
-        int i = PlayerCharacterService.choice()
+        System.out.println("Input choice!");
+        //TODO: Implement some form of system that causes choice to wait for player input
+        int playerInput = playerCharacterService.choice(player.getCombatChoice(), player.getCharacterName());
+        if(playerInput == 1){
             monster.setHealth(attack(monster.getHealth(), player.getDamage()));
             System.out.println("!------------------Monster now has " + monster.getHealth() + " health-----------------------------------!");
             if (monster.getHealth() == 0) {
@@ -30,6 +37,7 @@ public class CombatService {
                 if (player.getHealth() == 0) {
                     System.out.println("=========== You died! ===========");
                 }
+            }
         }
     }
 
