@@ -22,7 +22,6 @@ public class PlayerCharacterController {
     @Autowired
     TravelService travelService;
 
-
     @GetMapping(path = "/all")
     public ResponseEntity getAllPlayers() {
         try{
@@ -61,8 +60,18 @@ public class PlayerCharacterController {
         } catch (Exception e) {
             return  ResponseEntity.status(HttpStatus.NOT_FOUND).body(e);
         }
-
     }
 
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping(path = "/delete")
+    public void removePlayer(@RequestParam String characterName){
+        try{
+            playerCharacterRepository.deletePlayerCharacterByCharacterName(characterName);
+
+        }catch (Exception e){
+            ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 
 }
