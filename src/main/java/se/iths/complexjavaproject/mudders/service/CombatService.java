@@ -16,6 +16,7 @@ public class CombatService {
         if(!player.isInCombat()){
             player.setInCombat(true);
         }
+        int i = PlayerCharacterService.choice()
             monster.setHealth(attack(monster.getHealth(), player.getDamage()));
             System.out.println("!------------------Monster now has " + monster.getHealth() + " health-----------------------------------!");
             if (monster.getHealth() == 0) {

@@ -7,6 +7,10 @@ import se.iths.complexjavaproject.mudders.entity.PlayerCharacter;
 
 public class PlayerCharacterService {
 
+    public static int choice(int choiceNumber){
+        return choiceNumber;
+    }
+
     public static PlayerCharacter convertToEntity (String playerJson) throws BadDataException {
         PlayerCharacter playerCharacter = new PlayerCharacter();
         ObjectMapper objectMapper = new ObjectMapper();
