@@ -46,6 +46,16 @@ public class TownService {
         return town;
     }
 
+    //Todo: get specific town and the belonging NPC's
+    public TownModel findTown(String townName){
+
+        Town town = townRepository.findTownByTownName(townName);
+        TownModel townModel = town.toModel();
+
+        return townModel;
+    }
+
+    
     public Stream getAllTownsAndNpc(){
 
         Iterable<Town> townIterable = townRepository.findAll();
