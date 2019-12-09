@@ -9,6 +9,9 @@ public interface PlayerCharacterRepository extends CrudRepository<PlayerCharacte
 
     PlayerCharacter findByCharacterName(String name);
 
-    //PlayerCharacter findById(Long id);
+    Iterable<PlayerCharacter> findAll();
+
+    void deletePlayerCharacterByCharacterName(String characterName);
+
 
 }

@@ -55,6 +55,8 @@ public class PlayerCharacter implements Serializable {
     // https://stackoverflow.com/questions/26535614/jpa-naming-convention
     // https://vladmihalcea.com/map-camel-case-properties-snake-case-column-names-hibernate/
 
+    //TODO: Monster entity
+
     @Column(name = "damage")
     private int damage = 1;
 
