@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.StreamReadFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import se.iths.complexjavaproject.mudders.entity.NonPlayerCharacter;
 import se.iths.complexjavaproject.mudders.entity.PlayerCharacter;
 import se.iths.complexjavaproject.mudders.entity.Town;
@@ -19,10 +20,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
+@Service
 public class TownService {
 
     @Autowired
     TownRepository townRepository;
+
+    @Autowired
+    World world;
 
     @Autowired
     NonPlayerCharacterRepository nonPlayerCharacterRepository;
@@ -103,6 +108,11 @@ public class TownService {
 
         int option = 0;
 
+        System.out.println(welcome);
+        System.out.println(options);
+
+        // wait for input
+
         switch(option){
             case 1:
                 System.out.println("Let me show you to the Pub");
@@ -118,7 +128,8 @@ public class TownService {
                 break;
             case 4:
                 System.out.println("Oh ok, Goodbye then and safe travels");
-                //method to travel
+                //get player send to travel method.
+                //world.travel();
                 break;
         }
 
