@@ -9,6 +9,7 @@ import se.iths.complexjavaproject.mudders.entity.PlayerCharacter;
 import se.iths.complexjavaproject.mudders.model.PlayerCharacterModel;
 import se.iths.complexjavaproject.mudders.repository.PlayerCharacterRepository;
 import se.iths.complexjavaproject.mudders.service.PlayerCharacterService;
+import se.iths.complexjavaproject.mudders.service.TravelService;
 
 @RestController
 @NoArgsConstructor
@@ -17,6 +18,9 @@ public class PlayerCharacterController {
 
     @Autowired
     private PlayerCharacterRepository playerCharacterRepository;
+
+    @Autowired
+    TravelService travelService;
 
     @GetMapping(path = "/all")
     public ResponseEntity getAllPlayers() {
@@ -45,8 +49,29 @@ public class PlayerCharacterController {
         }
     }
 
-    //deletePlayer
-    //getByName
 
+    @GetMapping(path = "/find")
+    public ResponseEntity getTravelPlayerByName(@RequestBody String characterName) {
+        try {
+            PlayerCharacterModel playerCharacterModel = travelService.travel(characterName);
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(playerCharacterModel);
+        } catch (Exception e) {
+            return  ResponseEntity.status(HttpStatus.NOT_FOUND).body(e);
+        }
+    }
+
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping(path = "/delete")
+    public void removePlayer(@RequestParam String characterName){
+        try{
+            playerCharacterRepository.deletePlayerCharacterByCharacterName(characterName);
+
+        }catch (Exception e){
+            ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 
 }
