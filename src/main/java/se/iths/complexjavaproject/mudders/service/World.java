@@ -60,7 +60,7 @@ public class World {
         int playerInput = player.getCombatChoice();
         System.out.println("You have been attacked by " + monster.getName() + "\nFight(1) or Escape(2)");
         //Input field asking for int
-        
+
 
         if(playerInput == 1){
             System.out.println("You have chosen to fight!");
