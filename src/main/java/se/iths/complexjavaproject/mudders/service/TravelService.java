@@ -21,7 +21,9 @@ public class TravelService {
     @Autowired
     CombatService combatService;
 
-    private int diceRoll;
+    @Autowired
+    World world;
+
     MonsterModel monsterModel;
 
     public void daysToTown() {
@@ -29,21 +31,7 @@ public class TravelService {
         //List of towns, days to town corresponds to index.
     }
 
-    public PlayerCharacterModel travel(String requestBody) throws BadDataException {
-        PlayerCharacter playerCharacter = playerCharacterRepository.findByCharacterName(PlayerCharacterService.convertToEntity(requestBody).getCharacterName());
-        diceRoll = ServiceUtilities.generateRandomIntIntRange(1, 20);
-        //Travelling to next town.
-        if (diceRoll >= 2) {
-            //might be ambushed
-            return encounter(playerCharacter).toModel();
-        }
-        else {
-            //might find pot of gold
-            return potOfGold(playerCharacter).toModel();
-        }
-    }
-
-    private PlayerCharacter encounter(PlayerCharacter playerCharacter){
+    public PlayerCharacter encounter(PlayerCharacter playerCharacter){
         //Loop
         if(!playerCharacter.isInCombat()) {
             monsterModel = MonsterService.createNewRandomMonster(playerCharacter.getLevel());
@@ -52,14 +40,14 @@ public class TravelService {
 
         System.out.println("You are being ambushed by a " + monsterModel.getName()
                 + "\n Escape or Attack?");
-        combatService.fight(playerCharacter, monsterModel);
+        world.fight(playerCharacter, monsterModel);
 
 //        return combatService.fight(playerCharacter.toModel(), monsterModel);
         playerCharacterRepository.save(playerCharacter);
         return playerCharacter;
     }
 
-    private PlayerCharacter potOfGold(PlayerCharacter playerCharacter){
+    public PlayerCharacter potOfGold(PlayerCharacter playerCharacter){
         int coinsGained = ServiceUtilities.generateRandomIntIntRange(1, 5);
         System.out.println("======== You have found " + coinsGained + " gold coins! ========");
         //TODO: Check if coins gained returns the actual value
