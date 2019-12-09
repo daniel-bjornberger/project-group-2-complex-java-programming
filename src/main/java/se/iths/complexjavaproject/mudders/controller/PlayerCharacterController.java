@@ -3,9 +3,11 @@ package se.iths.complexjavaproject.mudders.controller;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import se.iths.complexjavaproject.mudders.entity.PlayerCharacter;
+import se.iths.complexjavaproject.mudders.exception.InvalidJsonDataException;
 import se.iths.complexjavaproject.mudders.model.PlayerCharacterModel;
 import se.iths.complexjavaproject.mudders.repository.PlayerCharacterRepository;
 import se.iths.complexjavaproject.mudders.service.PlayerCharacterService;
@@ -61,6 +63,23 @@ public class PlayerCharacterController {
         } catch (Exception e) {
             return  ResponseEntity.status(HttpStatus.NOT_FOUND).body(e);
         }
+
+    }
+
+
+    @PostMapping(value = "/fightoption", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ServerResponse combat(@RequestBody ClientResponse clientResponse) {
+
+        System.out.println(clientResponse.getCharacterName());
+
+        System.out.println(clientResponse.getOption());
+
+        if (clientResponse.empty()) {
+            throw new InvalidJsonDataException();
+        }
+
+        return new ServerResponse("attack, " + clientResponse.getCharacterName()
+                + ", " +clientResponse.getOption(), false, true, false, true);
 
     }
 
