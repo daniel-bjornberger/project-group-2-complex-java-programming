@@ -74,7 +74,13 @@
 		<!--</dependency>-->
 
 
-		<!--Security-->
+		<!--Security    Dessa två dependencies ska vara med om man vill köra med security och
+		inloggning inkopplat. Om man gör annat, t.ex. använder Insomnia, så är det lättare att
+		inte ha security och inloggning inkopplat. Då ska de två dependency'na nedan vara
+		bortkommenterade.
+		Filen 'SecurityConfig' i paketet 'security': Ha allt i den filen bortkommenterat om
+	    security och inloggning inte ska användas. Ta bort block-kommenteringen om security
+	    och inloggning ska användas.       -->
 
 		<!--<dependency>
 			<groupId>org.springframework.boot</groupId>
