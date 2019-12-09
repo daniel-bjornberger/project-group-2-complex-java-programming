@@ -1,3 +1,4 @@
+/*
 package se.iths.complexjavaproject.mudders.security;
 
 import org.springframework.context.annotation.Bean;
@@ -52,3 +53,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 }
+*/
