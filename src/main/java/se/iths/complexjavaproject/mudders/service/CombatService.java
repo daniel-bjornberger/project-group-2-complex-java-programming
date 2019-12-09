@@ -1,8 +1,8 @@
 package se.iths.complexjavaproject.mudders.service;
 
 import org.springframework.stereotype.Service;
+import se.iths.complexjavaproject.mudders.entity.PlayerCharacter;
 import se.iths.complexjavaproject.mudders.model.MonsterModel;
-import se.iths.complexjavaproject.mudders.model.PlayerCharacterModel;
 import se.iths.complexjavaproject.mudders.util.ServiceUtilities;
 
 /**
@@ -11,28 +11,48 @@ import se.iths.complexjavaproject.mudders.util.ServiceUtilities;
 @Service
 public class CombatService {
 
-    public PlayerCharacterModel fight(PlayerCharacterModel player, MonsterModel monster) {
-        MonsterModel updatedMonster = player.attack(monster);
-        if (updatedMonster.getHealth() == 0) {
-            player.setExperience(player.getExperience() + updatedMonster.getGivenExperience());
-            System.out.println("=========== " + updatedMonster.getName() + " killed! ===========");
-            System.out.println("=========== " + updatedMonster.getGivenExperience() + " experience gained! ===========");
-            return player;
+    public void fight(PlayerCharacter player, MonsterModel monster) {
+//        Player attacks monster
+        if(!player.isInCombat()){
+            player.setInCombat(true);
         }
-        else {
-            PlayerCharacterModel updatedPlayer = monster.attack(player);
-            if (updatedPlayer.getHealth() == 0) {
-                System.out.println("=========== You died! ===========");
-            }
-            return updatedPlayer;
+            monster.setHealth(attack(monster.getHealth(), player.getDamage()));
+            System.out.println("!------------------Monster now has " + monster.getHealth() + " health-----------------------------------!");
+            if (monster.getHealth() == 0) {
+                player.setExperience(player.getExperience() + monster.getGivenExperience());
+                System.out.println("=========== " + monster.getName() + " killed! ===========");
+                System.out.println("=========== " + monster.getGivenExperience() + " experience gained! ===========");
+                player.setInCombat(false);
+            } else {
+//            Monster attacks player
+                player.setHealth(attack(player.getHealth(), monster.getDamage()));
+                if (player.getHealth() == 0) {
+                    System.out.println("=========== You died! ===========");
+                }
         }
     }
 
-    public void escape(PlayerCharacterModel player) {
+    public boolean escape() {
         int firstRandom = ServiceUtilities.generateRandomIntIntRange(1,2);
         int secondRandom = ServiceUtilities.generateRandomIntIntRange(1,2);
-        if (firstRandom == secondRandom) {
-            player.flee();
-        }
+        return firstRandom == secondRandom;
     }
+
+    private int attack(int health, int damage) {
+        int healthLeft = health - damage;
+        if (healthLeft <= 0) {
+            return 0;
+        }
+        return healthLeft;
+    }
+
+    //TODO: How to make it so correct user gets to use the method?
+    public boolean flee(){
+        int roll = ServiceUtilities.generateRandomIntIntRange(1, 10);
+        if(roll >= 7){
+            return false;
+        }
+        return true;
+    }
+
 }

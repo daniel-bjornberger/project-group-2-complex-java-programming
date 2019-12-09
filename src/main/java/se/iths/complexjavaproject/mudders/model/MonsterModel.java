@@ -1,6 +1,8 @@
 package se.iths.complexjavaproject.mudders.model;
 
 import lombok.*;
+import org.springframework.stereotype.Component;
+import se.iths.complexjavaproject.mudders.entity.PlayerCharacter;
 import se.iths.complexjavaproject.mudders.exception.UnsupportedObjectException;
 
 /**
@@ -18,7 +20,7 @@ public class MonsterModel {
     private int givenExperience;
 //    private Set<Loot> monsterLoot;
 
-    public PlayerCharacterModel attack(PlayerCharacterModel player) {
+    public PlayerCharacter attack(PlayerCharacter player) {
         int result = player.getHealth() - getDamage();
         if (result <= 0) {
             player.setHealth(0);
