@@ -23,6 +23,9 @@ public class World {
     @Autowired
     CombatService combatService;
 
+    @Autowired
+    TownService townService;
+
     private int diceRoll;
 
     public PlayerCharacterModel travel(String requestBody) throws BadDataException {
@@ -74,5 +77,11 @@ public class World {
             System.out.println("Please input your choice using digits. \nFight: 1 \nEscape: 2");
         }
 
+    }
+
+    public void arriveToTown(){
+        //Automatic greeterMessage - does not require actual npc
+        townService.greeterMessage();
+        
     }
 }
