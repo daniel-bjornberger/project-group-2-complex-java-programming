@@ -20,14 +20,16 @@ public class TravelService {
 
     @Autowired
     CombatService combatService;
-    
+
+    @Autowired
+    World world;
+
     MonsterModel monsterModel;
 
     public void daysToTown() {
         int daysToTown = 0;
         //List of towns, days to town corresponds to index.
     }
-
 
     public PlayerCharacter encounter(PlayerCharacter playerCharacter){
         //Loop
@@ -38,7 +40,7 @@ public class TravelService {
 
         System.out.println("You are being ambushed by a " + monsterModel.getName()
                 + "\n Escape or Attack?");
-        combatService.fight(playerCharacter, monsterModel);
+        world.fight(playerCharacter, monsterModel);
 
 //        return combatService.fight(playerCharacter.toModel(), monsterModel);
         playerCharacterRepository.save(playerCharacter);
