@@ -21,10 +21,13 @@ public class TownService {
     @Autowired
     TownRepository townRepository;
     /*
-     * Tavern
-     * Blacksmith
-     * Magician (?)
-     * Trader
+     * Blacksmith - Welcome traveller! How can I help you?
+     * Options: fix broken weapon, upgrade weapon.
+     * Smithy
+     * TODO: create function to allow for NPC to greet player
+     * TODO: create function to allow Player to choose options to do in town.
+     * NPC - Welcome to Town! What do you want do now?
+     *
      * */
 
     public static Town convertToEntity (String townJson) throws BadDataException {
@@ -48,17 +51,11 @@ public class TownService {
         Iterable<Town> townIterable = townRepository.findAll();
         List<Town> towns = new ArrayList<>();
 
-        System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
-
         for (Town town:townIterable) {
             towns.add(town);
         }
-        System.out.println("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%555555555555555555555555555%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%");
 
         Stream townToReturn = towns.stream().map(Town::toModel);
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        System.out.println(townToReturn);
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 
         return townToReturn;
     }
