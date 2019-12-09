@@ -43,6 +43,9 @@ public class PlayerCharacter implements Serializable {
     @Column(name = "currency")
     private int currency = 0;
 
+    @Column(name = "in_combat")
+    private boolean inCombat = false;
+
     /*TODO: Add one to one relation with user to keep track of owner
     @Column(name = "user_id")
     private Long id;
@@ -51,6 +54,8 @@ public class PlayerCharacter implements Serializable {
     // TODO: Kolumn-namn skrivs med "snake_case"? character_name, home_town?   /Daniel
     // https://stackoverflow.com/questions/26535614/jpa-naming-convention
     // https://vladmihalcea.com/map-camel-case-properties-snake-case-column-names-hibernate/
+
+    //TODO: Monster entity
 
     @Column(name = "damage")
     private int damage = 1;
