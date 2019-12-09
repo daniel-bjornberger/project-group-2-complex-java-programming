@@ -55,4 +55,9 @@ public class World {
             }
         }
     }
+
+    public void battle(PlayerCharacter player, MonsterModel monster){
+        System.out.println("You have been attacked by " + monster.getName() + "\nFight(1) or Flee(2)");
+
+    }
 }
