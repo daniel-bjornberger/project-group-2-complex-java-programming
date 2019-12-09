@@ -1,7 +1,5 @@
 package se.iths.complexjavaproject.mudders.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import se.iths.complexjavaproject.mudders.entity.PlayerCharacter;
@@ -35,7 +33,7 @@ public class TravelService {
         PlayerCharacter playerCharacter = playerCharacterRepository.findByCharacterName(PlayerCharacterService.convertToEntity(requestBody).getCharacterName());
         diceRoll = ServiceUtilities.generateRandomIntIntRange(1, 20);
         //Travelling to next town.
-        if (diceRoll >= 18){
+        if (diceRoll >= 2) {
             //might be ambushed
             return encounter(playerCharacter).toModel();
         }
@@ -47,12 +45,15 @@ public class TravelService {
 
     private PlayerCharacter encounter(PlayerCharacter playerCharacter){
         //Loop
-        monsterModel = MonsterService.createNewRandomMonster(playerCharacter.getLevel());
+        if(!playerCharacter.isInCombat()) {
+            monsterModel = MonsterService.createNewRandomMonster(playerCharacter.getLevel());
+        }
         //Send message:
 
         System.out.println("You are being ambushed by a " + monsterModel.getName()
                 + "\n Escape or Attack?");
-        //Send to CombatController
+        combatService.fight(playerCharacter, monsterModel);
+
 //        return combatService.fight(playerCharacter.toModel(), monsterModel);
         playerCharacterRepository.save(playerCharacter);
         return playerCharacter;
