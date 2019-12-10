@@ -18,13 +18,6 @@ public class PlayerCharacterService {
     @Autowired
     PlayerCharacterRepository playerCharacterRepository;
 
-    public int choice(int choiceNumber, String name){
-        PlayerCharacter playerCharacter = playerCharacterRepository
-                .findByCharacterName((name));
-        playerCharacter.setCombatChoice(choiceNumber);
-        return playerCharacter.getCombatChoice();
-    }
-
     public static PlayerCharacter convertToEntity (String playerJson) throws BadDataException {
         PlayerCharacter playerCharacter = new PlayerCharacter();
         ObjectMapper objectMapper = new ObjectMapper();

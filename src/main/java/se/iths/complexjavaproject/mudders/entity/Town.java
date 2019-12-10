@@ -33,6 +33,9 @@ public class Town implements Serializable {
     @OneToMany(mappedBy = "town", cascade = CascadeType.ALL)
     private Set<NonPlayerCharacter> npcs = new HashSet<>();
 
+    @OneToOne(mappedBy = "town", cascade = CascadeType.ALL)
+    private PlayerCharacter playerCharacter;
+
     public TownModel toModel() {
         TownModel townModel = new TownModel();
 

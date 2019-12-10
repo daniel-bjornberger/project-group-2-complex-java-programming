@@ -28,35 +28,15 @@ public class World {
 
     private int diceRoll;
 
-    public PlayerCharacterModel travel(String requestBody) throws BadDataException {
+    public PlayerCharacterModel travelOptions(String requestBody) throws BadDataException {
         PlayerCharacter playerCharacter = playerCharacterRepository.findByCharacterName(PlayerCharacterService.convertToEntity(requestBody).getCharacterName());
-        diceRoll = ServiceUtilities.generateRandomIntIntRange(1, 20);
-        //Travelling to next town.
-        if (diceRoll >= 2) {
-            //might be ambushed
-            return travelService.encounter(playerCharacter).toModel();
+        int choice = 0;
+        //Choose what to do, 1 for travel 2 for ...
+        switch(choice){
+            case 1:
+                travelService.travel(requestBody);
         }
-        else {
-            //might find pot of gold
-            return travelService.potOfGold(playerCharacter).toModel();
-        }
-    }
-
-    public void fight(PlayerCharacter player, MonsterModel monster) {
-//        Player attacks monster
-        monster.setHealth(combatService.attack(monster.getHealth(), player.getDamage()));
-        if (monster.getHealth() == 0) {
-            player.setExperience(player.getExperience() + monster.getGivenExperience());
-            System.out.println("=========== " + monster.getName() + " killed! ===========");
-            System.out.println("=========== " + monster.getGivenExperience() + " experience gained! ===========");
-        }
-        else {
-//            Monster attacks player
-            player.setHealth(combatService.attack(player.getHealth(), monster.getDamage()));
-            if (player.getHealth() == 0) {
-                System.out.println("=========== You died! ===========");
-            }
-        }
+        return playerCharacter.toModel();
     }
 
     public void battle(PlayerCharacter player, MonsterModel monster){
@@ -67,7 +47,7 @@ public class World {
 
         if(playerInput == 1){
             System.out.println("You have chosen to fight!");
-            fight(player, monster);
+            combatService.fight(player, monster);
         }
         else if(playerInput == 2){
             System.out.println("You have chosen to escape!");
