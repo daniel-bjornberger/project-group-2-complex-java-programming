@@ -31,6 +31,8 @@ public class TravelService {
         //List of towns, days to town corresponds to index.
     }
 
+    private int diceRoll;
+
     public PlayerCharacterModel travel(String requestBody) throws BadDataException {
         PlayerCharacter playerCharacter = playerCharacterRepository.findByCharacterName(PlayerCharacterService.convertToEntity(requestBody).getCharacterName());
         diceRoll = ServiceUtilities.generateRandomIntIntRange(1, 20);
@@ -54,7 +56,7 @@ public class TravelService {
 
         System.out.println("You are being ambushed by a " + monsterModel.getName()
                 + "\n Escape or Attack?");
-        world.fight(playerCharacter, monsterModel);
+        combatService.fight(playerCharacter, monsterModel);
 
 //        return combatService.fight(playerCharacter.toModel(), monsterModel);
         playerCharacterRepository.save(playerCharacter);
