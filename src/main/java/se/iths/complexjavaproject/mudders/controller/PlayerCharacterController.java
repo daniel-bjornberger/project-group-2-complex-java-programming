@@ -75,7 +75,7 @@ public class PlayerCharacterController {
     @GetMapping(path = "/find")
     public ResponseEntity getTravelPlayerByName(@RequestBody String characterName) {
         try {
-            PlayerCharacterModel playerCharacterModel = world.travel(characterName);
+            PlayerCharacterModel playerCharacterModel = travelService.travel(characterName);
             return ResponseEntity
                     .status(HttpStatus.OK)
                     .body(playerCharacterModel);

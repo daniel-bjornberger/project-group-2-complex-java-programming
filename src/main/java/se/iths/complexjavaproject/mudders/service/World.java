@@ -15,25 +15,5 @@ public class World {
     @Autowired
     PlayerCharacterRepository playerCharacterRepository;
 
-    @Autowired
-    TravelService travelService;
-
-    private int diceRoll;
-    MonsterModel monsterModel;
-
-
-    public PlayerCharacterModel travel(String requestBody) throws BadDataException {
-        PlayerCharacter playerCharacter = playerCharacterRepository.findByCharacterName(PlayerCharacterService.convertToEntity(requestBody).getCharacterName());
-        diceRoll = ServiceUtilities.generateRandomIntIntRange(1, 20);
-        //Travelling to next town.
-        if (diceRoll >= 2) {
-            //might be ambushed
-            return travelService.encounter(playerCharacter).toModel();
-        }
-        else {
-            //might find pot of gold
-            return travelService.potOfGold(playerCharacter).toModel();
-        }
-    }
 
 }

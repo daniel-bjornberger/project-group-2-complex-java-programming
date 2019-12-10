@@ -20,7 +20,7 @@ public class PlayerCharacterService {
 
     public int choice(int choiceNumber, String name){
         PlayerCharacter playerCharacter = playerCharacterRepository
-                .findByCharacterName(convertToEntity(name).getCharacterName());
+                .findByCharacterName((name));
         playerCharacter.setCombatChoice(choiceNumber);
         return playerCharacter.getCombatChoice();
     }
