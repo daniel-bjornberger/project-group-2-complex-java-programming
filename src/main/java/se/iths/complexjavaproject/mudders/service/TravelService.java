@@ -31,6 +31,20 @@ public class TravelService {
         //List of towns, days to town corresponds to index.
     }
 
+    public PlayerCharacterModel travel(String requestBody) throws BadDataException {
+        PlayerCharacter playerCharacter = playerCharacterRepository.findByCharacterName(PlayerCharacterService.convertToEntity(requestBody).getCharacterName());
+        diceRoll = ServiceUtilities.generateRandomIntIntRange(1, 20);
+        //Travelling to next town.
+        if (diceRoll >= 2) {
+            //might be ambushed
+            return encounter(playerCharacter).toModel();
+        }
+        else {
+            //might find pot of gold
+            return potOfGold(playerCharacter).toModel();
+        }
+    }
+
     public PlayerCharacter encounter(PlayerCharacter playerCharacter){
         //Loop
         if(!playerCharacter.isInCombat()) {
