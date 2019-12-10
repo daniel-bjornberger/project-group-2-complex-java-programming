@@ -39,25 +39,6 @@ public class World {
         return playerCharacter.toModel();
     }
 
-    public void battle(PlayerCharacter player, MonsterModel monster){
-        int playerInput = player.getCombatChoice();
-        System.out.println("You have been attacked by " + monster.getName() + "\nFight(1) or Escape(2)");
-        //Input field asking for int
-
-        if(playerInput == 1){
-            System.out.println("You have chosen to fight!");
-            combatService.fight(player, monster);
-        }
-        else if(playerInput == 2){
-            System.out.println("You have chosen to escape!");
-            combatService.escape();
-        }
-        else{
-            System.out.println("Please input your choice using digits. \nFight: 1 \nEscape: 2");
-        }
-
-    }
-
     public void arriveToTown(){
         //Automatic greeterMessage - does not require actual npc
         townService.greeterMessage();

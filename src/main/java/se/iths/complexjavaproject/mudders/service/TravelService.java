@@ -2,6 +2,7 @@ package se.iths.complexjavaproject.mudders.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import se.iths.complexjavaproject.mudders.controller.PlayerCharacterController;
 import se.iths.complexjavaproject.mudders.entity.PlayerCharacter;
 import se.iths.complexjavaproject.mudders.exception.BadDataException;
 import se.iths.complexjavaproject.mudders.model.MonsterModel;
@@ -57,6 +58,7 @@ public class TravelService {
         //TODO: Loop combat sequence and receive player decision
         System.out.println("You are being ambushed by a " + monsterModel.getName()
                 + "\n Escape or Attack?");
+        //Wait for player input to choose their action
         if(playerCharacter.getCombatChoice().contains("1")) {
             combatService.fight(playerCharacter, monsterModel);
         }
