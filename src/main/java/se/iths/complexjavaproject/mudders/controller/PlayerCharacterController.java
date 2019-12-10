@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 import se.iths.complexjavaproject.mudders.entity.PlayerCharacter;
 import se.iths.complexjavaproject.mudders.exception.InvalidJsonDataException;
@@ -14,6 +15,9 @@ import se.iths.complexjavaproject.mudders.service.PlayerCharacterService;
 import se.iths.complexjavaproject.mudders.service.TravelService;
 import se.iths.complexjavaproject.mudders.service.World;
 
+import java.util.Scanner;
+
+@Service
 @RestController
 @NoArgsConstructor
 @RequestMapping("/player")
@@ -42,18 +46,26 @@ public class PlayerCharacterController {
         }
     }
 
-    @PostMapping(path = "choice")
-    public ResponseEntity playerCombatChoice(@RequestBody int choice, String characterName){
+    @GetMapping(path = "combatattack")
+    public String playerCombatChoiceOne(){
         try {
-            playerCharacterService.choice(choice, characterName);
-            return ResponseEntity
-                    .status(HttpStatus.OK)
-                    .body(choice);
+            PlayerCharacter playerCharacter = new PlayerCharacter();
+            playerCharacter.setCombatChoice("1");
+            return playerCharacter.getCombatChoice();
         }catch (Exception e){
-            return ResponseEntity
-                    .status(HttpStatus.CONFLICT)
-                    .body(e.getMessage());
+            }
+        return "1";
+    }
+
+    @GetMapping(path = "combatescape")
+    public String playerCombatChoiceZero(){
+        try {
+            PlayerCharacter playerCharacter = new PlayerCharacter();
+            playerCharacter.setCombatChoice("0");
+            return playerCharacter.getCombatChoice();
+        }catch (Exception e){
         }
+        return "0";
     }
 
 
@@ -77,7 +89,7 @@ public class PlayerCharacterController {
     @GetMapping(path = "/find")
     public ResponseEntity getTravelPlayerByName(@RequestBody String characterName) {
         try {
-            PlayerCharacterModel playerCharacterModel = world.travel(characterName);
+            PlayerCharacterModel playerCharacterModel = travelService.travel(characterName);
             return ResponseEntity
                     .status(HttpStatus.OK)
                     .body(playerCharacterModel);

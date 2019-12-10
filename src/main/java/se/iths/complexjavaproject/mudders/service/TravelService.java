@@ -35,7 +35,7 @@ public class TravelService {
 
     public PlayerCharacterModel travel(String requestBody) throws BadDataException {
         PlayerCharacter playerCharacter = playerCharacterRepository.findByCharacterName(PlayerCharacterService.convertToEntity(requestBody).getCharacterName());
-        diceRoll = ServiceUtilities.generateRandomIntIntRange(1, 20);
+        int diceRoll = ServiceUtilities.generateRandomIntIntRange(1, 20);
         //Travelling to next town.
         if (diceRoll >= 2) {
             //might be ambushed
@@ -54,10 +54,15 @@ public class TravelService {
         }
         //Send message:
 
+        //TODO: Loop combat sequence and receive player decision
         System.out.println("You are being ambushed by a " + monsterModel.getName()
                 + "\n Escape or Attack?");
-        combatService.fight(playerCharacter, monsterModel);
-
+        if(playerCharacter.getCombatChoice().contains("1")) {
+            combatService.fight(playerCharacter, monsterModel);
+        }
+        if(playerCharacter.getCombatChoice().contains("2")){
+            combatService.escape();
+        }
 //        return combatService.fight(playerCharacter.toModel(), monsterModel);
         playerCharacterRepository.save(playerCharacter);
         return playerCharacter;

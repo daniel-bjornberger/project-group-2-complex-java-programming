@@ -28,18 +28,15 @@ public class World {
 
     private int diceRoll;
 
-    public PlayerCharacterModel travel(String requestBody) throws BadDataException {
+    public PlayerCharacterModel travelOptions(String requestBody) throws BadDataException {
         PlayerCharacter playerCharacter = playerCharacterRepository.findByCharacterName(PlayerCharacterService.convertToEntity(requestBody).getCharacterName());
-        diceRoll = ServiceUtilities.generateRandomIntIntRange(1, 20);
-        //Travelling to next town.
-        if (diceRoll >= 2) {
-            //might be ambushed
-            return travelService.encounter(playerCharacter).toModel();
+        int choice = 0;
+        //Choose what to do, 1 for travel 2 for ...
+        switch(choice){
+            case 1:
+                travelService.travel(requestBody);
         }
-        else {
-            //might find pot of gold
-            return travelService.potOfGold(playerCharacter).toModel();
-        }
+        return playerCharacter.toModel();
     }
 
     public void battle(PlayerCharacter player, MonsterModel monster){

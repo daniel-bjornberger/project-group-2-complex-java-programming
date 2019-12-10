@@ -34,22 +34,24 @@ public class PlayerCharacter implements Serializable {
     @Column(name = "health")
     private int health = 10;
 
-   /* @Column(name = "mana")
-    private int mana = 10;*/
-
-    @Column(name = "home_town")
-    private String homeTown = "VillageOne";
+    @Column(name = "damage")
+    private int damage = 1;
 
     @Column(name = "currency")
     private int currency = 0;
 
     private boolean inCombat = false;
 
-    private int combatChoice = 0;
+    //Columns needed if choices differ each time. Save function that resets to 0?
+    private String combatChoice = "0";
 
     private int travelChoice = 0;
 
     private int townChoice = 0;
+
+    @OneToOne
+    @JoinColumn(name = "town_id")
+    private Town currentTown;
 
     /*TODO: Add one to one relation with user to keep track of owner
     @Column(name = "user_id")
@@ -62,9 +64,6 @@ public class PlayerCharacter implements Serializable {
 
     //TODO: Monster entity
 
-    @Column(name = "damage")
-    private int damage = 1;
-
     public PlayerCharacterModel toModel() {
         PlayerCharacterModel playerCharacterModel = new PlayerCharacterModel();
 
@@ -72,8 +71,7 @@ public class PlayerCharacter implements Serializable {
         playerCharacterModel.setExperience(getExperience());
         playerCharacterModel.setLevel(getLevel());
         playerCharacterModel.setHealth(getHealth());
-        //playerCharacterModel.setMana(getMana());
-        playerCharacterModel.setHomeTown(getHomeTown());
+        playerCharacterModel.setCurrentTown(getCurrentTown());
         playerCharacterModel.setDamage(getDamage());
         playerCharacterModel.setCurrency(getCurrency());
 
