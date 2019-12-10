@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome to Game</title>
+</head>
+<body>
+
+<section name="main">
+    <!--/*@thymesVar id="gameComments" type="java"*/-->
+    <p th:text="${gameComments}">Game messages and information</p>
+
+</section>
+<btn name="fight">Fight</btn>
+<section name="playerInfo"></section>
+<section name="eventInfo"></section>
+
+
+
+
+</body>
+</html>
