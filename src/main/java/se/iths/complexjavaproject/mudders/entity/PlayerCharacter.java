@@ -46,6 +46,16 @@ public class PlayerCharacter implements Serializable {
     @Column(name = "in_combat")
     private boolean inCombat = false;
 
+    //Columns needed if choices differ each time. Save function that resets to 0?
+    @Column(name = "combat_choice")
+    private int combatChoice = 0;
+
+    @Column(name = "travel_choice")
+    private int travelChoice = 0;
+
+    @Column(name = "town_choice")
+    private int townChoice = 0;
+
     /*TODO: Add one to one relation with user to keep track of owner
     @Column(name = "user_id")
     private Long id;

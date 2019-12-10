@@ -27,7 +27,7 @@ public class TownModel {
         return townModel;
     }
 
- /*   public TownModel toModelNpc( Town townToAddNpc){
+    public TownModel toModelNpc( Town townToAddNpc){
         TownModel townModelNpc = new TownModel();
 
         townModelNpc.setTownName(townToAddNpc.getTownName());
@@ -35,6 +35,6 @@ public class TownModel {
             townModelNpc.npcs.add(nonPlayerCharacter.getName());
         });
         return townModelNpc;
-    }*/
+    }
 
 }

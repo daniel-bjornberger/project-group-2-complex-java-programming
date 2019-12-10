@@ -12,6 +12,7 @@ import se.iths.complexjavaproject.mudders.model.PlayerCharacterModel;
 import se.iths.complexjavaproject.mudders.repository.PlayerCharacterRepository;
 import se.iths.complexjavaproject.mudders.service.PlayerCharacterService;
 import se.iths.complexjavaproject.mudders.service.TravelService;
+import se.iths.complexjavaproject.mudders.service.World;
 
 @RestController
 @NoArgsConstructor
@@ -22,7 +23,7 @@ public class PlayerCharacterController {
     private PlayerCharacterRepository playerCharacterRepository;
 
     @Autowired
-    TravelService travelService;
+    World world;
 
     @GetMapping(path = "/all")
     public ResponseEntity getAllPlayers() {
@@ -55,7 +56,7 @@ public class PlayerCharacterController {
     @GetMapping(path = "/find")
     public ResponseEntity getTravelPlayerByName(@RequestBody String characterName) {
         try {
-            PlayerCharacterModel playerCharacterModel = travelService.travel(characterName);
+            PlayerCharacterModel playerCharacterModel = world.travel(characterName);
             return ResponseEntity
                     .status(HttpStatus.OK)
                     .body(playerCharacterModel);
