@@ -1,6 +1,7 @@
 package se.iths.complexjavaproject.mudders.entity;
 
 import lombok.*;
+import org.hibernate.mapping.Array;
 import se.iths.complexjavaproject.mudders.model.PlayerCharacterModel;
 
 import javax.persistence.*;
@@ -39,6 +40,9 @@ public class PlayerCharacter implements Serializable {
 
     @Column(name = "currency")
     private int currency = 0;
+
+    @Column(name = "inventory")
+    private Array inventory;
 
     private boolean inCombat = false;
 

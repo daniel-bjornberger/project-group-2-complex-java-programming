@@ -21,11 +21,10 @@ public class CombatService {
 
     public void fight(PlayerCharacter player, MonsterModel monster) {
 //        Player attacks monster
-        System.out.println("Input choice!");
-        //TODO: Implement some form of system that causes choice to wait for player input
-        //WAIT
-        String playerInput = playerCharacterController.playerCombatChoiceOne();
-        if(playerInput.contains("1")){
+        while(player.isInCombat()){
+            if(monster.getHealth() <= 2 || player.getHealth() <= 2){
+                player.setInCombat(escape());
+            }
             monster.setHealth(attack(monster.getHealth(), player.getDamage()));
             System.out.println("!------------------Monster now has " + monster.getHealth() + " health-----------------------------------!");
             if (monster.getHealth() == 0) {
