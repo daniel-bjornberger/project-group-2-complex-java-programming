@@ -39,7 +39,6 @@ public class FightController {
 
 
         }catch (Exception e){
-           
         }
     }
 
