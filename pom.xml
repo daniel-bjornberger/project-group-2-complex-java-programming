@@ -30,6 +30,10 @@
 		</developer>
 		<developer>
 			<name>Filip Christofferson</name>
+			<email>filip.christofferson@gmail.com</email>
+			<roles>
+				<role>Java-developer</role>
+			</roles>
 		</developer>
 	</developers>
 

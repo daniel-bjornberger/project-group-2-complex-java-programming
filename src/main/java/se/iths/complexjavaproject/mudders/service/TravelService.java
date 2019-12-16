@@ -59,11 +59,14 @@ public class TravelService {
         System.out.println("You are being ambushed by a " + monsterModel.getName()
                 + "\n Escape or Attack?");
         //Wait for player input to choose their action
-        if(playerCharacter.getCombatChoice().contains("1")) {
-            combatService.fight(playerCharacter, monsterModel);
-        }
-        if(playerCharacter.getCombatChoice().contains("2")){
-            combatService.escape();
+        while(monsterModel.getHealth() >= 0 || playerCharacter.getHealth() >= 0) {
+            //TODO: Receive player choice of what to do
+            if (playerCharacter.getCombatChoice().contains("1")) {
+                combatService.fight(playerCharacter, monsterModel);
+            }
+            if (playerCharacter.getCombatChoice().contains("2")) {
+                combatService.escape();
+            }
         }
 //        return combatService.fight(playerCharacter.toModel(), monsterModel);
         playerCharacterRepository.save(playerCharacter);
