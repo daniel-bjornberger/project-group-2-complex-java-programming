@@ -7,8 +7,6 @@ import se.iths.complexjavaproject.mudders.entity.PlayerCharacter;
 import se.iths.complexjavaproject.mudders.model.MonsterModel;
 import se.iths.complexjavaproject.mudders.util.ServiceUtilities;
 
-import java.util.Scanner;
-
 /**
  * Skapad av Elin och Tonny.
  */
@@ -40,6 +38,7 @@ public class CombatService {
                 player.setHealth(attack(player.getHealth(), monster.getDamage()));
                 if (player.getHealth() == 0) {
                     System.out.println("=========== You died! ===========");
+                    player.setInCombat(false);
                 }
             }
         }

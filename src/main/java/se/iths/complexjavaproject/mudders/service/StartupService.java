@@ -27,28 +27,35 @@ public class StartupService {
             //			TODO: Create Towns
             Town firstTown = new Town();
             firstTown.setTownName("First");
+
             Town secondTown = new Town();
             secondTown.setTownName("Second");
             
             // 			TODO: Create NPCs
-            List<NonPlayerCharacter> npcsToAdd = new ArrayList<>();
+            List<NonPlayerCharacter> npcsToAddToFirstTown = new ArrayList<>();
+            List<NonPlayerCharacter> npcsToAddToSecondTown = new ArrayList<>();
 
             NonPlayerCharacter firstNPC = new NonPlayerCharacter();
             firstNPC.setName("Ragnar");
-            npcsToAdd.add(firstNPC);
+            npcsToAddToFirstTown.add(firstNPC);
 
-           /* NonPlayerCharacter secondNPC = new NonPlayerCharacter();
+            NonPlayerCharacter secondNPC = new NonPlayerCharacter();
             secondNPC.setName("Blacksmith");
-            npcsToAdd.add(secondNPC);*/
+            npcsToAddToSecondTown.add(secondNPC);
+
+            NonPlayerCharacter thirdNPC = new NonPlayerCharacter();
+            thirdNPC.setName("Healer");
+            npcsToAddToFirstTown.add(thirdNPC);
 
 
             // 			TODO: Set child reference in parent entity
-            firstTown.setNpcs(new HashSet<>(npcsToAdd));
-            //secondTown.setNpcs(new HashSet<>(npcsToAdd));
+            firstTown.setNpcs(new HashSet<>(npcsToAddToFirstTown));
+            secondTown.setNpcs(new HashSet<>(npcsToAddToSecondTown));
 
             // 			TODO: Set parent reference in child entity
             firstNPC.setTown(firstTown);
-            //secondNPC.setTown(secondTown);
+            secondNPC.setTown(secondTown);
+            thirdNPC.setTown(firstTown);
 
             // 			TODO: Save
             townRepository.save(firstTown);
