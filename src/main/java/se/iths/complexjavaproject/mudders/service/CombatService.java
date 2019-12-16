@@ -24,12 +24,15 @@ public class CombatService {
         }
         System.out.println("Input choice!");
         //TODO: Implement some form of system that causes choice to wait for player input
+        //Can be implemented if we use threads.
         int playerInput = playerCharacterService.choice(player.getCombatChoice(), player.getCharacterName());
-        Scanner scanner = new Scanner(System.in);
-        scanner.nextLine();
-        if(playerInput == 1){
+
+        while(player.isInCombat() == true){
             monster.setHealth(attack(monster.getHealth(), player.getDamage()));
+            System.out.println();
             System.out.println("!------------------Monster now has " + monster.getHealth() + " health-----------------------------------!");
+            System.out.println();
+            System.out.println("!------------------You now have " + player.getHealth() + " health---------------------------------------!");
             if (monster.getHealth() == 0) {
                 player.setExperience(player.getExperience() + monster.getGivenExperience());
                 System.out.println("=========== " + monster.getName() + " killed! ===========");
@@ -40,6 +43,7 @@ public class CombatService {
                 player.setHealth(attack(player.getHealth(), monster.getDamage()));
                 if (player.getHealth() == 0) {
                     System.out.println("=========== You died! ===========");
+                    player.setInCombat(false);
                 }
             }
         }
