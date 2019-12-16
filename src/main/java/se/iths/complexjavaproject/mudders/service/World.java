@@ -50,3 +50,7 @@ public class World {
 
     }
 }
+
+/**
+ * fightcontroller - /choice parameter -> choice.input väntar passivt på input, använd timeout
+ */

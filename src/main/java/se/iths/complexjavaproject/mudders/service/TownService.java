@@ -101,10 +101,13 @@ public class TownService {
         String welcome = "Welcome weary traveller to our magnificent city!";
         String options = "What would you like to do next?"
                 +"\nInput the corresponding digit to make your choice:"
-                +"\nVisit the Pub: 1"
+                +"\nVisit the Pub 5 copper: 1"
                 +"\nVisit the blacksmith: 2"
                 +"\nTreasure Hunt: 3"
-                +"\nTravel to the next town: 4";
+                +"\nVisit the doctor and recover your health, 15 copper: 4"
+                +"\nTravel to the next town: 5";
+
+        //sout("You visit the pub and got drunk")
 
         int option = 0;
 
@@ -127,6 +130,11 @@ public class TownService {
                 //potOfGold()??
                 break;
             case 4:
+                System.out.println("Oh no you're bleeding!! Medic! Man Down!");
+                //get player send to doctor method.
+                //doctor();
+                break;
+            case 5:
                 System.out.println("Oh ok, Goodbye then and safe travels");
                 //get player send to travel method.
                 //world.travel();

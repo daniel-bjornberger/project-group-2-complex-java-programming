@@ -74,7 +74,6 @@ public class PlayerCharacterController {
         return "0";
     }
 
-
     @PostMapping(path = "/add")
     public ResponseEntity addNewPlayerCharacter (@RequestBody String characterName){
         try {

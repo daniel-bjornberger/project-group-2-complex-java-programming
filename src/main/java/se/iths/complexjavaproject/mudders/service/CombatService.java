@@ -26,7 +26,10 @@ public class CombatService {
                 player.setInCombat(escape());
             }
             monster.setHealth(attack(monster.getHealth(), player.getDamage()));
+            System.out.println();
             System.out.println("!------------------Monster now has " + monster.getHealth() + " health-----------------------------------!");
+            System.out.println();
+            System.out.println("!------------------You now have " + player.getHealth() + " health---------------------------------------!");
             if (monster.getHealth() == 0) {
                 player.setExperience(player.getExperience() + monster.getGivenExperience());
                 System.out.println("=========== " + monster.getName() + " killed! ===========");

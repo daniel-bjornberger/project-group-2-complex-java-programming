@@ -39,7 +39,10 @@ public class PlayerCharacter implements Serializable {
     private int damage = 1;
 
     @Column(name = "currency")
-    private int currency = 0;
+    private int currency = 100;
+
+    @Column(name = "max_health")
+    private int maxHealth = 10;
 
     @Column(name = "inventory")
     private Array inventory;

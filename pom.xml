@@ -21,6 +21,10 @@
 	<developers>
 		<developer>
 			<name>Elin Sexton</name>
+			<email>elin.sexton@gmail.com</email>
+			<roles>
+				<role>Java-developer</role>
+			</roles>
 		</developer>
 		<developer>
 			<name>Tonny Frisk</name>
