@@ -41,7 +41,10 @@ public class PlayerCharacter implements Serializable {
     private String homeTown = "VillageOne";
 
     @Column(name = "currency")
-    private int currency = 0;
+    private int currency = 100;
+
+    @Column(name = "max_health")
+    private int maxHealth = 10;
 
     private boolean inCombat = false;
 
