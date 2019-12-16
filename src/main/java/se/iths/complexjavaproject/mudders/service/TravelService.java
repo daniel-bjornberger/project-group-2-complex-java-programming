@@ -2,6 +2,7 @@ package se.iths.complexjavaproject.mudders.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import se.iths.complexjavaproject.mudders.controller.PlayerCharacterController;
 import se.iths.complexjavaproject.mudders.entity.PlayerCharacter;
 import se.iths.complexjavaproject.mudders.exception.BadDataException;
 import se.iths.complexjavaproject.mudders.model.MonsterModel;
@@ -23,6 +24,9 @@ public class TravelService {
 
     @Autowired
     World world;
+
+    @Autowired
+    PlayerCharacterController playerCharacterController;
 
     MonsterModel monsterModel;
 
@@ -53,10 +57,12 @@ public class TravelService {
             monsterModel = MonsterService.createNewRandomMonster(playerCharacter.getLevel());
         }
         //Send message:
-
         System.out.println("You are being ambushed by a " + monsterModel.getName()
                 + "\n Escape or Attack?");
+        playerCharacter.setInCombat(true);
         combatService.fight(playerCharacter, monsterModel);
+        /*if (playerCharacterController.getUserChoice().contains("1"))
+            System.out.println("========== !!! ==========");*/
 
 //        return combatService.fight(playerCharacter.toModel(), monsterModel);
         playerCharacterRepository.save(playerCharacter);
