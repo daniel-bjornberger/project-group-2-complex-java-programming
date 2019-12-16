@@ -25,6 +25,9 @@ public class TravelService {
     @Autowired
     World world;
 
+    @Autowired
+    PlayerCharacterController playerCharacterController;
+
     MonsterModel monsterModel;
 
     public void daysToTown() {
@@ -54,20 +57,13 @@ public class TravelService {
             monsterModel = MonsterService.createNewRandomMonster(playerCharacter.getLevel());
         }
         //Send message:
-
-        //TODO: Loop combat sequence and receive player decision
         System.out.println("You are being ambushed by a " + monsterModel.getName()
                 + "\n Escape or Attack?");
-        //Wait for player input to choose their action
-        while(monsterModel.getHealth() >= 0 || playerCharacter.getHealth() >= 0) {
-            //TODO: Receive player choice of what to do
-            if (playerCharacter.getCombatChoice().contains("1")) {
-                combatService.fight(playerCharacter, monsterModel);
-            }
-            if (playerCharacter.getCombatChoice().contains("2")) {
-                combatService.escape();
-            }
-        }
+        playerCharacter.setInCombat(true);
+        combatService.fight(playerCharacter, monsterModel);
+        /*if (playerCharacterController.getUserChoice().contains("1"))
+            System.out.println("========== !!! ==========");*/
+
 //        return combatService.fight(playerCharacter.toModel(), monsterModel);
         playerCharacterRepository.save(playerCharacter);
         return playerCharacter;
