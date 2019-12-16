@@ -1,6 +1,8 @@
 package se.iths.complexjavaproject.mudders.controller;
 
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -31,6 +33,10 @@ public class PlayerCharacterController {
     @Autowired
     TravelService travelService;
 
+    @Getter
+    @Setter
+    private String userChoice = "0";
+
     @GetMapping(path = "/all")
     public ResponseEntity getAllPlayers() {
         try{
@@ -42,14 +48,14 @@ public class PlayerCharacterController {
         }
     }
 
-    @PostMapping(path = "choice")
-    public ResponseEntity playerCombatChoice(@RequestBody int choice, String characterName){
+    @GetMapping("/choice")
+    public ResponseEntity playerCombatChoice(@RequestParam String choice) {
         try {
-            playerCharacterService.choice(choice, characterName);
+            setUserChoice(choice);
             return ResponseEntity
                     .status(HttpStatus.OK)
-                    .body(choice);
-        }catch (Exception e){
+                    .body(getUserChoice());
+        }catch (Exception e) {
             return ResponseEntity
                     .status(HttpStatus.CONFLICT)
                     .body(e.getMessage());
@@ -73,7 +79,7 @@ public class PlayerCharacterController {
     }
 
 
-    @GetMapping(path = "/find")
+    @GetMapping(path = "/travel")
     public ResponseEntity getTravelPlayerByName(@RequestBody String characterName) {
         try {
             PlayerCharacterModel playerCharacterModel = world.travel(characterName);
@@ -102,7 +108,6 @@ public class PlayerCharacterController {
 
     }
 
-
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping(path = "/delete")
     public void removePlayer(@RequestParam String characterName){
@@ -113,6 +118,4 @@ public class PlayerCharacterController {
             ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-
-
 }

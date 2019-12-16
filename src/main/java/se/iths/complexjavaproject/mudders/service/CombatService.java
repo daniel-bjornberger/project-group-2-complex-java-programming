@@ -6,8 +6,6 @@ import se.iths.complexjavaproject.mudders.entity.PlayerCharacter;
 import se.iths.complexjavaproject.mudders.model.MonsterModel;
 import se.iths.complexjavaproject.mudders.util.ServiceUtilities;
 
-import java.util.Scanner;
-
 /**
  * Skapad av Elin och Tonny.
  */
@@ -19,15 +17,8 @@ public class CombatService {
 
     public void fight(PlayerCharacter player, MonsterModel monster) {
 //        Player attacks monster
-        if(!player.isInCombat()){
-            player.setInCombat(true);
-        }
-        System.out.println("Input choice!");
         //TODO: Implement some form of system that causes choice to wait for player input
-        //Can be implemented if we use threads.
-        int playerInput = playerCharacterService.choice(player.getCombatChoice(), player.getCharacterName());
-
-        while(player.isInCombat() == true){
+        while(player.isInCombat()) {
             monster.setHealth(attack(monster.getHealth(), player.getDamage()));
             System.out.println();
             System.out.println("!------------------Monster now has " + monster.getHealth() + " health-----------------------------------!");
