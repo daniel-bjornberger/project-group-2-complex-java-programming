@@ -10,10 +10,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 import se.iths.complexjavaproject.mudders.entity.PlayerCharacter;
+import se.iths.complexjavaproject.mudders.exception.BadDataException;
 import se.iths.complexjavaproject.mudders.exception.InvalidJsonDataException;
 import se.iths.complexjavaproject.mudders.model.PlayerCharacterModel;
 import se.iths.complexjavaproject.mudders.repository.PlayerCharacterRepository;
 import se.iths.complexjavaproject.mudders.service.PlayerCharacterService;
+import se.iths.complexjavaproject.mudders.service.TownService;
 import se.iths.complexjavaproject.mudders.service.TravelService;
 import se.iths.complexjavaproject.mudders.service.World;
 
@@ -36,6 +38,9 @@ public class PlayerCharacterController {
 
     @Autowired
     TravelService travelService;
+
+    @Autowired
+    TownService townService;
 
     @Getter
     @Setter
@@ -118,6 +123,18 @@ public class PlayerCharacterController {
         return new ServerResponse("attack, " + clientResponse.getCharacterName()
                 + ", " +clientResponse.getOption(), false, true, false, true);
 
+    }
+
+    @GetMapping(path = "/tavern")
+    public ResponseEntity playerVisitTavern(@RequestBody String characterName){
+        try{
+            PlayerCharacterModel playerCharacterModel = townService.visitTavern(characterName);
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(playerCharacterModel);
+        } catch (Exception e) {
+            return  ResponseEntity.status(HttpStatus.NOT_FOUND).body(e);
+        }
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)

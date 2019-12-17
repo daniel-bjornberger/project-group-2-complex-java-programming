@@ -39,6 +39,7 @@ public class World {
         return playerCharacter.toModel();
     }
 
+
     public void arriveToTown(){
         //Automatic greeterMessage - does not require actual npc
         townService.greeterMessage();

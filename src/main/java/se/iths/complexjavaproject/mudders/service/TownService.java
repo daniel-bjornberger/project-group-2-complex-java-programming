@@ -7,11 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import se.iths.complexjavaproject.mudders.entity.NonPlayerCharacter;
 import se.iths.complexjavaproject.mudders.entity.PlayerCharacter;
+import se.iths.complexjavaproject.mudders.entity.Tavern;
 import se.iths.complexjavaproject.mudders.entity.Town;
 import se.iths.complexjavaproject.mudders.exception.BadDataException;
 import se.iths.complexjavaproject.mudders.model.NonPlayerCharacterModel;
+import se.iths.complexjavaproject.mudders.model.PlayerCharacterModel;
 import se.iths.complexjavaproject.mudders.model.TownModel;
 import se.iths.complexjavaproject.mudders.repository.NonPlayerCharacterRepository;
+import se.iths.complexjavaproject.mudders.repository.PlayerCharacterRepository;
 import se.iths.complexjavaproject.mudders.repository.TownRepository;
 
 import java.util.ArrayList;
@@ -28,6 +31,12 @@ public class TownService {
 
     @Autowired
     World world;
+
+    @Autowired
+    Tavern tavern;
+
+    @Autowired
+    PlayerCharacterRepository playerCharacterRepository;
 
     @Autowired
     NonPlayerCharacterRepository nonPlayerCharacterRepository;
@@ -93,6 +102,13 @@ public class TownService {
         //NPC - Welcome to Town! What do you want do now?
 
         return null;
+    }
+
+    public PlayerCharacterModel visitTavern(String requestBody) throws BadDataException{
+        PlayerCharacter playerCharacter = playerCharacterRepository.findByCharacterName(PlayerCharacterService.convertToEntity(requestBody).getCharacterName());
+        tavern.restAtTavern(playerCharacter);
+        playerCharacterRepository.save(playerCharacter);
+        return playerCharacter.toModel();
     }
 
     //TODO: create function to allow for NPC to greet player
