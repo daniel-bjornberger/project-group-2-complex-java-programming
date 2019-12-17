@@ -1,6 +1,8 @@
 package se.iths.complexjavaproject.mudders.controller;
 
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -14,6 +16,7 @@ import se.iths.complexjavaproject.mudders.responsemodel.ClientResponse;
 import se.iths.complexjavaproject.mudders.responsemodel.ServerResponse;
 import se.iths.complexjavaproject.mudders.service.PlayerCharacterService;
 import se.iths.complexjavaproject.mudders.service.TravelService;
+import se.iths.complexjavaproject.mudders.service.World;
 
 @RestController
 @NoArgsConstructor
@@ -24,7 +27,17 @@ public class PlayerCharacterController {
     private PlayerCharacterRepository playerCharacterRepository;
 
     @Autowired
+    PlayerCharacterService playerCharacterService;
+
+    @Autowired
+    World world;
+
+    @Autowired
     TravelService travelService;
+
+    @Getter
+    @Setter
+    private String userChoice = "0";
 
     @GetMapping(path = "/all")
     public ResponseEntity getAllPlayers() {
@@ -34,6 +47,20 @@ public class PlayerCharacterController {
         }
         catch(Exception e){
             return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/choice")
+    public ResponseEntity playerCombatChoice(@RequestParam String choice) {
+        try {
+            setUserChoice(choice);
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(getUserChoice());
+        }catch (Exception e) {
+            return ResponseEntity
+                    .status(HttpStatus.CONFLICT)
+                    .body(e.getMessage());
         }
     }
 
@@ -54,10 +81,10 @@ public class PlayerCharacterController {
     }
 
 
-    @GetMapping(path = "/find")
+    @GetMapping(path = "/travel")
     public ResponseEntity getTravelPlayerByName(@RequestBody String characterName) {
         try {
-            PlayerCharacterModel playerCharacterModel = travelService.travel(characterName);
+            PlayerCharacterModel playerCharacterModel = world.travel(characterName);
             return ResponseEntity
                     .status(HttpStatus.OK)
                     .body(playerCharacterModel);
@@ -83,7 +110,6 @@ public class PlayerCharacterController {
 
     }
 
-
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping(path = "/delete")
     public void removePlayer(@RequestParam String characterName){
@@ -94,6 +120,4 @@ public class PlayerCharacterController {
             ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-
-
 }

@@ -6,4 +6,6 @@ import se.iths.complexjavaproject.mudders.entity.NonPlayerCharacter;
 
 @Repository
 public interface NonPlayerCharacterRepository extends CrudRepository<NonPlayerCharacter, Long> {
+
+    NonPlayerCharacter findByName(String name);
 }

@@ -23,6 +23,9 @@ public class World {
     @Autowired
     CombatService combatService;
 
+    @Autowired
+    TownService townService;
+
     private int diceRoll;
 
     public PlayerCharacterModel travel(String requestBody) throws BadDataException {
@@ -39,20 +42,37 @@ public class World {
         }
     }
 
-    public void fight(PlayerCharacter player, MonsterModel monster) {
-//        Player attacks monster
-        monster.setHealth(combatService.attack(monster.getHealth(), player.getDamage()));
-        if (monster.getHealth() == 0) {
-            player.setExperience(player.getExperience() + monster.getGivenExperience());
-            System.out.println("=========== " + monster.getName() + " killed! ===========");
-            System.out.println("=========== " + monster.getGivenExperience() + " experience gained! ===========");
+    public void battle(PlayerCharacter player, MonsterModel monster){
+        int playerInput = player.getCombatChoice();
+        System.out.println("You have been attacked by " + monster.getName() + "\nFight(1) or Escape(2)");
+        //Input field asking for int
+
+        if(playerInput == 1){
+            System.out.println("You have chosen to fight!");
+            combatService.fight(player, monster);
         }
-        else {
-//            Monster attacks player
-            player.setHealth(combatService.attack(player.getHealth(), monster.getDamage()));
-            if (player.getHealth() == 0) {
-                System.out.println("=========== You died! ===========");
-            }
+        else if(playerInput == 2){
+            System.out.println("You have chosen to escape!");
+            combatService.escape();
         }
+        else{
+            System.out.println("Please input your choice using digits. \nFight: 1 \nEscape: 2");
+        }
+
+    }
+
+    public void arriveToTown(){
+        //Automatic greeterMessage - does not require actual npc
+        townService.greeterMessage();
+        
+    }
+
+    public void playerAction(){
+
+
     }
 }
+
+/**
+ * fightcontroller - /choice parameter -> choice.input väntar passivt på input, använd timeout
+ */
