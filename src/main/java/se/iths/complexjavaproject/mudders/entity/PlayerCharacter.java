@@ -1,11 +1,11 @@
 package se.iths.complexjavaproject.mudders.entity;
 
 import lombok.*;
-import org.hibernate.mapping.Array;
 import se.iths.complexjavaproject.mudders.model.PlayerCharacterModel;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 
 @Getter
 @Setter
@@ -43,7 +43,7 @@ public class PlayerCharacter implements Serializable {
 
     @Column(name = "max_health")
     private int maxHealth = 10;
-
+    
     private boolean inCombat = false;
 
     //Columns needed if choices differ each time. Save function that resets to 0?
