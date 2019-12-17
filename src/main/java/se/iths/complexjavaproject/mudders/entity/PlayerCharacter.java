@@ -44,9 +44,6 @@ public class PlayerCharacter implements Serializable {
     @Column(name = "max_health")
     private int maxHealth = 10;
 
-    @Column(name = "inventory")
-    private Array inventory;
-
     private boolean inCombat = false;
 
     //Columns needed if choices differ each time. Save function that resets to 0?

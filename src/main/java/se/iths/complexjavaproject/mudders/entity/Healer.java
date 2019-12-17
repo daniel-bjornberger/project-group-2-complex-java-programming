@@ -3,7 +3,7 @@ package se.iths.complexjavaproject.mudders.entity;
 import org.springframework.beans.factory.annotation.Autowired;
 import se.iths.complexjavaproject.mudders.service.TownService;
 
-public class Healer extends NonPlayerCharacter implements INpcVariety{
+public class Healer extends NonPlayerCharacter implements NpcHealer {
 
 
     private static final long serialVersionUID = 8106546763483546385L;

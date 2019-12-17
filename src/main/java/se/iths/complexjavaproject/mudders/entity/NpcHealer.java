@@ -1,6 +1,6 @@
 package se.iths.complexjavaproject.mudders.entity;
 
-public interface INpcVariety {
+public interface NpcHealer {
 
     public PlayerCharacter doctor(PlayerCharacter player);
 
