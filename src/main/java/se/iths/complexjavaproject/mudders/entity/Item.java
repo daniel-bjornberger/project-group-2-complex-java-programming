@@ -1,10 +1,13 @@
 package se.iths.complexjavaproject.mudders.entity;
 
 import lombok.*;
+import se.iths.complexjavaproject.mudders.model.ItemModel;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "item")
@@ -24,5 +27,19 @@ public class Item implements Serializable {
 
     @Column(name = "value")
     private int value;
+
+    @OneToMany(mappedBy = "item", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<ItemAmount> itemAmounts = new HashSet<>();
+
+
+    public Item(String name, int value) {
+        this.name = name;
+        this.value = value;
+    }
+
+
+    public ItemModel toModel() {
+        return new ItemModel(this.name, this.value);
+    }
 
 }
