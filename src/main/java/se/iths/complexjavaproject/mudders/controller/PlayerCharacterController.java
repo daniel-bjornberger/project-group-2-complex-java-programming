@@ -1,19 +1,20 @@
 package se.iths.complexjavaproject.mudders.controller;
 
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
+import se.iths.complexjavaproject.mudders.entity.Healer;
 import se.iths.complexjavaproject.mudders.entity.PlayerCharacter;
+import se.iths.complexjavaproject.mudders.exception.BadDataException;
 import se.iths.complexjavaproject.mudders.exception.InvalidJsonDataException;
 import se.iths.complexjavaproject.mudders.model.PlayerCharacterModel;
 import se.iths.complexjavaproject.mudders.repository.PlayerCharacterRepository;
 import se.iths.complexjavaproject.mudders.service.PlayerCharacterService;
+import se.iths.complexjavaproject.mudders.service.TownService;
 import se.iths.complexjavaproject.mudders.service.TravelService;
 import se.iths.complexjavaproject.mudders.service.World;
 
@@ -37,9 +38,8 @@ public class PlayerCharacterController {
     @Autowired
     TravelService travelService;
 
-    @Getter
-    @Setter
-    private String userChoice = "0";
+    @Autowired
+    TownService townService;
 
     @GetMapping(path = "/all")
     public ResponseEntity getAllPlayers() {
@@ -52,24 +52,17 @@ public class PlayerCharacterController {
         }
     }
 
-    @GetMapping(path = "combatattack")
-    public String playerCombatChoiceOne(){
+    @PostMapping(path = "choice")
+    public ResponseEntity playerCombatChoice(@RequestBody int choice, String characterName){
         try {
-            PlayerCharacter playerCharacter = new PlayerCharacter();
-            playerCharacter.setCombatChoice("1");
-            return playerCharacter.getCombatChoice();
+            playerCharacterService.choice(choice, characterName);
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(choice);
         }catch (Exception e){
-            }
-        return "1";
-    }
-
-    @GetMapping(path = "combatescape")
-    public String playerCombatChoiceZero(){
-        try {
-            PlayerCharacter playerCharacter = new PlayerCharacter();
-            playerCharacter.setCombatChoice("0");
-            return playerCharacter.getCombatChoice();
-        }catch (Exception e){
+            return ResponseEntity
+                    .status(HttpStatus.CONFLICT)
+                    .body(e.getMessage());
         }
         return "0";
     }
@@ -91,7 +84,7 @@ public class PlayerCharacterController {
     }
 
 
-    @GetMapping(path = "/travel")
+    @GetMapping(path = "/find")
     public ResponseEntity getTravelPlayerByName(@RequestBody String characterName) {
         try {
             PlayerCharacterModel playerCharacterModel = travelService.travel(characterName);
@@ -99,6 +92,19 @@ public class PlayerCharacterController {
                     .status(HttpStatus.OK)
                     .body(playerCharacterModel);
         } catch (Exception e) {
+            return  ResponseEntity.status(HttpStatus.NOT_FOUND).body(e);
+        }
+    }
+
+    @GetMapping(path = "/healer")
+    public ResponseEntity goToHealer(@RequestBody String characterName){
+        try{
+            PlayerCharacterModel playerCharacterModel = townService.visitHealer(characterName);
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(playerCharacterModel);
+        } catch (BadDataException e) {
+            e.printStackTrace();
             return  ResponseEntity.status(HttpStatus.NOT_FOUND).body(e);
         }
     }
@@ -120,6 +126,7 @@ public class PlayerCharacterController {
 
     }
 
+
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping(path = "/delete")
     public void removePlayer(@RequestParam String characterName){
@@ -130,4 +137,6 @@ public class PlayerCharacterController {
             ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+
 }
