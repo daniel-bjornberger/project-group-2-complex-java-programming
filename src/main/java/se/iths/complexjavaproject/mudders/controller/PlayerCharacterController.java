@@ -71,10 +71,10 @@ public class PlayerCharacterController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping(path = "/delete")
     public void removePlayer(@RequestParam String characterName){
-        try{
-            playerCharacterRepository.deletePlayerCharacterByCharacterName(characterName);
-
-        }catch (Exception e){
+        try {
+            PlayerCharacter character = playerCharacterRepository.findByCharacterName(characterName);
+            playerCharacterRepository.delete(character);
+        } catch (Exception e) {
             ResponseEntity.badRequest().body(e.getMessage());
         }
     }
