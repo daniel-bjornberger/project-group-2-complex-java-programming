@@ -36,9 +36,6 @@ public class PlayerCharacter implements Serializable {
     @Column(name = "health")
     private int health = 10;
 
-   /* @Column(name = "mana")
-    private int mana = 10;*/
-
     @Column(name = "home_town")
     private String homeTown = "VillageOne";
 
@@ -46,7 +43,7 @@ public class PlayerCharacter implements Serializable {
     private int currency = 100;
 
     @Column(name = "max_health")
-    private int maxHealth = 10;
+    private int maxHealth = 20;
 
     private boolean inCombat = false;
 
@@ -80,7 +77,6 @@ public class PlayerCharacter implements Serializable {
         playerCharacterModel.setExperience(getExperience());
         playerCharacterModel.setLevel(getLevel());
         playerCharacterModel.setHealth(getHealth());
-        //playerCharacterModel.setMana(getMana());
         playerCharacterModel.setHomeTown(getHomeTown());
         playerCharacterModel.setDamage(getDamage());
         playerCharacterModel.setCurrency(getCurrency());

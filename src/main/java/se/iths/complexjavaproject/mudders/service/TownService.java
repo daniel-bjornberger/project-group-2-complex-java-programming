@@ -5,13 +5,16 @@ import com.fasterxml.jackson.core.StreamReadFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import se.iths.complexjavaproject.mudders.entity.Healer;
 import se.iths.complexjavaproject.mudders.entity.NonPlayerCharacter;
 import se.iths.complexjavaproject.mudders.entity.PlayerCharacter;
 import se.iths.complexjavaproject.mudders.entity.Town;
 import se.iths.complexjavaproject.mudders.exception.BadDataException;
 import se.iths.complexjavaproject.mudders.model.NonPlayerCharacterModel;
+import se.iths.complexjavaproject.mudders.model.PlayerCharacterModel;
 import se.iths.complexjavaproject.mudders.model.TownModel;
 import se.iths.complexjavaproject.mudders.repository.NonPlayerCharacterRepository;
+import se.iths.complexjavaproject.mudders.repository.PlayerCharacterRepository;
 import se.iths.complexjavaproject.mudders.repository.TownRepository;
 
 import java.util.ArrayList;
@@ -28,6 +31,12 @@ public class TownService {
 
     @Autowired
     World world;
+
+    @Autowired
+    Healer healer;
+
+    @Autowired
+    PlayerCharacterRepository playerCharacterRepository;
 
     @Autowired
     NonPlayerCharacterRepository nonPlayerCharacterRepository;
@@ -83,6 +92,13 @@ public class TownService {
         NonPlayerCharacterModel npcModel = npc.toModel();
 
         return npcModel;
+    }
+
+    public PlayerCharacterModel visitHealer(String characterName) throws BadDataException{
+        PlayerCharacter playerCharacter = playerCharacterRepository.findByCharacterName(PlayerCharacterService.convertToEntity(characterName).getCharacterName());
+        healer.doctor(playerCharacter);
+        playerCharacterRepository.save(playerCharacter);
+        return playerCharacter.toModel();
     }
 
     public String getTownGreeter(String townName, String npcName){
