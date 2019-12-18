@@ -46,13 +46,6 @@ public class PlayerCharacter implements Serializable {
     
     private boolean inCombat = false;
 
-    //Columns needed if choices differ each time. Save function that resets to 0?
-    private String combatChoice = "0";
-
-    private int travelChoice = 0;
-
-    private int townChoice = 0;
-
     @OneToOne
     @JoinColumn(name = "town_id")
     private Town currentTown;

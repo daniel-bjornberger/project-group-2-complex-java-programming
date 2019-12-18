@@ -108,7 +108,6 @@ public class PlayerCharacterController {
         }
     }
 
-
     @PostMapping(value = "/fightoption", produces = MediaType.APPLICATION_JSON_VALUE)
     public ServerResponse combat(@RequestBody ClientResponse clientResponse) {
 
