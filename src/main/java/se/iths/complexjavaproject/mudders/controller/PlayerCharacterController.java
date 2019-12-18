@@ -13,6 +13,8 @@ import se.iths.complexjavaproject.mudders.exception.BadDataException;
 import se.iths.complexjavaproject.mudders.exception.InvalidJsonDataException;
 import se.iths.complexjavaproject.mudders.model.PlayerCharacterModel;
 import se.iths.complexjavaproject.mudders.repository.PlayerCharacterRepository;
+import se.iths.complexjavaproject.mudders.responsemodel.ClientResponse;
+import se.iths.complexjavaproject.mudders.responsemodel.ServerResponse;
 import se.iths.complexjavaproject.mudders.service.PlayerCharacterService;
 import se.iths.complexjavaproject.mudders.service.TownService;
 import se.iths.complexjavaproject.mudders.service.TravelService;
