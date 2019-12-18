@@ -23,6 +23,9 @@ public class TravelService {
     CombatService combatService;
 
     @Autowired
+    MonsterService monsterService;
+
+    @Autowired
     World world;
 
     @Autowired
@@ -54,11 +57,15 @@ public class TravelService {
     public PlayerCharacter encounter(PlayerCharacter playerCharacter){
         //Loop
         if(!playerCharacter.isInCombat()) {
-            monsterModel = MonsterService.createNewRandomMonster(playerCharacter.getLevel());
+            try {
+                monsterModel = monsterService.createNewRandomMonster(playerCharacter.getLevel());
+            } catch (BadDataException e) {
+                e.printStackTrace();
+            }
         }
         //Send message:
-        System.out.println("You are being ambushed by a " + monsterModel.getName()
-                + "\n Escape or Attack?");
+        System.out.println("You are being ambushed by a " + monsterModel.getName() + " with " +
+                monsterModel.getHealth() + " health and " + monsterModel.getDamage() + " damage!");
         playerCharacter.setInCombat(true);
         combatService.fight(playerCharacter, monsterModel);
         /*if (playerCharacterController.getUserChoice().contains("1"))

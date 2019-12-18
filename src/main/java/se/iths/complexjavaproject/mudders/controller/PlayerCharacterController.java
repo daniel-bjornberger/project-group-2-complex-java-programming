@@ -3,7 +3,6 @@ package se.iths.complexjavaproject.mudders.controller;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
@@ -45,11 +44,11 @@ public class PlayerCharacterController {
 
     @GetMapping(path = "/all")
     public ResponseEntity getAllPlayers() {
-        try{
+        try {
             Iterable<PlayerCharacter> findAllPlayers = playerCharacterRepository.findAll();
             return ResponseEntity.ok().body(findAllPlayers);
         }
-        catch(Exception e){
+        catch(Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
@@ -70,8 +69,7 @@ public class PlayerCharacterController {
         }
     }
 
-
-    @GetMapping(path = "/find")
+    @GetMapping(path = "/travel")
     public ResponseEntity getTravelPlayerByName(@RequestBody String characterName) {
         try {
             PlayerCharacterModel playerCharacterModel = travelService.travel(characterName);
@@ -96,42 +94,13 @@ public class PlayerCharacterController {
         }
     }
 
-
-    @PostMapping(value = "/fightoption", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ServerResponse combat(@RequestBody ClientResponse clientResponse) {
-
-        System.out.println(clientResponse.getCharacterName());
-
-        System.out.println(clientResponse.getOption());
-
-        if (clientResponse.empty()) {
-            throw new InvalidJsonDataException();
-        }
-
-        return new ServerResponse("attack, " + clientResponse.getCharacterName()
-                + ", " +clientResponse.getOption(), false, true, false, true);
-
-    }
-
-    @GetMapping(path = "/tavern")
-    public ResponseEntity playerVisitTavern(@RequestBody String characterName){
-        try{
-            PlayerCharacterModel playerCharacterModel = townService.visitTavern(characterName);
-            return ResponseEntity
-                    .status(HttpStatus.OK)
-                    .body(playerCharacterModel);
-        } catch (Exception e) {
-            return  ResponseEntity.status(HttpStatus.NOT_FOUND).body(e);
-        }
-    }
-
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping(path = "/delete")
     public void removePlayer(@RequestParam String characterName){
-        try{
-            playerCharacterRepository.deletePlayerCharacterByCharacterName(characterName);
-
-        }catch (Exception e){
+        try {
+            PlayerCharacter character = playerCharacterRepository.findByCharacterName(characterName);
+            playerCharacterRepository.delete(character);
+        } catch (Exception e) {
             ResponseEntity.badRequest().body(e.getMessage());
         }
     }
