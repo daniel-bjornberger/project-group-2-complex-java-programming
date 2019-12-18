@@ -54,21 +54,6 @@ public class PlayerCharacterController {
         }
     }
 
-    @PostMapping(path = "choice")
-    public ResponseEntity playerCombatChoice(@RequestBody int choice, String characterName){
-        try {
-            playerCharacterService.choice(choice, characterName);
-            return ResponseEntity
-                    .status(HttpStatus.OK)
-                    .body(choice);
-        }catch (Exception e){
-            return ResponseEntity
-                    .status(HttpStatus.CONFLICT)
-                    .body(e.getMessage());
-        }
-        return "0";
-    }
-
     @PostMapping(path = "/add")
     public ResponseEntity addNewPlayerCharacter (@RequestBody String characterName){
         try {
