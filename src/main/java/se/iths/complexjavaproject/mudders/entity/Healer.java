@@ -8,8 +8,7 @@ import se.iths.complexjavaproject.mudders.repository.PlayerCharacterRepository;
 import se.iths.complexjavaproject.mudders.service.PlayerCharacterService;
 import se.iths.complexjavaproject.mudders.service.TownService;
 
-@Service
-public class Healer extends NonPlayerCharacter implements INpcVariety{
+public class Healer extends NonPlayerCharacter implements NpcHealer {
 
 
     private static final long serialVersionUID = 8106546763483546385L;

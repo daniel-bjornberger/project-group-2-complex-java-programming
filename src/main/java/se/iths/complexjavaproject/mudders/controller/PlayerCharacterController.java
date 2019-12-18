@@ -128,6 +128,17 @@ public class PlayerCharacterController {
 
     }
 
+    @GetMapping(path = "/tavern")
+    public ResponseEntity playerVisitTavern(@RequestBody String characterName){
+        try{
+            PlayerCharacterModel playerCharacterModel = townService.visitTavern(characterName);
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(playerCharacterModel);
+        } catch (Exception e) {
+            return  ResponseEntity.status(HttpStatus.NOT_FOUND).body(e);
+        }
+    }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping(path = "/delete")
