@@ -1,4 +1,4 @@
-package se.iths.complexjavaproject.mudders.controller;
+package se.iths.complexjavaproject.mudders.responsemodel;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

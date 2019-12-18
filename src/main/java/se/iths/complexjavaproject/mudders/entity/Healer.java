@@ -1,6 +1,11 @@
 package se.iths.complexjavaproject.mudders.entity;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import se.iths.complexjavaproject.mudders.exception.BadDataException;
+import se.iths.complexjavaproject.mudders.model.PlayerCharacterModel;
+import se.iths.complexjavaproject.mudders.repository.PlayerCharacterRepository;
+import se.iths.complexjavaproject.mudders.service.PlayerCharacterService;
 import se.iths.complexjavaproject.mudders.service.TownService;
 
 public class Healer extends NonPlayerCharacter implements NpcHealer {
@@ -11,6 +16,9 @@ public class Healer extends NonPlayerCharacter implements NpcHealer {
     @Autowired
     TownService townService;
 
+    @Autowired
+    PlayerCharacterRepository playerCharacterRepository;
+
     @Override
     public PlayerCharacter doctor(PlayerCharacter player) {
 
@@ -18,7 +26,7 @@ public class Healer extends NonPlayerCharacter implements NpcHealer {
 
         if(player.getCurrency() < price){
             System.out.println("Sorry, you have insufficient funds!");
-            townService.greeterMessage();
+            //townService.greeterMessage();
         }
         else if(player.getCurrency() > price){
             player.setCurrency(player.getCurrency() - price);

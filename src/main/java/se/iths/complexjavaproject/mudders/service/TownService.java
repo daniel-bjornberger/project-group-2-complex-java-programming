@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.StreamReadFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import se.iths.complexjavaproject.mudders.entity.Healer;
 import se.iths.complexjavaproject.mudders.entity.NonPlayerCharacter;
 import se.iths.complexjavaproject.mudders.entity.PlayerCharacter;
 import se.iths.complexjavaproject.mudders.entity.Tavern;
@@ -34,6 +35,12 @@ public class TownService {
 
     @Autowired
     Tavern tavern;
+
+    @Autowired
+    PlayerCharacterRepository playerCharacterRepository;
+
+    @Autowired
+    Healer healer;
 
     @Autowired
     PlayerCharacterRepository playerCharacterRepository;
@@ -92,6 +99,13 @@ public class TownService {
         NonPlayerCharacterModel npcModel = npc.toModel();
 
         return npcModel;
+    }
+
+    public PlayerCharacterModel visitHealer(String characterName) throws BadDataException{
+        PlayerCharacter playerCharacter = playerCharacterRepository.findByCharacterName(PlayerCharacterService.convertToEntity(characterName).getCharacterName());
+        healer.doctor(playerCharacter);
+        playerCharacterRepository.save(playerCharacter);
+        return playerCharacter.toModel();
     }
 
     public String getTownGreeter(String townName, String npcName){

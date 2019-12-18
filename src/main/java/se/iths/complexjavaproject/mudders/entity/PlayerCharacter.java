@@ -5,7 +5,8 @@ import se.iths.complexjavaproject.mudders.model.PlayerCharacterModel;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -38,12 +39,15 @@ public class PlayerCharacter implements Serializable {
     @Column(name = "damage")
     private int damage = 1;
 
+    @Column(name = "home_town")
+    private String homeTown = "VillageOne";
+
     @Column(name = "currency")
     private int currency = 100;
 
     @Column(name = "max_health")
-    private int maxHealth = 10;
-    
+    private int maxHealth = 20;
+
     private boolean inCombat = false;
 
     @OneToOne
