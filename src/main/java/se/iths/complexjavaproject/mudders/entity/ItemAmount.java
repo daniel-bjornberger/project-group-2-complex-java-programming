@@ -10,20 +10,28 @@ import javax.persistence.*;
 public class ItemAmount {
 
     @EmbeddedId
-    private ItemAmountKey id;
+    private ItemAmountId id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("player_character_id")
     @JoinColumn(name = "player_character_id")
     private PlayerCharacter playerCharacter;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("item_id")
     @JoinColumn(name = "item_id")
     private Item item;
 
     @Column(name = "amount")
     private int amount;
-    
+
+    public ItemAmount(PlayerCharacter playerCharacter, Item item) {
+
+        this.playerCharacter = playerCharacter;
+        this.item = item;
+        this.id = new ItemAmountId(playerCharacter.getId(), item.getId());
+        this.amount = 0;
+
+    }
 
 }
