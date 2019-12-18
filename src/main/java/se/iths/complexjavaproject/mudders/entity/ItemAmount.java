@@ -25,12 +25,13 @@ public class ItemAmount {
     @Column(name = "amount")
     private int amount;
 
+
     public ItemAmount(PlayerCharacter playerCharacter, Item item) {
 
         this.playerCharacter = playerCharacter;
         this.item = item;
         this.id = new ItemAmountId(playerCharacter.getId(), item.getId());
-        this.amount = 0;
+        this.amount = 1;
 
     }
 
