@@ -2,8 +2,10 @@ package se.iths.complexjavaproject.mudders.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import se.iths.complexjavaproject.mudders.entity.Monster;
 import se.iths.complexjavaproject.mudders.entity.NonPlayerCharacter;
 import se.iths.complexjavaproject.mudders.entity.Town;
+import se.iths.complexjavaproject.mudders.repository.MonsterRepository;
 import se.iths.complexjavaproject.mudders.repository.NonPlayerCharacterRepository;
 import se.iths.complexjavaproject.mudders.repository.TownRepository;
 
@@ -20,8 +22,11 @@ public class StartupService {
     @Autowired
     TownRepository townRepository;
 
+    @Autowired
+    MonsterRepository monsterRepository;
+
     public void populateDbIfNeeded() {
-        if (isRepositoriesEmpty()) {
+        if (isTownAndNPCRepositoryEmpty()) {
             //		================= Create Towns and NPCs =================
 
             //			TODO: Create Towns
@@ -62,9 +67,28 @@ public class StartupService {
             townRepository.save(secondTown);
 
         }
+
+        if (isMonsterRepositoryEmpty()) {
+            //      ================= Create Monsters =================
+            Monster skeleton = new Monster();
+            skeleton.setName("Skeleton");
+            monsterRepository.save(skeleton);
+
+            Monster zombie = new Monster();
+            zombie.setName("Zombie");
+            monsterRepository.save(zombie);
+
+            Monster wolf = new Monster();
+            wolf.setName("Wolf");
+            monsterRepository.save(wolf);
+        }
     }
 
-    private boolean isRepositoriesEmpty() {
+    private boolean isTownAndNPCRepositoryEmpty() {
         return npcRepository.count() == 0 && townRepository.count() == 0;
+    }
+
+    private boolean isMonsterRepositoryEmpty() {
+        return monsterRepository.count() == 0;
     }
 }

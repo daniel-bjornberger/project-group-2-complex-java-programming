@@ -5,8 +5,6 @@ import se.iths.complexjavaproject.mudders.model.PlayerCharacterModel;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -20,7 +18,7 @@ public class PlayerCharacter implements Serializable {
     private static final long serialVersionUID = 2982112410056449932L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)     // TODO: AUTO eller IDENTITY? Borde vara samma för alla models, eller? /Daniel
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Long id;
 
@@ -34,13 +32,10 @@ public class PlayerCharacter implements Serializable {
     private int level = 1;
 
     @Column(name = "health")
-    private int health = 10;
+    private int health = 20;
 
     @Column(name = "damage")
     private int damage = 1;
-
-    @Column(name = "home_town")
-    private String homeTown = "VillageOne";
 
     @Column(name = "currency")
     private int currency = 100;
@@ -58,12 +53,6 @@ public class PlayerCharacter implements Serializable {
     @Column(name = "user_id")
     private Long id;
     */
-
-    // TODO: Kolumn-namn skrivs med "snake_case"? character_name, home_town?   /Daniel
-    // https://stackoverflow.com/questions/26535614/jpa-naming-convention
-    // https://vladmihalcea.com/map-camel-case-properties-snake-case-column-names-hibernate/
-
-    //TODO: Monster entity
 
     public PlayerCharacterModel toModel() {
         PlayerCharacterModel playerCharacterModel = new PlayerCharacterModel();

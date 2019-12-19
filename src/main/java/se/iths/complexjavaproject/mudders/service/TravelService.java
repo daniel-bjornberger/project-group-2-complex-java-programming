@@ -23,6 +23,9 @@ public class TravelService {
     CombatService combatService;
 
     @Autowired
+    MonsterService monsterService;
+
+    @Autowired
     World world;
 
     @Autowired
@@ -41,7 +44,7 @@ public class TravelService {
         PlayerCharacter playerCharacter = playerCharacterRepository.findByCharacterName(PlayerCharacterService.convertToEntity(requestBody).getCharacterName());
         int diceRoll = ServiceUtilities.generateRandomIntIntRange(1, 20);
         //Travelling to next town.
-        if (diceRoll >= 2) {
+        if (diceRoll >= 11) {
             //might be ambushed
             return encounter(playerCharacter).toModel();
         }
@@ -51,20 +54,19 @@ public class TravelService {
         }
     }
 
-    public PlayerCharacter encounter(PlayerCharacter playerCharacter){
-        //Loop
+    private PlayerCharacter encounter(PlayerCharacter playerCharacter){
         if(!playerCharacter.isInCombat()) {
-            monsterModel = MonsterService.createNewRandomMonster(playerCharacter.getLevel());
+            try {
+                monsterModel = monsterService.createNewRandomMonster(playerCharacter.getLevel());
+            } catch (BadDataException e) {
+                System.out.println(e.getMessage());
+            }
         }
         //Send message:
-        System.out.println("You are being ambushed by a " + monsterModel.getName()
-                + "\n Escape or Attack?");
+        System.out.println("You are being ambushed by a " + monsterModel.getName() + " with " +
+                monsterModel.getHealth() + " health and " + monsterModel.getDamage() + " damage!");
         playerCharacter.setInCombat(true);
         combatService.fight(playerCharacter, monsterModel);
-        /*if (playerCharacterController.getUserChoice().contains("1"))
-            System.out.println("========== !!! ==========");*/
-
-//        return combatService.fight(playerCharacter.toModel(), monsterModel);
         playerCharacterRepository.save(playerCharacter);
         return playerCharacter;
     }
@@ -72,11 +74,9 @@ public class TravelService {
     public PlayerCharacter potOfGold(PlayerCharacter playerCharacter){
         int coinsGained = ServiceUtilities.generateRandomIntIntRange(1, 5);
         System.out.println("======== You have found " + coinsGained + " gold coins! ========");
-        //TODO: Check if coins gained returns the actual value
         int newCurrencyValue = coinsGained + playerCharacter.getCurrency();
         playerCharacter.setCurrency(newCurrencyValue);
 
-        //daysToTown =- 1;
         playerCharacterRepository.save(playerCharacter);
         return playerCharacter;
     }
