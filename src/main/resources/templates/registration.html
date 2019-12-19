@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Registration Page</title>
@@ -15,13 +15,13 @@
            th:text="${error}">Validation error</p>
     </div>
     <div>
-        <label th:text="#{label.user.email}">email</label>
+        <label th:text="#{label.user.email}">Email</label>
         <input type="email" th:field="*{email}"/>
         <p th:each="error : ${#fields.errors('email')}"
            th:text="${error}">Validation error</p>
     </div>
     <div>
-        <label th:text="#{label.user.password}">password</label>
+        <label th:text="#{label.user.password}">Password</label>
         <input type="password" th:field="*{password}"/>
         <p th:each="error : ${#fields.errors('password')}"
            th:text="${error}">Validation error</p>
