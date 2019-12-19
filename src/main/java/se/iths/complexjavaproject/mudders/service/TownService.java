@@ -43,9 +43,6 @@ public class TownService {
     Healer healer;
 
     @Autowired
-    PlayerCharacterRepository playerCharacterRepository;
-
-    @Autowired
     NonPlayerCharacterRepository nonPlayerCharacterRepository;
     /*
      * Blacksmith - Welcome traveller! How can I help you?
@@ -71,7 +68,7 @@ public class TownService {
     }
 
     //Todo: get specific town and the belonging NPC's
-    public TownModel findTown(String townName){
+    private TownModel findTown(String townName){
 
         Town town = townRepository.findTownByTownName(townName);
         TownModel townModel = town.toModel();
@@ -93,7 +90,7 @@ public class TownService {
         return townToReturn;
     }
 
-    public NonPlayerCharacterModel findNpcByName(String name){
+    private NonPlayerCharacterModel findNpcByName(String name){
 
         NonPlayerCharacter npc = nonPlayerCharacterRepository.findByName(name);
         NonPlayerCharacterModel npcModel = npc.toModel();
