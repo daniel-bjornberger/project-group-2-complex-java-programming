@@ -1,4 +1,3 @@
-/*
 
 package se.iths.complexjavaproject.mudders.security;
 
@@ -17,64 +16,37 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private UserDetailsService userDetailsService;
-
     @Override
-    protected void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity
-                .authorizeRequests()
-                    .antMatchers("/", "home").permitAll()
-                    .anyRequest().authenticated()
-                    .and()
-                .formLogin()
-                    .loginPage("/login")
-                    .permitAll()
-                    .and()
-                .logout()
-                    .permitAll();
-    }
-
-
-*/
-
-/*
-    @Override
-    protected void configure(HttpSecurity httpSecurity) throws Exception {
-
-        httpSecurity
-                .authorizeRequests()
-                    .antMatchers("/login*").permitAll()
-                    .antMatchers("/admin/**").hasRole("ADMIN")
-                    .anyRequest().authenticated()
-                    .and()
-                .formLogin()
-                    .loginPage("/login")                                // TODO: Eller "/login.html"
-                    .loginProcessingUrl("/perform_login")
-                    .defaultSuccessUrl("/playercharacter", true)
-                    //.failureUrl("/login.html?error=true")
-                    .and()
-                .logout()
-                    .permitAll();
-
-    }
-
-
-    @Override
-    protected void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-
-        authenticationManagerBuilder.inMemoryAuthentication()
-                .withUser("user1").password(passwordEncoder().encode("user1pw")).roles("USER")
+    protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
+        auth.inMemoryAuthentication()
+                .withUser("user1").password(passwordEncoder().encode("user1Pass")).roles("USER")
                 .and()
-                .withUser("user2").password(passwordEncoder().encode("user2pw")).roles("USER")
-                .and()
-                .withUser("admin").password(passwordEncoder().encode("adminpw")).roles("USER", "ADMIN");
-
+                .withUser("admin").password(passwordEncoder().encode("adminPass")).roles("ADMIN");
     }
 
+    @Override
+    protected void configure(final HttpSecurity httpSecurity) throws Exception{
+        httpSecurity
+                .csrf().disable()
+                .authorizeRequests()
+                .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/anonymous*").anonymous()
+                .antMatchers("/login*").permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .formLogin()
+                .loginPage("login.html")
+                .loginProcessingUrl("/perform_login")
+                .defaultSuccessUrl("/player/create")
+                .and()
+                .logout()
+                .logoutUrl("/perform_logout")
+                .deleteCookies("JSESSIONID");
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-*/
+
+}
