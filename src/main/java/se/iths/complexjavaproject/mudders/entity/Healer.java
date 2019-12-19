@@ -8,6 +8,9 @@ import se.iths.complexjavaproject.mudders.repository.PlayerCharacterRepository;
 import se.iths.complexjavaproject.mudders.service.PlayerCharacterService;
 import se.iths.complexjavaproject.mudders.service.TownService;
 
+import java.sql.SQLOutput;
+
+@Service
 public class Healer extends NonPlayerCharacter implements NpcHealer {
 
 
@@ -29,6 +32,7 @@ public class Healer extends NonPlayerCharacter implements NpcHealer {
             //townService.greeterMessage();
         }
         else if(player.getCurrency() > price){
+            System.out.println("Oh no! You're bleeding! Medic!! Man Down!");
             player.setCurrency(player.getCurrency() - price);
             player.setHealth(player.getMaxHealth());
             //future use a variable called max health to heal when health has increased.
