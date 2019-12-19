@@ -37,7 +37,7 @@ public class UserController {
 
         User registered = new User();
         if (!result.hasErrors()) {
-            registered = createUserAccount(userModel, result);
+            registered = createUserAccount(userModel, result).toEntity();
         }
         if (registered == null) {
             result.rejectValue("email", "message.regError");
@@ -50,14 +50,14 @@ public class UserController {
         }
     }
 
-    private User createUserAccount(UserModel userModel, BindingResult result) {
+    private UserModel createUserAccount(UserModel userModel, BindingResult result) {
         User registered = null;
         try {
             registered = userService.registerNewUserAccount(userModel);
         } catch (EmailExistsException e) {
             return null;
         }
-        return registered;
+        return registered.toModel();
     }
 
 }

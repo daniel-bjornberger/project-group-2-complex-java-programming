@@ -2,12 +2,15 @@ package se.iths.complexjavaproject.mudders.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import se.iths.complexjavaproject.mudders.entity.Role;
 import se.iths.complexjavaproject.mudders.entity.User;
 import se.iths.complexjavaproject.mudders.security.PasswordMatches;
 import se.iths.complexjavaproject.mudders.security.ValidEmail;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.Arrays;
+import java.util.List;
 
 @Getter
 @Setter

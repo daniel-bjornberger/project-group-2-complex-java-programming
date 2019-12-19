@@ -6,6 +6,8 @@ import se.iths.complexjavaproject.mudders.model.UserModel;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.Collection;
+import java.util.List;
 
 
 @Getter
@@ -39,17 +41,15 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    /*TODO: Add roles to user for specific priveleges
-    @Column(name = "role")
-    private String role;
-    */
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+    private List<Role> roles;
 
     public UserModel toModel(){
         UserModel userModel = new UserModel();
         userModel.setEmail(getEmail());
         userModel.setFullName(getFullName());
         userModel.setPassword(getPassword());
-        //userModel.setRole(getRole());
         return userModel;
     }
 
