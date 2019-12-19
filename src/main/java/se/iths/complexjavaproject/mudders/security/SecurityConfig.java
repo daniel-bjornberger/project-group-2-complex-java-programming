@@ -31,15 +31,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity
                 .csrf().disable()
                 .authorizeRequests()
+                .antMatchers("/user/registration*").permitAll()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/anonymous*").anonymous()
                 .antMatchers("/login*").permitAll()
                 .anyRequest().authenticated()
+
                 .and()
                 .formLogin()
-                .loginPage("/login.html")
-                .loginProcessingUrl("/perform_login")
-                .defaultSuccessUrl("/player/create")
+               // .loginPage("/login.html")
+                .loginProcessingUrl("/playercharacter.html")
+                .defaultSuccessUrl("/playercharacter.html",true)
+                .failureUrl("/login.html?error=true")
+
                 .and()
                 .logout()
                 .logoutUrl("/perform_logout")

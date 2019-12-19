@@ -2,6 +2,7 @@ package se.iths.complexjavaproject.mudders.model;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import se.iths.complexjavaproject.mudders.entity.Role;
 import se.iths.complexjavaproject.mudders.entity.User;
 import se.iths.complexjavaproject.mudders.security.PasswordMatches;
@@ -14,6 +15,7 @@ import java.util.List;
 
 @Getter
 @Setter
+@ToString
 @PasswordMatches
 public class UserModel {
 
@@ -21,7 +23,8 @@ public class UserModel {
     @NotNull
     private String fullName;
 
-    @ValidEmail
+    //TODO: Fråga björn om hjälp, ger error
+    //@ValidEmail
     @NotEmpty
     @NotNull
     private String email;

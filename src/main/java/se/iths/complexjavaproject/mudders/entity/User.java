@@ -12,7 +12,7 @@ import java.util.List;
 
 @Getter
 @Setter
-@Table(name = "player_character")
+@Table(name = "user")
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
