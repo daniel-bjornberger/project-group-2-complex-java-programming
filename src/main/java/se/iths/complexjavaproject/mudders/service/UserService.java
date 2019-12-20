@@ -60,6 +60,7 @@ public class UserService implements IUserService {
             user.setFullName(userModel.getFullName());
             user.setEmail(userModel.getEmail());
             user.setPassword(passwordEncoder.encode(userModel.getPassword()));
+            user.setRoles(userModel.getRole());
             return userRepository.save(user);
             // the rest of the registration operation
         }
