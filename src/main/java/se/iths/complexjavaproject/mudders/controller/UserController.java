@@ -22,15 +22,15 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    @RequestMapping(value = "/registration", method = RequestMethod.GET)
+    @RequestMapping(value = "/reg", method = RequestMethod.GET)
     public String showRegistrationForm(WebRequest request, Model model) {
         UserModel userModel = new UserModel();
         model.addAttribute("user", userModel);
-        return "registration";
+        return "reg";
     }
 
 
-    @RequestMapping(path = "/registration", method = RequestMethod.POST)
+    @RequestMapping(path = "/reg", method = RequestMethod.POST)
     public ModelAndView registerUserAccount(
             @ModelAttribute("user") @Valid UserModel userModel,
             BindingResult result,
@@ -50,7 +50,7 @@ public class UserController {
             System.out.println("££££££££££££££££££££££££££££££££££");
             System.out.println("Result: "+result);
             System.out.println("Registered: "+registered);
-            return new ModelAndView("registration", "user", userModel);
+            return new ModelAndView("reg", "user", userModel);
         }
         else {
             System.out.println("€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€");
