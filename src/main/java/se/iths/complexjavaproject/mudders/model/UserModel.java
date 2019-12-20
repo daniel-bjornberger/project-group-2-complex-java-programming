@@ -37,13 +37,4 @@ public class UserModel {
     @NotNull
     private String matchingPassword;
 
-    public User toEntity(){
-        User user = new User();
-        user.setEmail(getEmail());
-        user.setPassword(getPassword());
-        user.setFullName(getFullName());
-        user.setRoles(getRole());
-        return user;
-    }
-
 }

@@ -1,9 +1,6 @@
 package se.iths.complexjavaproject.mudders.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import se.iths.complexjavaproject.mudders.entity.User;
@@ -20,32 +17,7 @@ public class UserService implements IUserService {
     UserRepository userRepository;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private UserDetailsService userDetailsService;
-/*
-    public static User convertToEntity (String playerJson) throws BadDataException {
-        User user = new User();
-        ObjectMapper objectMapper = new ObjectMapper();
-
-        try {
-            user = objectMapper.readValue(playerJson, User.class);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-        if (user.getFullName().isBlank()) {
-            throw new BadDataException("No name entered!");
-        }
-        if (user.getPassword().isBlank()){
-            throw new BadDataException("No password entered!");
-        }
-        if (user.getEmail().isBlank()){
-            throw new BadDataException("No email entered");
-        }
-        return user;
-    }
-*/
+    PasswordEncoder passwordEncoder;
 
     @Transactional
     @Override
@@ -77,10 +49,7 @@ public class UserService implements IUserService {
 
     private boolean emailExist(String email) {
         User user = userRepository.findByEmail(email);
-        if (user != null) {
-            return true;
-        }
-        return false;
+        return user != null;
     }
 
 }
