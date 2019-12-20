@@ -9,7 +9,7 @@
 <h1 th:text="#{label.form.title}">User Registration</h1>
 <form action="/user/registration" th:object="${user}" method="POST" enctype="utf8">
     <div>
-        <label th:text="#{label.user.fullName}">Full name</label>
+        <label th:text="#{user.fullName}">Full name</label>
         <input type="text" th:field="*{fullName}"/>
         <p th:each="error: ${#fields.errors('fullName')}"
            th:text="${error}">Validation error</p>
