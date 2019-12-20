@@ -28,6 +28,10 @@
 		</developer>
 		<developer>
 			<name>Tonny Frisk</name>
+			<email>tonny035@hotmail.com</email>
+			<roles>
+				<role>Java-developer</role>
+			</roles>
 		</developer>
 		<developer>
 			<name>Daniel Björnberger</name>
@@ -102,6 +106,7 @@
 		</dependency>-->
 
 
+	<!-- Thymeleaf -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>

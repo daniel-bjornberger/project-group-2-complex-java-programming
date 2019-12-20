@@ -19,16 +19,15 @@ import java.util.List;
 @Entity
 public class User {
 
-    @NotNull
-    @NotEmpty
-    @Column(name = "full_name")
-    private String fullName;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
+    @NotNull
+    @NotEmpty
+    @Column(name = "full_name")
+    private String fullName;
 
     @NotNull
     @NotEmpty
@@ -41,15 +40,17 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
-    private List<Role> roles;
+    @NotNull
+    @NotEmpty
+    @Column(name = "role")
+    private String roles;
 
     public UserModel toModel(){
         UserModel userModel = new UserModel();
         userModel.setEmail(getEmail());
         userModel.setFullName(getFullName());
         userModel.setPassword(getPassword());
+        userModel.setRole(getRoles());
         return userModel;
     }
 
