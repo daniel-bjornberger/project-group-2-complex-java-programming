@@ -41,15 +41,6 @@ public class MyUserDetailsService implements UserDetailsService {
                         getAuthorities(user.getRoles()));
     }
 
-    /*
-    @Bean
-    public DaoAuthenticationProvider authProvider(PasswordEncoder passwordEncoder) {
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(userDetailsService);
-        authProvider.setPasswordEncoder(passwordEncoder);
-        return authProvider;
-    }
-*/
     private static List<GrantedAuthority> getAuthorities (String roles) {
         List<GrantedAuthority> authorities = new ArrayList<>();
             authorities.add(new SimpleGrantedAuthority(roles));

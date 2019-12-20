@@ -25,7 +25,7 @@ public class UserService implements IUserService {
 
         if (emailExist(userModel.getEmail())) {
             throw new EmailExistsException(
-                    "There is an account with that email adress: "
+                    "There is an account with that email address: "
                             + userModel.getEmail());
         } else {
             final User user = new User();
@@ -34,17 +34,7 @@ public class UserService implements IUserService {
             user.setPassword(passwordEncoder.encode(userModel.getPassword()));
             user.setRoles(userModel.getRole());
             return userRepository.save(user);
-            // the rest of the registration operation
         }
-    }
-
-
-    @Bean
-    public DaoAuthenticationProvider authProvider() {
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(userDetailsService);
-        authProvider.setPasswordEncoder(passwordEncoder);
-        return authProvider;
     }
 
     private boolean emailExist(String email) {

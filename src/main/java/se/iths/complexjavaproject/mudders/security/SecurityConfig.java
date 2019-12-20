@@ -8,24 +8,19 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import se.iths.complexjavaproject.mudders.service.MyUserDetailsService;
-import se.iths.complexjavaproject.mudders.service.UserService;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private MyUserDetailsService myUserDetailsService;
+    private final MyUserDetailsService myUserDetailsService;
 
     @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-                .withUser("user1").password(passwordEncoder().encode("user1Pass"))
-                .authorities("ROLE_USER");
+    public SecurityConfig(MyUserDetailsService myUserDetailsService) {
+        this.myUserDetailsService = myUserDetailsService;
     }
 
     @Override
@@ -45,12 +40,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                //.loginPage("/login.html")
+                .loginPage("/login")
                 .loginProcessingUrl("/perform_login")
                 .defaultSuccessUrl("/playercharacter", true)
                 .failureUrl("/login.html?error=true")
                 .and()
                 .logout()
+                .logoutUrl("/logout")
                 .logoutUrl("/perform_logout")
                 .deleteCookies("JSESSIONID");
     }
