@@ -1,11 +1,12 @@
 package se.iths.complexjavaproject.mudders.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import se.iths.complexjavaproject.mudders.entity.User;
-import se.iths.complexjavaproject.mudders.exception.BadDataException;
 import se.iths.complexjavaproject.mudders.exception.EmailExistsException;
 import se.iths.complexjavaproject.mudders.model.UserModel;
 import se.iths.complexjavaproject.mudders.repository.UserRepository;
@@ -17,6 +18,12 @@ public class UserService implements IUserService {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private UserDetailsService userDetailsService;
 /*
     public static User convertToEntity (String playerJson) throws BadDataException {
         User user = new User();
@@ -47,11 +54,24 @@ public class UserService implements IUserService {
         if (emailExist(userModel.getEmail())) {
             throw new EmailExistsException(
                     "There is an account with that email adress: "
-                            +  userModel.getEmail());
+                            + userModel.getEmail());
+        } else {
+            final User user = new User();
+            user.setFullName(userModel.getFullName());
+            user.setEmail(userModel.getEmail());
+            user.setPassword(passwordEncoder.encode(userModel.getPassword()));
+            return userRepository.save(user);
+            // the rest of the registration operation
         }
-        else
-           return userRepository.save(userModel.toEntity());
-        // the rest of the registration operation
+    }
+
+
+    @Bean
+    public DaoAuthenticationProvider authProvider() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(userDetailsService);
+        authProvider.setPasswordEncoder(passwordEncoder);
+        return authProvider;
     }
 
     private boolean emailExist(String email) {

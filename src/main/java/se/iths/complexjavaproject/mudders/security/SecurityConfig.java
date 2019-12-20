@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import se.iths.complexjavaproject.mudders.service.MyUserDetailsService;
+import se.iths.complexjavaproject.mudders.service.UserService;
 
 @Configuration
 @EnableWebSecurity
@@ -20,10 +21,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private MyUserDetailsService myUserDetailsService;
 
+    @Autowired
+    private UserService userService;
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth)
             throws Exception {
         auth.userDetailsService(myUserDetailsService);
+        auth.authenticationProvider(userService.authProvider());
     }
 
     @Override
@@ -39,9 +44,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .and()
                 .formLogin()
-               // .loginPage("/login.html")
-                .loginProcessingUrl("/playercharacter.html")
-                .defaultSuccessUrl("/playercharacter.html",true)
+                .loginPage("/login.html")
+                .loginProcessingUrl("/perform_login")
+                .defaultSuccessUrl("/homepage.html",true)
                 .failureUrl("/login.html?error=true")
 
                 .and()
