@@ -20,9 +20,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private MyUserDetailsService myUserDetailsService;
 
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        auth.inMemoryAuthentication()
+                .withUser("user1").password(passwordEncoder().encode("user1Pass"))
+                .authorities("ROLE_USER");
+    }
+
     @Override
-    protected void configure(AuthenticationManagerBuilder auth)
-            throws Exception {
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(myUserDetailsService);
     }
 
@@ -36,14 +42,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/anonymous*").anonymous()
                 .antMatchers("/login*").permitAll()
                 .anyRequest().authenticated()
-
                 .and()
                 .formLogin()
-               // .loginPage("/login.html")
-                .loginProcessingUrl("/playercharacter.html")
-                .defaultSuccessUrl("/playercharacter.html",true)
+                //.loginPage("/login.html")
+                .loginProcessingUrl("/perform_login")
+                .defaultSuccessUrl("/playercharacter", true)
                 .failureUrl("/login.html?error=true")
-
                 .and()
                 .logout()
                 .logoutUrl("/perform_logout")

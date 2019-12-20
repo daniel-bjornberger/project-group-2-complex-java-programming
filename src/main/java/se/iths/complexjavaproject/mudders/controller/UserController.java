@@ -40,7 +40,7 @@ public class UserController {
         User registered = new User();
         if (!result.hasErrors()) {
             System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            registered = createUserAccount(userModel, result).toEntity();
+            registered = createUserAccount(userModel, result);
         }
         if (registered == null) {
             System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
@@ -54,19 +54,19 @@ public class UserController {
         }
         else {
             System.out.println("€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€€");
-            return new ModelAndView("successRegister", "user", userModel);
+            return new ModelAndView("login", "user", userModel);
         }
     }
 
-    private UserModel createUserAccount(UserModel userModel, BindingResult result) {
-        User registered = null;
+    private User createUserAccount(UserModel userModel, BindingResult result) {
+        User registered;
         try {
             registered = userService.registerNewUserAccount(userModel);
             System.out.println(registered);
         } catch (EmailExistsException e) {
             return null;
         }
-        return registered.toModel();
+        return registered;
     }
 
 }

@@ -3,6 +3,7 @@ package se.iths.complexjavaproject.mudders.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import se.iths.complexjavaproject.mudders.entity.User;
 import se.iths.complexjavaproject.mudders.exception.BadDataException;
@@ -17,28 +18,9 @@ public class UserService implements IUserService {
 
     @Autowired
     UserRepository userRepository;
-/*
-    public static User convertToEntity (String playerJson) throws BadDataException {
-        User user = new User();
-        ObjectMapper objectMapper = new ObjectMapper();
 
-        try {
-            user = objectMapper.readValue(playerJson, User.class);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-        if (user.getFullName().isBlank()) {
-            throw new BadDataException("No name entered!");
-        }
-        if (user.getPassword().isBlank()){
-            throw new BadDataException("No password entered!");
-        }
-        if (user.getEmail().isBlank()){
-            throw new BadDataException("No email entered");
-        }
-        return user;
-    }
-*/
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     @Transactional
     @Override
@@ -49,17 +31,21 @@ public class UserService implements IUserService {
                     "There is an account with that email adress: "
                             +  userModel.getEmail());
         }
-        else
-           return userRepository.save(userModel.toEntity());
-        // the rest of the registration operation
+        else {
+            // the rest of the registration operation
+
+            final User user = new User();
+            user.setFullName(userModel.getFullName());
+            user.setEmail(userModel.getEmail());
+            user.setPassword(passwordEncoder.encode(userModel.getPassword()));
+
+            return userRepository.save(user);
+        }
     }
 
     private boolean emailExist(String email) {
         User user = userRepository.findByEmail(email);
-        if (user != null) {
-            return true;
-        }
-        return false;
+        return user != null;
     }
 
 }
