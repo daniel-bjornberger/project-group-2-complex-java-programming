@@ -6,6 +6,16 @@
 </head>
 <body>
 
+<!--<h1 th:text="label">User Registration</h1>
+
+<form action="/action_page.php">
+    Full name: <input type="text" name="fullName"><br>
+    Email: <input type="email" name="email"><br>
+    Password: <input type="password" name="password"><br>
+    <input type="submit" value="Submit">
+
+</form>-->
+
 <h1 th:text="#{label.form.title}">User Registration</h1>
 <form action="/user/registration" th:object="${user}" method="POST" enctype="utf8">
     <div>
@@ -34,6 +44,7 @@
 </form>
 
 <a th:href="@{/login.html}" th:text="#{label.form.loginLink}">login</a>
+
 
 </body>
 </html>
