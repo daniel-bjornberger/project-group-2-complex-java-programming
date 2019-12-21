@@ -22,9 +22,6 @@ public class TownService {
     TownRepository townRepository;
 
     @Autowired
-    World world;
-
-    @Autowired
     Tavern tavern;
 
     @Autowired
@@ -40,12 +37,12 @@ public class TownService {
      * */
 
     //Todo: get specific town and the belonging NPC's
-    private TownModel findTown(String townName){
+    public Town findTown(String townName){
+        return townRepository.findTownByTownName(townName);
+    }
 
-        Town town = townRepository.findTownByTownName(townName);
-        TownModel townModel = town.toModel();
-
-        return townModel;
+    public void saveTown(Town town) {
+        townRepository.save(town);
     }
 
     public List<TownModel> getAllTownsAndNpc(){
