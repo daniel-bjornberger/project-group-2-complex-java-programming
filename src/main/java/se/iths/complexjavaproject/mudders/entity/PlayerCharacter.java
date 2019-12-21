@@ -45,14 +45,14 @@ public class PlayerCharacter implements Serializable {
 
     private boolean inCombat = false;
 
-    @OneToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "town_id")
     private Town currentTown;
 
-    /*TODO: Add one to one relation with user to keep track of owner
+    /*@OneToOne
     @Column(name = "user_id")
-    private Long id;
-    */
+    private User userId;*/
+
 
     public PlayerCharacterModel toModel() {
         PlayerCharacterModel playerCharacterModel = new PlayerCharacterModel();
