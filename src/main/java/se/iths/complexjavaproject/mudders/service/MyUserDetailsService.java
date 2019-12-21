@@ -18,16 +18,19 @@ import java.util.List;
 @Transactional
 public class MyUserDetailsService implements UserDetailsService {
 
+    private final UserRepository userRepository;
+
     @Autowired
-    private UserRepository userRepository;
+    public MyUserDetailsService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
         User user = userRepository.findByEmail(email);
 
         if (user == null) {
-            throw new UsernameNotFoundException(
-                    "No user found with username: "+ email);
+            throw new UsernameNotFoundException("No user found with username: "+ email);
         }
 
         boolean enabled = true;
