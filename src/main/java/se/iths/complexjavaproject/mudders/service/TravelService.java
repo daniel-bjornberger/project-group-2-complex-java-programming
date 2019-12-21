@@ -2,7 +2,6 @@ package se.iths.complexjavaproject.mudders.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import se.iths.complexjavaproject.mudders.controller.PlayerCharacterController;
 import se.iths.complexjavaproject.mudders.entity.PlayerCharacter;
 import se.iths.complexjavaproject.mudders.exception.BadDataException;
 import se.iths.complexjavaproject.mudders.model.MonsterModel;
@@ -26,10 +25,7 @@ public class TravelService {
     MonsterService monsterService;
 
     @Autowired
-    World world;
-
-    @Autowired
-    PlayerCharacterController playerCharacterController;
+    PlayerCharacterService playerCharacterService;
 
     MonsterModel monsterModel;
 
@@ -55,6 +51,7 @@ public class TravelService {
     }
 
     private PlayerCharacter encounter(PlayerCharacter playerCharacter){
+
         if(!playerCharacter.isInCombat()) {
             try {
                 monsterModel = monsterService.createNewRandomMonster(playerCharacter.getLevel());
@@ -62,16 +59,17 @@ public class TravelService {
                 System.out.println(e.getMessage());
             }
         }
-        //Send message:
+
         System.out.println("You are being ambushed by a " + monsterModel.getName() + " with " +
                 monsterModel.getHealth() + " health and " + monsterModel.getDamage() + " damage!");
+
         playerCharacter.setInCombat(true);
         combatService.fight(playerCharacter, monsterModel);
         playerCharacterRepository.save(playerCharacter);
         return playerCharacter;
     }
 
-    public PlayerCharacter potOfGold(PlayerCharacter playerCharacter){
+    private PlayerCharacter potOfGold(PlayerCharacter playerCharacter){
         int coinsGained = ServiceUtilities.generateRandomIntIntRange(1, 5);
         System.out.println("======== You have found " + coinsGained + " gold coins! ========");
         int newCurrencyValue = coinsGained + playerCharacter.getCurrency();
