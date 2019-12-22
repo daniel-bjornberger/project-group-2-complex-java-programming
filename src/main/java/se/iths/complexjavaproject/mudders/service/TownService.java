@@ -6,64 +6,48 @@ import se.iths.complexjavaproject.mudders.entity.*;
 import se.iths.complexjavaproject.mudders.exception.BadDataException;
 import se.iths.complexjavaproject.mudders.model.NonPlayerCharacterModel;
 import se.iths.complexjavaproject.mudders.model.PlayerCharacterModel;
-import se.iths.complexjavaproject.mudders.model.TownModel;
 import se.iths.complexjavaproject.mudders.repository.NonPlayerCharacterRepository;
 import se.iths.complexjavaproject.mudders.repository.PlayerCharacterRepository;
 import se.iths.complexjavaproject.mudders.repository.TownRepository;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class TownService {
 
-    @Autowired
-    TownRepository townRepository;
+    private final TownRepository townRepository;
+    private final Tavern tavern;
+    private final PlayerCharacterRepository playerCharacterRepository;
+    private final NonPlayerCharacterRepository nonPlayerCharacterRepository;
 
     @Autowired
-    Tavern tavern;
+    public TownService(TownRepository townRepository, Tavern tavern, PlayerCharacterRepository playerCharacterRepository, NonPlayerCharacterRepository nonPlayerCharacterRepository) {
+        this.townRepository = townRepository;
+        this.tavern = tavern;
+        this.playerCharacterRepository = playerCharacterRepository;
+        this.nonPlayerCharacterRepository = nonPlayerCharacterRepository;
+    }
 
-    @Autowired
-    PlayerCharacterRepository playerCharacterRepository;
-
-    @Autowired
-    NonPlayerCharacterRepository nonPlayerCharacterRepository;
-    /*
-     * Blacksmith - Welcome traveller! How can I help you?
-     * Options: fix broken weapon, upgrade weapon.
-     * Smithy
-     *
-     * */
-
-    //Todo: get specific town and the belonging NPC's
-    public Town findTown(String townName){
+    private Town findTown(String townName){
         return townRepository.findTownByTownName(townName);
     }
 
-    public void saveTown(Town town) {
+    Town findById(long id) throws BadDataException {
+        Optional<Town> optionalTown = townRepository.findById(id);
+        if (optionalTown.isPresent()) {
+            return optionalTown.get();
+        }
+        else {
+            throw new BadDataException("Could not find town with id: " + id);
+        }
+    }
+
+    void saveTown(Town town) {
         townRepository.save(town);
     }
 
-    public List<TownModel> getAllTownsAndNpc(){
-
-        Iterable<Town> townIterable = townRepository.findAll();
-        List<Town> towns = new ArrayList<>();
-
-        for (Town town:townIterable) {
-            towns.add(town);
-        }
-
-        return towns.stream().map(Town::toModel).collect(Collectors.toList());
-    }
-
-    private NonPlayerCharacterModel findNpcByName(String name){
-
-        NonPlayerCharacter npc = nonPlayerCharacterRepository.findByName(name);
-        NonPlayerCharacterModel npcModel = npc.toModel();
-
-        return npcModel;
+    private NonPlayerCharacterModel findNpcByName(String name) {
+        return nonPlayerCharacterRepository.findByName(name).toModel();
     }
 
     public PlayerCharacterModel visitHealer(String characterName) throws BadDataException {
@@ -76,8 +60,8 @@ public class TownService {
 
     public String getTownGreeter(String townName, String npcName){
 
-        findTown(townName).getNpcs();
-        findNpcByName(npcName); //get string message
+        /*findTown(townName).getNpcs();
+        findNpcByName(npcName);*/ //get string message
 
         //NPC - Welcome to Town! What do you want do now?
 
@@ -139,13 +123,10 @@ public class TownService {
 
     }
 
-    public Town findById(long id) throws BadDataException {
-        Optional<Town> optionalTown = townRepository.findById(id);
-        if (optionalTown.isPresent()) {
-            return optionalTown.get();
-        }
-        else {
-            throw new BadDataException("Could not find town with id: " + id);
-        }
-    }
+    /*
+     * Blacksmith - Welcome traveller! How can I help you?
+     * Options: fix broken weapon, upgrade weapon.
+     * Smithy
+     *
+     * */
 }
