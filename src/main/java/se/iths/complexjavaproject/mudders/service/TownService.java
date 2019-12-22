@@ -13,6 +13,7 @@ import se.iths.complexjavaproject.mudders.repository.TownRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -136,5 +137,15 @@ public class TownService {
                 break;
         }
 
+    }
+
+    public Town findById(long id) throws BadDataException {
+        Optional<Town> optionalTown = townRepository.findById(id);
+        if (optionalTown.isPresent()) {
+            return optionalTown.get();
+        }
+        else {
+            throw new BadDataException("Could not find town with id: " + id);
+        }
     }
 }

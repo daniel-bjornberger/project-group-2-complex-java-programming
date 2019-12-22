@@ -59,18 +59,21 @@ public class PlayerCharacterService {
 
     public PlayerCharacterModel createNewCharacter(String name, String email) throws BadDataException {
         PlayerCharacter playerCharacter = new PlayerCharacter();
+
         playerCharacter.setCharacterName(name);
         if (playerCharacter.getCharacterName().isBlank()) {
             throw new BadDataException("No name entered");
         }
+
         User user = userService.findUserByEmail(email);
-        Town town = townService.findTown("First"); // TODO maybe change to use id
+        Town town = townService.findById(1L);
+
         playerCharacter.setUserId(user);
         playerCharacter.setCurrentTown(town);
         town.getPlayers().add(playerCharacter);
-        townService.saveTown(town); // town is the parent here, so when we save the town we also save the player.
         user.getCharacters().add(playerCharacter);
-//        userService.saveUser(user); // user is parent.
+        townService.saveTown(town); // town is the parent here, so when we save the town we also save the player and user.
+
         return playerCharacter.toModel();
     }
 }
