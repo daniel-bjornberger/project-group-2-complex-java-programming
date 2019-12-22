@@ -9,6 +9,8 @@ public interface IUserService {
 
     User registerNewUserAccount(UserModel userModel) throws EmailExistsException;
 
+    void saveUser(User user);
+
     User findUserByEmail(String email) throws BadDataException;
 
 }

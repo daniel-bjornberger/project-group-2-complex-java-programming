@@ -42,6 +42,11 @@ public class UserService implements IUserService {
     }
 
     @Override
+    public void saveUser(User user) {
+        userRepository.save(user);
+    }
+
+    @Override
     public User findUserByEmail(String email) throws BadDataException {
         User user = userRepository.findByEmail(email);
         if (user == null) {
