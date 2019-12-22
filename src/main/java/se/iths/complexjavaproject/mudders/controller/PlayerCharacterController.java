@@ -1,9 +1,11 @@
 package se.iths.complexjavaproject.mudders.controller;
 
-import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 import se.iths.complexjavaproject.mudders.entity.PlayerCharacter;
@@ -41,17 +43,15 @@ public class PlayerCharacterController {
     }
 
     @PostMapping(path = "/add")
-    public ResponseEntity addNewPlayerCharacter (@RequestBody String characterName){
+    public ResponseEntity addNewPlayerCharacter (@RequestParam String characterName) {
         try {
-            /*PlayerCharacterModel playerCharacterModel = playerCharacterRepository
-                    .save(PlayerCharacterService.convertToEntity(characterName))
-                    .toModel();*/
-            playerCharacterService.createNewCharacter(characterName);
-
-            return ResponseEntity
-                    .status(HttpStatus.CREATED)
-                    .body("playerModel");
-
+            String email = "";
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            if (!(authentication instanceof AnonymousAuthenticationToken)) {
+                email = authentication.getName();
+            }
+            PlayerCharacterModel characterModel = playerCharacterService.createNewCharacter(characterName, email);
+            return ResponseEntity.status(HttpStatus.CREATED).body(characterModel);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         }
