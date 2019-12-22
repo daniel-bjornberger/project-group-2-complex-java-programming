@@ -45,6 +45,10 @@ public class User {
     @Column(name = "role")
     private String roles;
 
+    @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL)
+    @Column(name = "character_id")
+    private List<PlayerCharacter> characters;
+
     public UserModel toModel(){
         UserModel userModel = new UserModel();
         userModel.setEmail(getEmail());

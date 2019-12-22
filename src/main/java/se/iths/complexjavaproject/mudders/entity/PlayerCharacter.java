@@ -49,9 +49,9 @@ public class PlayerCharacter implements Serializable {
     @JoinColumn(name = "town_id")
     private Town currentTown;
 
-    /*@OneToOne
-    @Column(name = "user_id")
-    private User userId;*/
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User userId;
 
 
     public PlayerCharacterModel toModel() {
@@ -61,7 +61,7 @@ public class PlayerCharacter implements Serializable {
         playerCharacterModel.setExperience(getExperience());
         playerCharacterModel.setLevel(getLevel());
         playerCharacterModel.setHealth(getHealth());
-        playerCharacterModel.setCurrentTown(getCurrentTown());
+        playerCharacterModel.setCurrentTown(getCurrentTown().getTownName());
         playerCharacterModel.setDamage(getDamage());
         playerCharacterModel.setCurrency(getCurrency());
 
