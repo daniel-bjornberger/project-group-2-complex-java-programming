@@ -9,6 +9,11 @@ public interface PlayerCharacterRepository extends CrudRepository<PlayerCharacte
 
     PlayerCharacter findByCharacterName(String name);
 
+    boolean existsByCharacterName(String characterName);
+
+    // TODO: Ändra till?: Optional<PlayerCharacter> findByCharacterName(String name);
+    // I så fall kan 'existsByCharacterName' tas bort.
+
     Iterable<PlayerCharacter> findAll();
 
 }
