@@ -1,6 +1,7 @@
 package se.iths.complexjavaproject.mudders.entity;
 
 import lombok.Data;
+import se.iths.complexjavaproject.mudders.model.ItemAmountModel;
 
 import javax.persistence.*;
 
@@ -26,12 +27,19 @@ public class ItemAmount {
     private int amount;
 
 
-    public ItemAmount(PlayerCharacter playerCharacter, Item item) {
+    public ItemAmount(PlayerCharacter playerCharacter, Item item, int amount) {
 
         this.playerCharacter = playerCharacter;
         this.item = item;
         this.id = new ItemAmountId(playerCharacter.getId(), item.getId());
-        this.amount = 1;
+        this.amount = amount;
+
+    }
+
+    public ItemAmountModel toModel() {
+
+        return new ItemAmountModel(this.playerCharacter.getCharacterName(),
+                this.item.getName(), this.amount);
 
     }
 
