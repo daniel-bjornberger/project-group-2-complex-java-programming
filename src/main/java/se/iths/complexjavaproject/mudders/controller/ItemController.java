@@ -1,5 +1,6 @@
 package se.iths.complexjavaproject.mudders.controller;
 
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,7 +9,6 @@ import se.iths.complexjavaproject.mudders.entity.Item;
 import se.iths.complexjavaproject.mudders.model.ItemModel;
 import se.iths.complexjavaproject.mudders.service.ItemService;
 
-import javax.ws.rs.PathParam;
 import java.util.ArrayList;
 
 @RestController
@@ -23,6 +23,13 @@ public class ItemController {
         this.itemService = itemService;
     }
 
+    @Data
+    private static class CharacterAndItemWrapper {
+        private String characterName;
+        private String itemName;
+        private int amount;
+    }
+
 
     @GetMapping(path = "/getall")
     public ResponseEntity getAllItems() {
@@ -30,9 +37,7 @@ public class ItemController {
         try {
             ArrayList<ItemModel> itemModels = new ArrayList<>();
 
-            itemService.getAllItems().forEach(item -> {
-                itemModels.add(item.toModel());
-            });
+            itemService.getAllItems().forEach(item -> itemModels.add(item.toModel()));
 
             return ResponseEntity.ok().body(itemModels);
 
@@ -61,7 +66,7 @@ public class ItemController {
 
 
     @GetMapping(path = "/getbyname/{name}")
-    public ResponseEntity getItemByName(@PathParam("name") String name) {
+    public ResponseEntity getItemByName(@PathVariable("name") String name) {
 
         try {
             return ResponseEntity.ok().body(itemService.getItemByName(name).toModel());
@@ -89,7 +94,7 @@ public class ItemController {
 
 
     @DeleteMapping(path = "/deletebyname/{name}")
-    public ResponseEntity deleteItemByName(@PathParam("name") String name) {
+    public ResponseEntity deleteItemByName(@PathVariable("name") String name) {
 
         try {
             itemService.deleteItemByName(name);
@@ -103,7 +108,20 @@ public class ItemController {
     }
 
 
-    /*@PostMapping(path = "/additemtoplayercharacter")
-    public ResponseEntity addItemToPlayerCharacter()*/
+    @PostMapping(path = "/additemtoplayercharacter")
+    public ResponseEntity addItemToPlayerCharacter
+            (@RequestBody CharacterAndItemWrapper characterAndItemWrapper) {
+
+        try {
+            itemService.addItemToPlayerCharacter(characterAndItemWrapper.getCharacterName(),
+                    characterAndItemWrapper.getItemName(),
+                    characterAndItemWrapper.getAmount());
+            return ResponseEntity.ok().body(itemModel);
+
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+
+    }
 
 }
