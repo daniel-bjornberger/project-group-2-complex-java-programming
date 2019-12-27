@@ -18,6 +18,8 @@ public class ItemModel {
             throw new BadDataException("The name of the item is missing.");
         }
 
+        // TODO: kolla value, ej <= 0
+
         return new Item(this.getName(), this.getValue());
 
     }
