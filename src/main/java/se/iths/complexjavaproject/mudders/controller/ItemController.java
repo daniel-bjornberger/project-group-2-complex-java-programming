@@ -1,11 +1,10 @@
 package se.iths.complexjavaproject.mudders.controller;
 
-import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import se.iths.complexjavaproject.mudders.entity.Item;
+import se.iths.complexjavaproject.mudders.model.ItemAmountModel;
 import se.iths.complexjavaproject.mudders.model.ItemModel;
 import se.iths.complexjavaproject.mudders.service.ItemService;
 
@@ -23,12 +22,12 @@ public class ItemController {
         this.itemService = itemService;
     }
 
-    @Data
+    /*@Data
     private static class CharacterAndItemWrapper {
         private String characterName;
         private String itemName;
         private int amount;
-    }
+    }*/
 
 
     @GetMapping(path = "/getall")
@@ -52,11 +51,10 @@ public class ItemController {
     public ResponseEntity addItem(@RequestBody ItemModel itemModel) {
 
         try {
-            Item item = itemModel.convertToEntity();
+            //Item item = itemModel.convertToEntity();
+            //itemService.addItem(itemModel);
 
-            itemService.addItem(item);
-
-            return ResponseEntity.ok().body(itemModel);
+            return ResponseEntity.ok().body(itemService.addItem(itemModel));
 
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
@@ -69,7 +67,7 @@ public class ItemController {
     public ResponseEntity getItemByName(@PathVariable("name") String name) {
 
         try {
-            return ResponseEntity.ok().body(itemService.getItemByName(name).toModel());
+            return ResponseEntity.ok().body(itemService.getItemByName(name));
 
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -82,9 +80,9 @@ public class ItemController {
     public ResponseEntity updateItemValue(@RequestBody ItemModel itemModel) {
 
         try {
-            itemService.updateItemValue(itemModel.convertToEntity());
+            //itemService.updateItemValue(itemModel);
 
-            return ResponseEntity.ok().body(itemModel);
+            return ResponseEntity.ok().body(itemService.updateItemValue(itemModel));
 
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -110,13 +108,11 @@ public class ItemController {
 
     @PostMapping(path = "/additemtoplayercharacter")
     public ResponseEntity addItemToPlayerCharacter
-            (@RequestBody CharacterAndItemWrapper characterAndItemWrapper) {
+            (@RequestBody ItemAmountModel itemAmountModel) {
 
         try {
-            itemService.addItemToPlayerCharacter(characterAndItemWrapper.getCharacterName(),
-                    characterAndItemWrapper.getItemName(),
-                    characterAndItemWrapper.getAmount());
-            return ResponseEntity.ok().body(itemModel);
+            /*itemService.addItemToPlayerCharacter(itemAmountModel);*/
+            return ResponseEntity.ok().body(itemService.addItemToPlayerCharacter(itemAmountModel));
 
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
