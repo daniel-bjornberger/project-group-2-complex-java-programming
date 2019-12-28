@@ -44,9 +44,9 @@ public class ItemService {
     }
 
 
-    public ItemModel addItem(ItemModel itemmodel) throws Exception {
+    public ItemModel addItem(ItemModel itemModel) throws Exception {
 
-        Item item = itemmodel.convertToEntity();
+        Item item = itemModel.convertToEntity();
 
         if (itemRepository.existsByName(item.getName())) {
             throw new Exception();
@@ -54,7 +54,7 @@ public class ItemService {
 
         itemRepository.save(item);
 
-        return itemmodel;
+        return itemModel;
 
     }
 
@@ -73,19 +73,6 @@ public class ItemService {
 
 
     public ItemModel updateItemValue(ItemModel itemModel) throws Exception {
-
-        /*if (itemRepository.existsByName(item.getName())) {
-            Optional<Item> itemToUpdate = itemRepository.findByName(item.getName());
-            itemToUpdate.setValue(item.getValue());
-            itemRepository.save(itemToUpdate);
-        }
-        else {
-            throw new Exception();
-        }*/
-
-
-        // TODO: RETURNERA ItemModel?
-
 
         Optional<Item> optionalItemToUpdate = itemRepository.findByName(itemModel.getName());
 
@@ -114,48 +101,59 @@ public class ItemService {
     }
 
 
-    public ItemAmountModel addItemToPlayerCharacter(String characterName, String itemName, int amount) throws Exception {
+    public ItemAmountModel addItemToPlayerCharacter(ItemAmountModel itemAmountModel) throws Exception {
 
         PlayerCharacter playerCharacter;
-        Optional<Item> optionalItem;
+        //Optional<Item> optionalItem;
         Item item;
         Optional<ItemAmount> optionalItemAmount;
         ItemAmount itemAmount;
 
-        if (characterName == null || itemName == null) {
+
+        /*if (characterName == null || itemName == null) {
             throw new BadDataException("At least one of the required strings is missing.");
         }
 
         if (amount <= 0) {
             throw new BadDataException("The amount is invalid.");
-        }
+        }*/
 
-        if (playerCharacterRepository.existsByCharacterName(characterName)) {
+        checkArguments(itemAmountModel);
+
+
+        /*if (playerCharacterRepository.existsByCharacterName(characterName)) {
             playerCharacter = playerCharacterRepository.findByCharacterName(characterName);
         }
         else {
             throw new PlayerNotFoundException("A player character with the name '"
                     + characterName + "' could not be found.");
-        }
+        }*/
 
-        optionalItem = itemRepository.findByName(itemName);
+
+        playerCharacter = retrievePlayerCharacter(itemAmountModel);
+
+
+        /*optionalItem = itemRepository.findByName(itemName);
 
         if (optionalItem.isEmpty()) {
             throw new Exception();
         }
         else {
             item = optionalItem.get();
-        }
+        }*/
+
+        item = retrieveItem(itemAmountModel);
+
 
         optionalItemAmount = itemAmountRepository
                 .findById(new ItemAmountId(playerCharacter.getId(), item.getId()));
 
         if (optionalItemAmount.isPresent()) {
             itemAmount = optionalItemAmount.get();
-            itemAmount.setAmount(itemAmount.getAmount() + amount);
+            itemAmount.setAmount(itemAmount.getAmount() + itemAmountModel.getAmount());
         }
         else {
-            itemAmount = new ItemAmount(playerCharacter, item, amount);
+            itemAmount = new ItemAmount(playerCharacter, item, itemAmountModel.getAmount());
         }
 
         itemAmountRepository.save(itemAmount);
@@ -163,5 +161,87 @@ public class ItemService {
         return itemAmount.toModel();
 
     }
+
+
+    public ItemAmountModel removeItemFromPlayerCharacter(ItemAmountModel itemAmountModel) throws Exception {
+
+        PlayerCharacter playerCharacter;
+        Item item;
+        Optional<ItemAmount> optionalItemAmount;
+        ItemAmount itemAmount;
+
+        checkArguments(itemAmountModel);
+
+        playerCharacter = retrievePlayerCharacter(itemAmountModel);
+
+        item = retrieveItem(itemAmountModel);
+
+        optionalItemAmount = itemAmountRepository
+                .findById(new ItemAmountId(playerCharacter.getId(), item.getId()));
+
+        if (optionalItemAmount.isPresent()) {
+            itemAmount = optionalItemAmount.get();
+
+            if (itemAmount.getAmount() >= itemAmountModel.getAmount()) {
+                itemAmount.setAmount(itemAmount.getAmount() - itemAmountModel.getAmount());
+                itemAmountRepository.save(itemAmount);
+                return itemAmount.toModel();
+            }
+            else {
+                throw new Exception();      // Om 'itemAmount.getAmount() < amount'
+            }
+        }
+        else {
+            //itemAmount = new ItemAmount(playerCharacter, item, amount);
+            throw new Exception();      // 'optionalItemAmount' finns inte.
+        }
+
+        /*itemAmountRepository.save(itemAmount);
+
+        return itemAmount.toModel();*/
+
+    }
+
+
+
+    private void checkArguments(ItemAmountModel itemAmountModel) throws Exception {
+
+        if (itemAmountModel.getCharacterName() == null || itemAmountModel.getItemName() == null) {
+            throw new BadDataException("At least one of the required strings is missing.");
+        }
+
+        if (itemAmountModel.getAmount() <= 0) {
+            throw new BadDataException("The amount is invalid.");
+        }
+
+    }
+
+
+    private PlayerCharacter retrievePlayerCharacter(ItemAmountModel itemAmountModel) {
+
+        if (playerCharacterRepository.existsByCharacterName(itemAmountModel.getCharacterName())) {
+            return playerCharacterRepository.findByCharacterName(itemAmountModel.getCharacterName());
+        }
+        else {
+            throw new PlayerNotFoundException("A player character with the name '"
+                    + itemAmountModel.getCharacterName() + "' could not be found.");
+        }
+
+    }
+
+
+    private Item retrieveItem(ItemAmountModel itemAmountModel) throws Exception {
+
+        Optional<Item> optionalItem = itemRepository.findByName(itemAmountModel.getItemName());
+
+        if (optionalItem.isEmpty()) {
+            throw new Exception();
+        }
+        else {
+            return optionalItem.get();
+        }
+
+    }
+
 
 }
