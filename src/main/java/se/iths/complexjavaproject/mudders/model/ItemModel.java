@@ -18,7 +18,9 @@ public class ItemModel {
             throw new BadDataException("The name of the item is missing.");
         }
 
-        // TODO: kolla value, ej <= 0
+        if (this.getValue() < 0) {
+            throw new BadDataException("The value can not be less than zero.");
+        }
 
         return new Item(this.getName(), this.getValue());
 
