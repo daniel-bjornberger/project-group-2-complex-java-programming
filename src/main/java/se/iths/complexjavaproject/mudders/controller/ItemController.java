@@ -97,6 +97,8 @@ public class ItemController {
         try {
             itemService.deleteItemByName(name);
 
+            // TODO: Behöver man kolla om en item ingår i en itemAmount, innan man deletar den?
+
             return ResponseEntity.ok().build();
 
         } catch (Exception e) {
@@ -116,6 +118,35 @@ public class ItemController {
 
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
+        }
+
+    }
+
+
+    @PostMapping(path = "/removeitemfromplayercharacter")
+    public ResponseEntity removeItemFromPlayerCharacter
+            (@RequestBody ItemAmountModel itemAmountModel) {
+
+        try {
+            return ResponseEntity.ok().body(itemService.removeItemFromPlayerCharacter(itemAmountModel));
+
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+
+    }
+
+
+    @GetMapping(path = "/getitemamount")
+    public ResponseEntity getItemAmount(@RequestParam String characterName,
+                                        @RequestParam String itemName) {
+
+        try {
+            return ResponseEntity.ok()
+                    .body(itemService.getItemAmount(characterName, itemName));
+
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
 
     }
