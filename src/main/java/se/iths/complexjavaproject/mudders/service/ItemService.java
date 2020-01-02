@@ -109,6 +109,10 @@ public class ItemService {
         Optional<ItemAmount> optionalItemAmount;
         ItemAmount itemAmount;
 
+        if (itemAmountModel.getAmount() <= 0) {
+            throw new BadDataException("The amount is invalid.");
+        }
+
 
         /*if (characterName == null || itemName == null) {
             throw new BadDataException("At least one of the required strings is missing.");
@@ -117,8 +121,6 @@ public class ItemService {
         if (amount <= 0) {
             throw new BadDataException("The amount is invalid.");
         }*/
-
-        checkArguments(itemAmountModel);
 
 
         /*if (playerCharacterRepository.existsByCharacterName(characterName)) {
@@ -170,7 +172,10 @@ public class ItemService {
         Optional<ItemAmount> optionalItemAmount;
         ItemAmount itemAmount;
 
-        checkArguments(itemAmountModel);
+
+        if (itemAmountModel.getAmount() <= 0) {
+            throw new BadDataException("The amount is invalid.");
+        }
 
         playerCharacter = retrievePlayerCharacter(itemAmountModel);
 
@@ -204,20 +209,11 @@ public class ItemService {
 
 
 
-    private void checkArguments(ItemAmountModel itemAmountModel) throws Exception {
+    private PlayerCharacter retrievePlayerCharacter(ItemAmountModel itemAmountModel) throws PlayerNotFoundException, BadDataException {
 
-        if (itemAmountModel.getCharacterName() == null || itemAmountModel.getItemName() == null) {
-            throw new BadDataException("At least one of the required strings is missing.");
+        if (itemAmountModel.getCharacterName() == null) {
+            throw new BadDataException("The name of the player character is missing.");
         }
-
-        if (itemAmountModel.getAmount() <= 0) {
-            throw new BadDataException("The amount is invalid.");
-        }
-
-    }
-
-
-    private PlayerCharacter retrievePlayerCharacter(ItemAmountModel itemAmountModel) {
 
         if (playerCharacterRepository.existsByCharacterName(itemAmountModel.getCharacterName())) {
             return playerCharacterRepository.findByCharacterName(itemAmountModel.getCharacterName());
@@ -231,6 +227,10 @@ public class ItemService {
 
 
     private Item retrieveItem(ItemAmountModel itemAmountModel) throws Exception {
+
+        if (itemAmountModel.getItemName() == null) {
+            throw new BadDataException("The name of the item is missing.");
+        }
 
         Optional<Item> optionalItem = itemRepository.findByName(itemAmountModel.getItemName());
 
