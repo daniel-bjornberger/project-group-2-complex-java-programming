@@ -49,7 +49,7 @@ public class ItemService {
         Item item = itemModel.convertToEntity();
 
         if (itemRepository.existsByName(item.getName())) {
-            throw new Exception();
+            throw new Exception();          // TODO: Item med detta namn finns redan.
         }
 
         itemRepository.save(item);
@@ -64,7 +64,7 @@ public class ItemService {
         Optional<Item> optionalItem = itemRepository.findByName(name);
 
         if (optionalItem.isEmpty()) {
-            throw new Exception();
+            throw new Exception();     // TODO: Om det inte finns något item med detta namn.
         }
 
         return optionalItem.get().toModel();
@@ -77,7 +77,7 @@ public class ItemService {
         Optional<Item> optionalItemToUpdate = itemRepository.findByName(itemModel.getName());
 
         if (optionalItemToUpdate.isEmpty()) {
-            throw new Exception();
+            throw new Exception();     // TODO: Om det inte finns något item med detta namn.
         }
 
         Item itemToUpdate = optionalItemToUpdate.get();
@@ -95,7 +95,7 @@ public class ItemService {
             itemRepository.deleteByName(name);
         }
         else {
-            throw new Exception();
+            throw new Exception();     // TODO: Om det inte finns något item med detta namn.
         }
 
     }
@@ -193,12 +193,12 @@ public class ItemService {
                 return itemAmount.toModel();
             }
             else {
-                throw new Exception();      // Om 'itemAmount.getAmount() < amount'
+                throw new Exception();      // TODO: Om 'itemAmount.getAmount() < amount'
             }
         }
         else {
             //itemAmount = new ItemAmount(playerCharacter, item, amount);
-            throw new Exception();      // 'optionalItemAmount' finns inte.
+            throw new Exception();      // TODO: Om 'optionalItemAmount' inte finns.
         }
 
         /*itemAmountRepository.save(itemAmount);
@@ -235,7 +235,7 @@ public class ItemService {
         Optional<Item> optionalItem = itemRepository.findByName(itemAmountModel.getItemName());
 
         if (optionalItem.isEmpty()) {
-            throw new Exception();
+            throw new Exception();    // TODO: Om det inte finns något item med detta namn.
         }
         else {
             return optionalItem.get();
