@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import se.iths.complexjavaproject.mudders.entity.User;
 import se.iths.complexjavaproject.mudders.repository.UserRepository;
+import se.iths.complexjavaproject.mudders.util.RabbitMQSender;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -37,6 +38,11 @@ public class MyUserDetailsService implements UserDetailsService {
         boolean accountNonExpired = true;
         boolean credentialsNonExpired = true;
         boolean accountNonLocked = true;
+        try {
+            RabbitMQSender.userLoggedIn();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return  new org.springframework.security.core.userdetails.User
                 (user.getEmail(),
                         user.getPassword(), enabled, accountNonExpired,
