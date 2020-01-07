@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+<head>
+  <!--  <link rel="stylesheet" th:href="@{css/mudstyle.css}">-->
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" media="all" href="../../css/mudstyle.css" th:href="@{/css/mudstyle.css}"/>
+    <title>Login</title>
+</head>
+
+<body>
+<div class="topNav">
+    <a href="registrationPage.html">Registration</a>
+    <a class="active" href="#login">Login</a>
+</div>
+
+<div class="box">
+<div>
+    <h2>Login</h2>
+</div>
+
+<div th:if="${param.error}">
+    <p>The username and/or the password is incorrect!</p>
+</div>
+
+<div th:if="${param.logout}">
+    <p>You are now logged out from the MUD game.</p>
+</div>
+
+<form th:action="@{/perform_login}" method="post">
+
+    <div class="input-section">
+        <label>Username:<input type="text" name="username"/> </label>
+    </div>
+
+    <div class="input-section">
+        <label>Password:<input type="password" name="password"/> </label>
+    </div>
+
+    <div>
+        <input class="btn" type="submit" value="Login"/>
+    </div>
+
+</form>
+</div>
+
+</body>
+
+</html>
