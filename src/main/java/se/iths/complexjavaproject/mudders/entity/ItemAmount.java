@@ -1,6 +1,7 @@
 package se.iths.complexjavaproject.mudders.entity;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import se.iths.complexjavaproject.mudders.model.ItemAmountModel;
 
 import javax.persistence.*;
@@ -8,6 +9,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "item_amount")
 @Data
+@NoArgsConstructor
 public class ItemAmount {
 
     @EmbeddedId
