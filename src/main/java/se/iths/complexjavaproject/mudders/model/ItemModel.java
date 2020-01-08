@@ -2,11 +2,13 @@ package se.iths.complexjavaproject.mudders.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import se.iths.complexjavaproject.mudders.entity.Item;
 import se.iths.complexjavaproject.mudders.exception.BadDataException;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class ItemModel {
 
     private String name;
