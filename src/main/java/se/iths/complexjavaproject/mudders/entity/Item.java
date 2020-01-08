@@ -12,6 +12,7 @@ import java.util.Set;
 @Entity
 @Table(name = "item")
 @Data
+@NoArgsConstructor
 public class Item implements Serializable {
 
     private static final long serialVersionUID = -7643269416430085012L;
