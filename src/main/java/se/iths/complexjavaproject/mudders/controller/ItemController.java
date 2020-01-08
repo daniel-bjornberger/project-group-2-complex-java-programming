@@ -109,8 +109,7 @@ public class ItemController {
 
 
     @PostMapping(path = "/additemtoplayercharacter")
-    public ResponseEntity addItemToPlayerCharacter
-            (@RequestBody ItemAmountModel itemAmountModel) {
+    public ResponseEntity addItemToPlayerCharacter(@RequestBody ItemAmountModel itemAmountModel) {
 
         try {
             /*itemService.addItemToPlayerCharacter(itemAmountModel);*/
@@ -124,8 +123,7 @@ public class ItemController {
 
 
     @PostMapping(path = "/removeitemfromplayercharacter")
-    public ResponseEntity removeItemFromPlayerCharacter
-            (@RequestBody ItemAmountModel itemAmountModel) {
+    public ResponseEntity removeItemFromPlayerCharacter(@RequestBody ItemAmountModel itemAmountModel) {
 
         try {
             return ResponseEntity.ok().body(itemService.removeItemFromPlayerCharacter(itemAmountModel));
@@ -138,8 +136,8 @@ public class ItemController {
 
 
     @GetMapping(path = "/getitemamount")
-    public ResponseEntity getItemAmount(@RequestParam String characterName,
-                                        @RequestParam String itemName) {
+    public ResponseEntity getItemAmount(@RequestParam("charactername") String characterName,
+                                        @RequestParam("itemname") String itemName) {
 
         try {
             return ResponseEntity.ok()
