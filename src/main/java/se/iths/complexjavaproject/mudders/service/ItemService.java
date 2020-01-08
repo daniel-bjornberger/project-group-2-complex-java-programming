@@ -2,6 +2,7 @@ package se.iths.complexjavaproject.mudders.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import se.iths.complexjavaproject.mudders.entity.Item;
 import se.iths.complexjavaproject.mudders.entity.ItemAmount;
 import se.iths.complexjavaproject.mudders.entity.ItemAmountId;
@@ -17,6 +18,7 @@ import se.iths.complexjavaproject.mudders.repository.PlayerCharacterRepository;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class ItemService {
 
     private final ItemRepository itemRepository;
@@ -132,7 +134,7 @@ public class ItemService {
         }*/
 
 
-        playerCharacter = retrievePlayerCharacter(itemAmountModel);
+        playerCharacter = retrievePlayerCharacter(itemAmountModel.getCharacterName());
 
 
         /*optionalItem = itemRepository.findByName(itemName);
@@ -144,8 +146,7 @@ public class ItemService {
             item = optionalItem.get();
         }*/
 
-        item = retrieveItem(itemAmountModel);
-
+        item = retrieveItem(itemAmountModel.getItemName());
 
         optionalItemAmount = itemAmountRepository
                 .findById(new ItemAmountId(playerCharacter.getId(), item.getId()));
@@ -177,9 +178,9 @@ public class ItemService {
             throw new BadDataException("The amount is invalid.");
         }
 
-        playerCharacter = retrievePlayerCharacter(itemAmountModel);
+        playerCharacter = retrievePlayerCharacter(itemAmountModel.getCharacterName());
 
-        item = retrieveItem(itemAmountModel);
+        item = retrieveItem(itemAmountModel.getItemName());
 
         optionalItemAmount = itemAmountRepository
                 .findById(new ItemAmountId(playerCharacter.getId(), item.getId()));
@@ -209,36 +210,55 @@ public class ItemService {
 
 
 
-    private PlayerCharacter retrievePlayerCharacter(ItemAmountModel itemAmountModel) throws PlayerNotFoundException, BadDataException {
+    private PlayerCharacter retrievePlayerCharacter(String characterName) throws PlayerNotFoundException, BadDataException {
 
-        if (itemAmountModel.getCharacterName() == null) {
+        if (characterName == null) {
             throw new BadDataException("The name of the player character is missing.");
         }
 
-        if (playerCharacterRepository.existsByCharacterName(itemAmountModel.getCharacterName())) {
-            return playerCharacterRepository.findByCharacterName(itemAmountModel.getCharacterName());
+        if (playerCharacterRepository.existsByCharacterName(characterName)) {
+            return playerCharacterRepository.findByCharacterName(characterName);
         }
         else {
             throw new PlayerNotFoundException("A player character with the name '"
-                    + itemAmountModel.getCharacterName() + "' could not be found.");
+                    + characterName + "' could not be found.");
         }
 
     }
 
 
-    private Item retrieveItem(ItemAmountModel itemAmountModel) throws Exception {
+    private Item retrieveItem(String itemName) throws Exception {
 
-        if (itemAmountModel.getItemName() == null) {
+        if (itemName == null) {
             throw new BadDataException("The name of the item is missing.");
         }
 
-        Optional<Item> optionalItem = itemRepository.findByName(itemAmountModel.getItemName());
+        Optional<Item> optionalItem = itemRepository.findByName(itemName);
 
         if (optionalItem.isEmpty()) {
             throw new Exception();    // TODO: Om det inte finns något item med detta namn.
         }
         else {
             return optionalItem.get();
+        }
+
+    }
+
+
+    public int getItemAmount(String characterName, String itemName) throws Exception {
+
+        PlayerCharacter playerCharacter = retrievePlayerCharacter(characterName);
+
+        Item item = retrieveItem(itemName);
+
+        Optional<ItemAmount> optionalItemAmount =
+                itemAmountRepository.findById(new ItemAmountId(playerCharacter.getId(), item.getId()));
+
+        if (optionalItemAmount.isEmpty()) {
+            throw new Exception();    // TODO: Om det inte finns något itemAmount med detta id.
+        }
+        else {
+            return optionalItemAmount.get().getAmount();
         }
 
     }
