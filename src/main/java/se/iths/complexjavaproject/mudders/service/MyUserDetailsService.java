@@ -39,7 +39,7 @@ public class MyUserDetailsService implements UserDetailsService {
         boolean credentialsNonExpired = true;
         boolean accountNonLocked = true;
         try {
-            RabbitMQSender.userLoggedIn();
+            RabbitMQSender.userLoggedIn(user.getFullName());
         } catch (Exception e) {
             e.printStackTrace();
         }
