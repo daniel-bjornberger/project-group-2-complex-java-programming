@@ -42,6 +42,10 @@ public class TownService {
         }
     }
 
+    public long numberOfTowns() {
+        return townRepository.count();
+    }
+
     void saveTown(Town town) {
         townRepository.save(town);
     }

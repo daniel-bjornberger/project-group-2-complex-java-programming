@@ -69,6 +69,16 @@ public class PlayerCharacterController {
         }
     }
 
+    @GetMapping(path = "/travel/next")
+    public ResponseEntity travelToNextTown(@RequestParam String characterName) {
+        try {
+            PlayerCharacterModel playerCharacterModel = travelService.travelToNextTown(characterName);
+            return  ResponseEntity.status(HttpStatus.OK).body(playerCharacterModel);
+        } catch (BadDataException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e);
+        }
+    }
+
     @GetMapping(path = "/healer")
     public ResponseEntity goToHealer(@RequestBody String characterName){
         try{

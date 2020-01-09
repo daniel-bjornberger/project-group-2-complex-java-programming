@@ -47,10 +47,14 @@ public class TravelService {
     }
 
     public PlayerCharacterModel travelToNextTown(String requestBody) throws BadDataException {
-        PlayerCharacter playerCharacter = playerCharacterService.findCharacterByName(PlayerCharacterService.convertToEntity(requestBody).getCharacterName());
+//        PlayerCharacter playerCharacter = playerCharacterService.findCharacterByName(PlayerCharacterService.convertToEntity(requestBody).getCharacterName());
+        PlayerCharacter playerCharacter = playerCharacterService.findCharacterByName(requestBody); // Using RequestParam to test easier
         int diceRoll = ServiceUtilities.generateRandomIntIntRange(1, 100);
 
-        if (diceRoll <= 40) {
+        if (playerCharacter.getCurrentTown().getId() == townService.numberOfTowns()) {
+            System.out.println("No more towns");
+        }
+        else if (diceRoll <= 40) {
             Town fromTown = townService.findById(playerCharacter.getCurrentTown().getId());
             Town toTown = townService.findById(playerCharacter.getCurrentTown().getId()+1);
 
@@ -61,16 +65,15 @@ public class TravelService {
             townService.saveTown(fromTown);
             townService.saveTown(toTown);
 
-            System.out.println("Found a new town called " + playerCharacter.getCurrentTown());
-            return playerCharacter.toModel();
+            System.out.println("Found a new town called " + playerCharacter.getCurrentTown().getTownName());
         }
         else {
-            System.out.println("Got lost and returned to " + playerCharacter.getCurrentTown());
-            return playerCharacter.toModel();
+            System.out.println("Got lost and returned to " + playerCharacter.getCurrentTown().getTownName());
         }
+        return playerCharacter.toModel();
     }
 
-    private PlayerCharacter encounter(PlayerCharacter playerCharacter){
+    private PlayerCharacter encounter(PlayerCharacter playerCharacter) {
 
         if(!playerCharacter.isInCombat()) {
             try {
