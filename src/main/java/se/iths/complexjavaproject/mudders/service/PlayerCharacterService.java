@@ -56,7 +56,7 @@ public class PlayerCharacterService {
         return character;
     }
 
-    // TODO test this and maybe changed to return a list
+    // TODO test this and maybe changed to return a list with models
     public Iterable<PlayerCharacter> findAll() {
         return playerCharacterRepository.findAll();
     }
@@ -76,7 +76,7 @@ public class PlayerCharacterService {
         playerCharacter.setCurrentTown(town);
         town.getPlayers().add(playerCharacter);
         user.getCharacters().add(playerCharacter);
-        townService.saveTown(town); // town is the parent here, so when we save the town we also save the player and user.
+        savePlayerCharacter(playerCharacter);
 
         return playerCharacter.toModel();
     }
