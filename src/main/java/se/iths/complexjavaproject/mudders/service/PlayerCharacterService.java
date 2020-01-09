@@ -87,4 +87,8 @@ public class PlayerCharacterService {
 
         return playerCharacter.toModel();
     }
+
+    public void deleteCharacter(PlayerCharacter character) {
+        playerCharacterRepository.delete(character);
+    }
 }
