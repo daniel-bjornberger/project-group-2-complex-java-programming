@@ -8,7 +8,9 @@ import se.iths.complexjavaproject.mudders.model.TownModel;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -33,28 +35,17 @@ public class Town implements Serializable {
     @OneToMany(mappedBy = "town", cascade = CascadeType.ALL)
     private Set<NonPlayerCharacter> npcs = new HashSet<>();
 
-    @OneToOne(mappedBy = "currentTown", cascade = CascadeType.ALL)
-    private PlayerCharacter playerCharacter;
+    @OneToMany(mappedBy = "currentTown", cascade = CascadeType.ALL)
+    private List<PlayerCharacter> players = new ArrayList<>();
 
     public TownModel toModel() {
         TownModel townModel = new TownModel();
 
-       // townModel.setId(null);
         townModel.setTownName(getTownName());
         townModel.setNpcs(npcs.stream().map(NonPlayerCharacter::getName).collect(Collectors.toSet()));
 
         return townModel;
     }
-
-  /*  public Town toEntity(TownModel townModel){
-        Town town = new Town();
-        town.setTownName(townModel.getTownName()
-        );
-        return town;
-
-    }*/
-
-
 
     //player should have a Last Town variable that allows us to save info of the last town
     //player should automatically return to last town the next time they play.

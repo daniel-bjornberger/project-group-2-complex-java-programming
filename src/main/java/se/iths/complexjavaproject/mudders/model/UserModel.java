@@ -3,7 +3,6 @@ package se.iths.complexjavaproject.mudders.model;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import se.iths.complexjavaproject.mudders.entity.User;
 import se.iths.complexjavaproject.mudders.security.PasswordMatches;
 
 import javax.validation.constraints.NotEmpty;
@@ -23,7 +22,6 @@ public class UserModel {
     @NotNull
     private String Role = "USER";
 
-    //TODO: Fråga björn om hjälp, ger error
     //@ValidEmail
     @NotEmpty
     @NotNull
