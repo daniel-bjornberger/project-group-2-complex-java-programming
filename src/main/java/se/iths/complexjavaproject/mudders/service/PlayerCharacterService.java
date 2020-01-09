@@ -52,6 +52,14 @@ public class PlayerCharacterService {
         return character;
     }
 
+    public void removeCharacter(String name){
+        PlayerCharacter character = playerCharacterRepository.findByCharacterName(name);
+        if(character == null) {
+            throw new PlayerNotFoundException("Could not find character with the name: " + name);
+        }
+        playerCharacterRepository.delete(character);
+    }
+
     // TODO test this and maybe changed to return a list
     public Iterable<PlayerCharacter> findAll() {
         return playerCharacterRepository.findAll();
