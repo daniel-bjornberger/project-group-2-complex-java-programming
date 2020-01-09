@@ -104,6 +104,20 @@ public class PlayerCharacterController {
         }
     }
 
+    @GetMapping(path = "/shop")
+    public ResponseEntity playerVisitShop(@RequestBody String characterName){
+        try{
+            PlayerCharacterModel playerCharacterModel = townService.visitShop(characterName);
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(playerCharacterModel);
+        } catch (Exception e) {
+            return  ResponseEntity.status(HttpStatus.NOT_FOUND).body(e);
+        }
+    }
+
+
+
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping(path = "/delete")
     public void removePlayer(@RequestParam String characterName) {
