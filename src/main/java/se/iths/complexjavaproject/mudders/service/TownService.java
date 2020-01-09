@@ -42,6 +42,10 @@ public class TownService {
         }
     }
 
+    public long numberOfTowns() {
+        return townRepository.count();
+    }
+
     void saveTown(Town town) {
         townRepository.save(town);
     }
@@ -68,6 +72,7 @@ public class TownService {
         return null;
     }
 
+    // TODO: Borde skapas i startup och användas genom town.getNpc -> innKeeper -> rest. Måste även först kolla om det finns en tavern i staden.
     public PlayerCharacterModel visitTavern(String requestBody) throws BadDataException{
         PlayerCharacter playerCharacter = playerCharacterRepository.findByCharacterName(PlayerCharacterService.convertToEntity(requestBody).getCharacterName());
         tavern.restAtTavern(playerCharacter);

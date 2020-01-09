@@ -13,6 +13,9 @@ import se.iths.complexjavaproject.mudders.exception.PlayerNotFoundException;
 import se.iths.complexjavaproject.mudders.model.PlayerCharacterModel;
 import se.iths.complexjavaproject.mudders.repository.PlayerCharacterRepository;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @NoArgsConstructor
 @Service
 public class PlayerCharacterService {
@@ -44,6 +47,10 @@ public class PlayerCharacterService {
         return playerCharacter;
     }
 
+    public void savePlayerCharacter(PlayerCharacter character) {
+        playerCharacterRepository.save(character);
+    }
+
     public PlayerCharacter findCharacterByName(String name) {
         PlayerCharacter character = playerCharacterRepository.findByCharacterName(name);
         if (character == null) {
@@ -52,9 +59,13 @@ public class PlayerCharacterService {
         return character;
     }
 
-    // TODO test this and maybe changed to return a list
-    public Iterable<PlayerCharacter> findAll() {
-        return playerCharacterRepository.findAll();
+    public List<PlayerCharacterModel> findAll() {
+        Iterable<PlayerCharacter> playerCharacters = playerCharacterRepository.findAll();
+        List<PlayerCharacterModel> playerCharacterModels = new ArrayList<>();
+        for (PlayerCharacter playerCharacter: playerCharacters) {
+            playerCharacterModels.add(playerCharacter.toModel());
+        }
+        return playerCharacterModels;
     }
 
     public PlayerCharacterModel createNewCharacter(String name, String email) throws BadDataException {
@@ -72,8 +83,12 @@ public class PlayerCharacterService {
         playerCharacter.setCurrentTown(town);
         town.getPlayers().add(playerCharacter);
         user.getCharacters().add(playerCharacter);
-        townService.saveTown(town); // town is the parent here, so when we save the town we also save the player and user.
+        savePlayerCharacter(playerCharacter);
 
         return playerCharacter.toModel();
+    }
+
+    public void deleteCharacter(PlayerCharacter character) {
+        playerCharacterRepository.delete(character);
     }
 }

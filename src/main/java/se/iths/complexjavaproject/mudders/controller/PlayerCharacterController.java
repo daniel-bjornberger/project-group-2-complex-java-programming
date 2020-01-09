@@ -34,8 +34,7 @@ public class PlayerCharacterController {
     @GetMapping(path = "/all")
     public ResponseEntity getAllPlayers() {
         try {
-            Iterable<PlayerCharacter> findAllPlayers = playerCharacterService.findAll();
-            return ResponseEntity.ok().body(findAllPlayers);
+            return ResponseEntity.ok().body(playerCharacterService.findAll());
         }
         catch(Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -69,6 +68,16 @@ public class PlayerCharacterController {
         }
     }
 
+    @GetMapping(path = "/travel/next")
+    public ResponseEntity travelToNextTown(@RequestParam String characterName) {
+        try {
+            PlayerCharacterModel playerCharacterModel = travelService.travelToNextTown(characterName);
+            return  ResponseEntity.status(HttpStatus.OK).body(playerCharacterModel);
+        } catch (BadDataException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e);
+        }
+    }
+
     @GetMapping(path = "/healer")
     public ResponseEntity goToHealer(@RequestBody String characterName){
         try{
@@ -96,10 +105,10 @@ public class PlayerCharacterController {
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping(path = "/delete")
-    public void removePlayer(@RequestParam String characterName){
+    public void removePlayer(@RequestParam String characterName) {
         try {
-            /*PlayerCharacter character = playerCharacterRepository.findByCharacterName(characterName);
-            playerCharacterRepository.delete(character);*/
+            PlayerCharacter character = playerCharacterService.findCharacterByName(characterName);
+            playerCharacterService.deleteCharacter(character);
         } catch (Exception e) {
             ResponseEntity.badRequest().body(e.getMessage());
         }
