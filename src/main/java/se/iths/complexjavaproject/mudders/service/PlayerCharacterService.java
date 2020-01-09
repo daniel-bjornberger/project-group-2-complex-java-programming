@@ -44,6 +44,10 @@ public class PlayerCharacterService {
         return playerCharacter;
     }
 
+    public void savePlayerCharacter(PlayerCharacter character) {
+        playerCharacterRepository.save(character);
+    }
+
     public PlayerCharacter findCharacterByName(String name) {
         PlayerCharacter character = playerCharacterRepository.findByCharacterName(name);
         if (character == null) {

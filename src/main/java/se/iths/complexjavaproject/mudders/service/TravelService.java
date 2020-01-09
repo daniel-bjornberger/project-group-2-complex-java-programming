@@ -3,10 +3,10 @@ package se.iths.complexjavaproject.mudders.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import se.iths.complexjavaproject.mudders.entity.PlayerCharacter;
+import se.iths.complexjavaproject.mudders.entity.Town;
 import se.iths.complexjavaproject.mudders.exception.BadDataException;
 import se.iths.complexjavaproject.mudders.model.MonsterModel;
 import se.iths.complexjavaproject.mudders.model.PlayerCharacterModel;
-import se.iths.complexjavaproject.mudders.repository.PlayerCharacterRepository;
 import se.iths.complexjavaproject.mudders.util.ServiceUtilities;
 
 /**
@@ -15,38 +15,58 @@ import se.iths.complexjavaproject.mudders.util.ServiceUtilities;
 @Service
 public class TravelService {
 
-    @Autowired
-    PlayerCharacterRepository playerCharacterRepository;
+    private CombatService combatService;
+    private MonsterService monsterService;
+    private TownService townService;
+    private PlayerCharacterService playerCharacterService;
+    private MonsterModel monsterModel;
 
     @Autowired
-    CombatService combatService;
+    public TravelService(CombatService combatService,
+                         MonsterService monsterService,
+                         TownService townService,
+                         PlayerCharacterService playerCharacterService) {
 
-    @Autowired
-    MonsterService monsterService;
+        this.combatService = combatService;
+        this.monsterService = monsterService;
+        this.townService = townService;
+        this.playerCharacterService = playerCharacterService;
 
-    @Autowired
-    PlayerCharacterService playerCharacterService;
-
-    MonsterModel monsterModel;
-
-    public void daysToTown() {
-        int daysToTown = 0;
-        //List of towns, days to town corresponds to index.
     }
 
-    private int diceRoll;
-
-    public PlayerCharacterModel travel(String requestBody) throws BadDataException {
-        PlayerCharacter playerCharacter = playerCharacterRepository.findByCharacterName(PlayerCharacterService.convertToEntity(requestBody).getCharacterName());
+    public PlayerCharacterModel travel(String requestBody) throws BadDataException { // name explore or adventure??
+        PlayerCharacter playerCharacter = playerCharacterService.findCharacterByName(PlayerCharacterService.convertToEntity(requestBody).getCharacterName());
         int diceRoll = ServiceUtilities.generateRandomIntIntRange(1, 20);
-        //Travelling to next town.
+
         if (diceRoll >= 11) {
-            //might be ambushed
             return encounter(playerCharacter).toModel();
         }
         else {
-            //might find pot of gold
             return potOfGold(playerCharacter).toModel();
+        }
+    }
+
+    public PlayerCharacterModel travelToNextTown(String requestBody) throws BadDataException {
+        PlayerCharacter playerCharacter = playerCharacterService.findCharacterByName(PlayerCharacterService.convertToEntity(requestBody).getCharacterName());
+        int diceRoll = ServiceUtilities.generateRandomIntIntRange(1, 100);
+
+        if (diceRoll <= 40) {
+            Town fromTown = townService.findById(playerCharacter.getCurrentTown().getId());
+            Town toTown = townService.findById(playerCharacter.getCurrentTown().getId()+1);
+
+            fromTown.getPlayers().remove(playerCharacter);
+            toTown.getPlayers().add(playerCharacter);
+            playerCharacter.setCurrentTown(toTown);
+
+            townService.saveTown(fromTown);
+            townService.saveTown(toTown);
+
+            System.out.println("Found a new town called " + playerCharacter.getCurrentTown());
+            return playerCharacter.toModel();
+        }
+        else {
+            System.out.println("Got lost and returned to " + playerCharacter.getCurrentTown());
+            return playerCharacter.toModel();
         }
     }
 
@@ -65,7 +85,7 @@ public class TravelService {
 
         playerCharacter.setInCombat(true);
         combatService.fight(playerCharacter, monsterModel);
-        playerCharacterRepository.save(playerCharacter);
+        playerCharacterService.savePlayerCharacter(playerCharacter);
         return playerCharacter;
     }
 
@@ -75,7 +95,7 @@ public class TravelService {
         int newCurrencyValue = coinsGained + playerCharacter.getCurrency();
         playerCharacter.setCurrency(newCurrencyValue);
 
-        playerCharacterRepository.save(playerCharacter);
+        playerCharacterService.savePlayerCharacter(playerCharacter);
         return playerCharacter;
     }
 }
