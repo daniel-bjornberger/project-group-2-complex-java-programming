@@ -17,13 +17,15 @@ public class TownService {
 
     private final TownRepository townRepository;
     private final Tavern tavern;
+    private final Shop shop;
     private final PlayerCharacterRepository playerCharacterRepository;
     private final NonPlayerCharacterRepository nonPlayerCharacterRepository;
 
     @Autowired
-    public TownService(TownRepository townRepository, Tavern tavern, PlayerCharacterRepository playerCharacterRepository, NonPlayerCharacterRepository nonPlayerCharacterRepository) {
+    public TownService(TownRepository townRepository, Tavern tavern, Shop shop, PlayerCharacterRepository playerCharacterRepository, NonPlayerCharacterRepository nonPlayerCharacterRepository) {
         this.townRepository = townRepository;
         this.tavern = tavern;
+        this.shop = shop;
         this.playerCharacterRepository = playerCharacterRepository;
         this.nonPlayerCharacterRepository = nonPlayerCharacterRepository;
     }
@@ -79,6 +81,17 @@ public class TownService {
         playerCharacterRepository.save(playerCharacter);
         return playerCharacter.toModel();
     }
+
+    public PlayerCharacterModel visitShop(String requestBody) throws BadDataException{
+        PlayerCharacter playerCharacter = playerCharacterRepository.findByCharacterName(PlayerCharacterService.convertToEntity(requestBody).getCharacterName());
+        shop.shopping(playerCharacter);
+        playerCharacterRepository.save(playerCharacter);
+        return playerCharacter.toModel();
+    }
+
+
+
+
 
     //TODO: create function to allow for NPC to greet player
     //TODO: create function to allow Player to choose options to do in town.
