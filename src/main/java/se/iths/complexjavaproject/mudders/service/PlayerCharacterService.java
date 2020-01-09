@@ -13,6 +13,9 @@ import se.iths.complexjavaproject.mudders.exception.PlayerNotFoundException;
 import se.iths.complexjavaproject.mudders.model.PlayerCharacterModel;
 import se.iths.complexjavaproject.mudders.repository.PlayerCharacterRepository;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @NoArgsConstructor
 @Service
 public class PlayerCharacterService {
@@ -56,9 +59,13 @@ public class PlayerCharacterService {
         return character;
     }
 
-    // TODO test this and maybe changed to return a list with models
-    public Iterable<PlayerCharacter> findAll() {
-        return playerCharacterRepository.findAll();
+    public List<PlayerCharacterModel> findAll() {
+        Iterable<PlayerCharacter> playerCharacters = playerCharacterRepository.findAll();
+        List<PlayerCharacterModel> playerCharacterModels = new ArrayList<>();
+        for (PlayerCharacter playerCharacter: playerCharacters) {
+            playerCharacterModels.add(playerCharacter.toModel());
+        }
+        return playerCharacterModels;
     }
 
     public PlayerCharacterModel createNewCharacter(String name, String email) throws BadDataException {

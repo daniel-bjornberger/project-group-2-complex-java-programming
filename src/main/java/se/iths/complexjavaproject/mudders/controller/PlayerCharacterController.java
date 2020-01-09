@@ -34,8 +34,7 @@ public class PlayerCharacterController {
     @GetMapping(path = "/all")
     public ResponseEntity getAllPlayers() {
         try {
-            Iterable<PlayerCharacter> findAllPlayers = playerCharacterService.findAll();
-            return ResponseEntity.ok().body(findAllPlayers);
+            return ResponseEntity.ok().body(playerCharacterService.findAll());
         }
         catch(Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
