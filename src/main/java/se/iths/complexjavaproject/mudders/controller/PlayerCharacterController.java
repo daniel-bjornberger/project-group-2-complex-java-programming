@@ -103,16 +103,14 @@ public class PlayerCharacterController {
         }
     }
 
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping(path = "/delete")
-    public void removePlayer(@RequestParam String characterName) {
+    public ResponseEntity removePlayer(@RequestParam String characterName) {
         try {
             PlayerCharacter character = playerCharacterService.findCharacterByName(characterName);
             playerCharacterService.deleteCharacter(character);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         } catch (Exception e) {
-            ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
-
-
 }
