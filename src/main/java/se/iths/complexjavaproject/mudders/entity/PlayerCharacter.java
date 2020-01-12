@@ -1,10 +1,12 @@
 package se.iths.complexjavaproject.mudders.entity;
 
 import lombok.*;
+import se.iths.complexjavaproject.mudders.model.ItemAmountModel;
 import se.iths.complexjavaproject.mudders.model.PlayerCharacterModel;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -70,7 +72,9 @@ public class PlayerCharacter implements Serializable {
         playerCharacterModel.setDamage(getDamage());
         playerCharacterModel.setCurrency(getCurrency());
 
-        // TODO: Lägga till itemAmounts i modellen? Hur?
+        ArrayList<ItemAmountModel> itemAmountModels = new ArrayList<>();
+        this.itemAmounts.forEach(itemAmount -> itemAmountModels.add(itemAmount.toModel()));
+        playerCharacterModel.setItemAmountModels(itemAmountModels);
 
         return playerCharacterModel;
     }
