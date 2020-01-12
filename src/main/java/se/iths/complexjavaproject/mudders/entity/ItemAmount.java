@@ -1,14 +1,17 @@
 package se.iths.complexjavaproject.mudders.entity;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import se.iths.complexjavaproject.mudders.model.ItemAmountModel;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "item_amount")
-@Data
+//@Data
+@Getter
+@Setter
+@ToString
+//@RequiredArgsConstructor
 @NoArgsConstructor
 public class ItemAmount {
 
