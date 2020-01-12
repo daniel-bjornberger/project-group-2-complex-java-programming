@@ -13,7 +13,11 @@ import java.util.Set;
 
 @Entity
 @Table(name = "item")
-@Data
+//@Data
+@Getter
+@Setter
+@ToString
+//@RequiredArgsConstructor
 @NoArgsConstructor
 public class Item implements Serializable {
 
@@ -55,12 +59,12 @@ public class Item implements Serializable {
 
     public ItemModel toModel() {
 
-        //ArrayList<ItemAmountModel> itemAmountModels = new ArrayList<>();
+        ArrayList<ItemAmountModel> itemAmountModels = new ArrayList<>();
 
-        //this.itemAmounts.forEach(itemAmount -> itemAmountModels.add(itemAmount.toModel()));
+        this.itemAmounts.forEach(itemAmount -> itemAmountModels.add(itemAmount.toModel()));
 
         return new ItemModel(this.name, this.value,
-                this.damage, this.healthRecovery, this.maxAmount);
+                this.damage, this.healthRecovery, this.maxAmount, itemAmountModels);
 
     }
 
