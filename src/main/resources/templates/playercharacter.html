@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
     <head>
         <meta charset="UTF-8">
@@ -29,7 +29,7 @@
 
             <form action="/player/all" method="get">
                 <h3>Get all characters</h3>
-                Character name: <input type="text" name="name"><br>
+                Character name: <p th:text="${characterName}">No characters!!</p><br>
                 <input type="submit" value="Submit">
             </form>
             <form action="/player/add" method="post">
@@ -39,7 +39,7 @@
             </form>
             <form action="/player/delete" methods="delete">
                 <h3>Delete character</h3>
-                Character name: <input type="text" name="name"><br>
+                Character name: <input type="text" name="characterName"><br>
                 <input type="submit" value="Submit">
             </form>
 
