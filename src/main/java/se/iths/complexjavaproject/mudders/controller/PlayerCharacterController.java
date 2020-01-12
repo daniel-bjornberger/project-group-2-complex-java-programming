@@ -1,52 +1,40 @@
 package se.iths.complexjavaproject.mudders.controller;
 
-import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
-import se.iths.complexjavaproject.mudders.entity.Healer;
 import se.iths.complexjavaproject.mudders.entity.PlayerCharacter;
 import se.iths.complexjavaproject.mudders.exception.BadDataException;
-import se.iths.complexjavaproject.mudders.exception.InvalidJsonDataException;
 import se.iths.complexjavaproject.mudders.model.PlayerCharacterModel;
-import se.iths.complexjavaproject.mudders.repository.PlayerCharacterRepository;
-import se.iths.complexjavaproject.mudders.responsemodel.ClientResponse;
-import se.iths.complexjavaproject.mudders.responsemodel.ServerResponse;
 import se.iths.complexjavaproject.mudders.service.PlayerCharacterService;
 import se.iths.complexjavaproject.mudders.service.TownService;
 import se.iths.complexjavaproject.mudders.service.TravelService;
-import se.iths.complexjavaproject.mudders.service.World;
-
-import java.util.Scanner;
 
 @Service
 @RestController
-@NoArgsConstructor
 @RequestMapping("/player")
 public class PlayerCharacterController {
 
-    @Autowired
-    private PlayerCharacterRepository playerCharacterRepository;
+    private PlayerCharacterService playerCharacterService;
+    private TravelService travelService;
+    private TownService townService;
 
     @Autowired
-    PlayerCharacterService playerCharacterService;
-
-    @Autowired
-    World world;
-
-    @Autowired
-    TravelService travelService;
-
-    @Autowired
-    TownService townService;
+    public PlayerCharacterController(PlayerCharacterService playerCharacterService, TravelService travelService, TownService townService) {
+        this.playerCharacterService = playerCharacterService;
+        this.travelService = travelService;
+        this.townService = townService;
+    }
 
     @GetMapping(path = "/all")
     public ResponseEntity getAllPlayers() {
         try {
-            Iterable<PlayerCharacter> findAllPlayers = playerCharacterRepository.findAll();
-            return ResponseEntity.ok().body(findAllPlayers);
+            return ResponseEntity.ok().body(playerCharacterService.findAll());
         }
         catch(Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -54,16 +42,15 @@ public class PlayerCharacterController {
     }
 
     @PostMapping(path = "/add")
-    public ResponseEntity addNewPlayerCharacter (@RequestBody String characterName){
+    public ResponseEntity addNewPlayerCharacter (@RequestParam String characterName) {
         try {
-            PlayerCharacterModel playerCharacterModel = playerCharacterRepository
-                    .save(PlayerCharacterService.convertToEntity(characterName))
-                    .toModel();
-
-            return ResponseEntity
-                    .status(HttpStatus.CREATED)
-                    .body(playerCharacterModel);
-
+            String email = "";
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            if (!(authentication instanceof AnonymousAuthenticationToken)) {
+                email = authentication.getName();
+            }
+            PlayerCharacterModel characterModel = playerCharacterService.createNewCharacter(characterName, email);
+            return ResponseEntity.status(HttpStatus.CREATED).body(characterModel);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         }
@@ -78,6 +65,16 @@ public class PlayerCharacterController {
                     .body(playerCharacterModel);
         } catch (Exception e) {
             return  ResponseEntity.status(HttpStatus.NOT_FOUND).body(e);
+        }
+    }
+
+    @GetMapping(path = "/travel/next")
+    public ResponseEntity travelToNextTown(@RequestParam String characterName) {
+        try {
+            PlayerCharacterModel playerCharacterModel = travelService.travelToNextTown(characterName);
+            return  ResponseEntity.status(HttpStatus.OK).body(playerCharacterModel);
+        } catch (BadDataException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e);
         }
     }
 
@@ -108,10 +105,10 @@ public class PlayerCharacterController {
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping(path = "/delete")
-    public void removePlayer(@RequestParam String characterName){
+    public void removePlayer(@RequestParam String characterName) {
         try {
-            PlayerCharacter character = playerCharacterRepository.findByCharacterName(characterName);
-            playerCharacterRepository.delete(character);
+            PlayerCharacter character = playerCharacterService.findCharacterByName(characterName);
+            playerCharacterService.deleteCharacter(character);
         } catch (Exception e) {
             ResponseEntity.badRequest().body(e.getMessage());
         }

@@ -28,6 +28,10 @@
 		</developer>
 		<developer>
 			<name>Tonny Frisk</name>
+			<email>tonny035@hotmail.com</email>
+			<roles>
+				<role>Java-developer</role>
+			</roles>
 		</developer>
 		<developer>
 			<name>Daniel Björnberger</name>
@@ -43,10 +47,10 @@
 
 
 	<dependencies>
-		<!--<dependency>-->
-			<!--<groupId>org.springframework.boot</groupId>-->
-			<!--<artifactId>spring-boot-starter-amqp</artifactId>-->
-		<!--</dependency>-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-amqp</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -102,6 +106,7 @@
 		</dependency>-->
 
 
+	<!-- Thymeleaf -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
@@ -144,11 +149,11 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-		<!--<dependency>
+		<dependency>
 			<groupId>org.springframework.amqp</groupId>
 			<artifactId>spring-rabbit-test</artifactId>
 			<scope>test</scope>
-		</dependency>-->
+		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-json -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

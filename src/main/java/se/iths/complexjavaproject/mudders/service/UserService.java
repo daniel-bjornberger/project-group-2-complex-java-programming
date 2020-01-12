@@ -1,8 +1,9 @@
 package se.iths.complexjavaproject.mudders.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import se.iths.complexjavaproject.mudders.entity.User;
 import se.iths.complexjavaproject.mudders.exception.BadDataException;
@@ -15,51 +16,50 @@ import javax.transaction.Transactional;
 @Service
 public class UserService implements IUserService {
 
-    @Autowired
-    UserRepository userRepository;
-/*
-    public static User convertToEntity (String playerJson) throws BadDataException {
-        User user = new User();
-        ObjectMapper objectMapper = new ObjectMapper();
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-        try {
-            user = objectMapper.readValue(playerJson, User.class);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-        if (user.getFullName().isBlank()) {
-            throw new BadDataException("No name entered!");
-        }
-        if (user.getPassword().isBlank()){
-            throw new BadDataException("No password entered!");
-        }
-        if (user.getEmail().isBlank()){
-            throw new BadDataException("No email entered");
-        }
-        return user;
+    @Autowired
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
-*/
 
     @Transactional
     @Override
     public User registerNewUserAccount(UserModel userModel) throws EmailExistsException {
 
         if (emailExist(userModel.getEmail())) {
-            throw new EmailExistsException(
-                    "There is an account with that email adress: "
-                            +  userModel.getEmail());
+            throw new EmailExistsException("There is an account with that email address: "
+                            + userModel.getEmail());
         }
-        else
-           return userRepository.save(userModel.toEntity());
-        // the rest of the registration operation
+        else {
+            final User user = new User();
+            user.setFullName(userModel.getFullName());
+            user.setEmail(userModel.getEmail());
+            user.setPassword(passwordEncoder.encode(userModel.getPassword()));
+            user.setRoles(userModel.getRole());
+            return userRepository.save(user);
+        }
+    }
+
+    @Override
+    public void saveUser(User user) {
+        userRepository.save(user);
+    }
+
+    @Override
+    public User findUserByEmail(String email) throws BadDataException {
+        User user = userRepository.findByEmail(email);
+        if (user == null) {
+            throw new BadDataException("User not found");
+        }
+        return user;
     }
 
     private boolean emailExist(String email) {
         User user = userRepository.findByEmail(email);
-        if (user != null) {
-            return true;
-        }
-        return false;
+        return user != null;
     }
 
 }

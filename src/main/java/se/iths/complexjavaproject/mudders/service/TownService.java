@@ -6,66 +6,52 @@ import se.iths.complexjavaproject.mudders.entity.*;
 import se.iths.complexjavaproject.mudders.exception.BadDataException;
 import se.iths.complexjavaproject.mudders.model.NonPlayerCharacterModel;
 import se.iths.complexjavaproject.mudders.model.PlayerCharacterModel;
-import se.iths.complexjavaproject.mudders.model.TownModel;
 import se.iths.complexjavaproject.mudders.repository.NonPlayerCharacterRepository;
 import se.iths.complexjavaproject.mudders.repository.PlayerCharacterRepository;
 import se.iths.complexjavaproject.mudders.repository.TownRepository;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 @Service
 public class TownService {
 
-    @Autowired
-    TownRepository townRepository;
+    private final TownRepository townRepository;
+    private final Tavern tavern;
+    private final PlayerCharacterRepository playerCharacterRepository;
+    private final NonPlayerCharacterRepository nonPlayerCharacterRepository;
 
     @Autowired
-    World world;
-
-    @Autowired
-    Tavern tavern;
-
-    @Autowired
-    PlayerCharacterRepository playerCharacterRepository;
-
-    @Autowired
-    NonPlayerCharacterRepository nonPlayerCharacterRepository;
-    /*
-     * Blacksmith - Welcome traveller! How can I help you?
-     * Options: fix broken weapon, upgrade weapon.
-     * Smithy
-     *
-     * */
-
-    //Todo: get specific town and the belonging NPC's
-    private TownModel findTown(String townName){
-
-        Town town = townRepository.findTownByTownName(townName);
-        TownModel townModel = town.toModel();
-
-        return townModel;
+    public TownService(TownRepository townRepository, Tavern tavern, PlayerCharacterRepository playerCharacterRepository, NonPlayerCharacterRepository nonPlayerCharacterRepository) {
+        this.townRepository = townRepository;
+        this.tavern = tavern;
+        this.playerCharacterRepository = playerCharacterRepository;
+        this.nonPlayerCharacterRepository = nonPlayerCharacterRepository;
     }
 
-    public List<TownModel> getAllTownsAndNpc(){
+    private Town findTown(String townName){
+        return townRepository.findTownByTownName(townName);
+    }
 
-        Iterable<Town> townIterable = townRepository.findAll();
-        List<Town> towns = new ArrayList<>();
-
-        for (Town town:townIterable) {
-            towns.add(town);
+    Town findById(long id) throws BadDataException {
+        Optional<Town> optionalTown = townRepository.findById(id);
+        if (optionalTown.isPresent()) {
+            return optionalTown.get();
         }
-
-        return towns.stream().map(Town::toModel).collect(Collectors.toList());
+        else {
+            throw new BadDataException("Could not find town with id: " + id);
+        }
     }
 
-    private NonPlayerCharacterModel findNpcByName(String name){
+    public long numberOfTowns() {
+        return townRepository.count();
+    }
 
-        NonPlayerCharacter npc = nonPlayerCharacterRepository.findByName(name);
-        NonPlayerCharacterModel npcModel = npc.toModel();
+    void saveTown(Town town) {
+        townRepository.save(town);
+    }
 
-        return npcModel;
+    private NonPlayerCharacterModel findNpcByName(String name) {
+        return nonPlayerCharacterRepository.findByName(name).toModel();
     }
 
     public PlayerCharacterModel visitHealer(String characterName) throws BadDataException {
@@ -78,14 +64,15 @@ public class TownService {
 
     public String getTownGreeter(String townName, String npcName){
 
-        findTown(townName).getNpcs();
-        findNpcByName(npcName); //get string message
+        /*findTown(townName).getNpcs();
+        findNpcByName(npcName);*/ //get string message
 
         //NPC - Welcome to Town! What do you want do now?
 
         return null;
     }
 
+    // TODO: Borde skapas i startup och användas genom town.getNpc -> innKeeper -> rest. Måste även först kolla om det finns en tavern i staden.
     public PlayerCharacterModel visitTavern(String requestBody) throws BadDataException{
         PlayerCharacter playerCharacter = playerCharacterRepository.findByCharacterName(PlayerCharacterService.convertToEntity(requestBody).getCharacterName());
         tavern.restAtTavern(playerCharacter);
@@ -140,4 +127,11 @@ public class TownService {
         }
 
     }
+
+    /*
+     * Blacksmith - Welcome traveller! How can I help you?
+     * Options: fix broken weapon, upgrade weapon.
+     * Smithy
+     *
+     * */
 }

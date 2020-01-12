@@ -13,12 +13,6 @@ import se.iths.complexjavaproject.mudders.util.ServiceUtilities;
 @Service
 public class CombatService {
 
-    @Autowired
-    PlayerCharacterService playerCharacterService;
-
-    @Autowired
-    PlayerCharacterController playerCharacterController;
-
     public void fight(PlayerCharacter player, MonsterModel monster) {
 //        Player attacks monster
         while(player.isInCombat()){
