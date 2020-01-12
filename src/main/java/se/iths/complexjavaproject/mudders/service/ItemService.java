@@ -140,8 +140,16 @@ public class ItemService {
         itemAmountRepository.save(itemAmount);
 
         //System.out.println(playerCharacter);
-        System.out.println(item.toModel());
+        //System.out.println(item.toModel());
         //System.out.println(itemAmount);
+
+        playerCharacter.getItemAmounts().forEach(itemAmount1 -> System.out.println(itemAmount1.getItem().getName() + ", " + itemAmount1.getAmount()));
+
+        //System.out.println(playerCharacter.getItemAmounts().size());
+
+        //System.out.println(playerCharacter.getCharacterName());
+
+        //System.out.println(item.getName());
 
         return itemAmount.toModel();
 
