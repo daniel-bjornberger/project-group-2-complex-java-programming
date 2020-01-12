@@ -7,8 +7,7 @@ import se.iths.complexjavaproject.mudders.entity.Item;
 import se.iths.complexjavaproject.mudders.entity.ItemAmount;
 import se.iths.complexjavaproject.mudders.entity.ItemAmountId;
 import se.iths.complexjavaproject.mudders.entity.PlayerCharacter;
-import se.iths.complexjavaproject.mudders.exception.BadDataException;
-import se.iths.complexjavaproject.mudders.exception.PlayerNotFoundException;
+import se.iths.complexjavaproject.mudders.exception.*;
 import se.iths.complexjavaproject.mudders.model.ItemAmountModel;
 import se.iths.complexjavaproject.mudders.model.ItemModel;
 import se.iths.complexjavaproject.mudders.repository.ItemAmountRepository;
@@ -46,12 +45,12 @@ public class ItemService {
     }
 
 
-    public ItemModel addItem(ItemModel itemModel) throws Exception {
+    public ItemModel addItem(ItemModel itemModel) throws DuplicateItemException, BadDataException {
 
         Item item = itemModel.convertToEntity();
 
         if (itemRepository.existsByName(item.getName())) {
-            throw new Exception();          // TODO: Item med detta namn finns redan.
+            throw new DuplicateItemException(item.getName());      // Item med detta namn finns redan.
         }
 
         itemRepository.save(item);
@@ -61,12 +60,12 @@ public class ItemService {
     }
 
 
-    public ItemModel getItemByName(String name) throws Exception {
+    public ItemModel getItemByName(String name) throws ItemNotFoundException {
 
         Optional<Item> optionalItem = itemRepository.findByName(name);
 
         if (optionalItem.isEmpty()) {
-            throw new Exception();     // TODO: Om det inte finns något item med detta namn.
+            throw new ItemNotFoundException(name);     // Om det inte finns något item med detta namn.
         }
 
         return optionalItem.get().toModel();
@@ -74,16 +73,21 @@ public class ItemService {
     }
 
 
-    public ItemModel updateItemValue(ItemModel itemModel) throws Exception {
+    public ItemModel updateItemData(ItemModel itemModel) throws ItemNotFoundException {
 
         Optional<Item> optionalItemToUpdate = itemRepository.findByName(itemModel.getName());
 
         if (optionalItemToUpdate.isEmpty()) {
-            throw new Exception();     // TODO: Om det inte finns något item med detta namn.
+            throw new ItemNotFoundException(itemModel.getName());     // Om det inte finns något item med detta namn.
         }
 
         Item itemToUpdate = optionalItemToUpdate.get();
+
         itemToUpdate.setValue(itemModel.getValue());
+        itemToUpdate.setDamage(itemModel.getDamage());
+        itemToUpdate.setHealthRecovery(itemModel.getHealthRecovery());
+        itemToUpdate.setMaxAmount(itemModel.getMaxAmount());
+
         itemRepository.save(itemToUpdate);
 
         return itemToUpdate.toModel();
@@ -91,22 +95,21 @@ public class ItemService {
     }
 
 
-    public void deleteItemByName(String name) throws Exception {
+    public void deleteItemByName(String name) throws ItemNotFoundException {
 
         if (itemRepository.existsByName(name)) {
             itemRepository.deleteByName(name);
         }
         else {
-            throw new Exception();     // TODO: Om det inte finns något item med detta namn.
+            throw new ItemNotFoundException(name);     // Om det inte finns något item med detta namn.
         }
 
     }
 
 
-    public ItemAmountModel addItemToPlayerCharacter(ItemAmountModel itemAmountModel) throws Exception {
+    public ItemAmountModel addItemToPlayerCharacter(ItemAmountModel itemAmountModel) throws PlayerNotFoundException, BadDataException, ItemNotFoundException {
 
         PlayerCharacter playerCharacter;
-        //Optional<Item> optionalItem;
         Item item;
         Optional<ItemAmount> optionalItemAmount;
         ItemAmount itemAmount;
@@ -116,37 +119,10 @@ public class ItemService {
         }
 
 
-        /*if (characterName == null || itemName == null) {
-            throw new BadDataException("At least one of the required strings is missing.");
-        }
-
-        if (amount <= 0) {
-            throw new BadDataException("The amount is invalid.");
-        }*/
-
-
-        /*if (playerCharacterRepository.existsByCharacterName(characterName)) {
-            playerCharacter = playerCharacterRepository.findByCharacterName(characterName);
-        }
-        else {
-            throw new PlayerNotFoundException("A player character with the name '"
-                    + characterName + "' could not be found.");
-        }*/
-
-
         playerCharacter = retrievePlayerCharacter(itemAmountModel.getCharacterName());
 
-
-        /*optionalItem = itemRepository.findByName(itemName);
-
-        if (optionalItem.isEmpty()) {
-            throw new Exception();
-        }
-        else {
-            item = optionalItem.get();
-        }*/
-
         item = retrieveItem(itemAmountModel.getItemName());
+
 
         optionalItemAmount = itemAmountRepository
                 .findById(new ItemAmountId(playerCharacter.getId(), item.getId()));
@@ -159,14 +135,20 @@ public class ItemService {
             itemAmount = new ItemAmount(playerCharacter, item, itemAmountModel.getAmount());
         }
 
+        // TODO: Kolla att antalet item inte överstiger maxAmount för detta item.
+
         itemAmountRepository.save(itemAmount);
+
+        //System.out.println(playerCharacter);
+        System.out.println(item.toModel());
+        //System.out.println(itemAmount);
 
         return itemAmount.toModel();
 
     }
 
 
-    public ItemAmountModel removeItemFromPlayerCharacter(ItemAmountModel itemAmountModel) throws Exception {
+    public ItemAmountModel removeItemFromPlayerCharacter(ItemAmountModel itemAmountModel) throws PlayerNotFoundException, BadDataException, ItemNotFoundException, ItemAmountNotFoundException {
 
         PlayerCharacter playerCharacter;
         Item item;
@@ -178,9 +160,11 @@ public class ItemService {
             throw new BadDataException("The amount is invalid.");
         }
 
+
         playerCharacter = retrievePlayerCharacter(itemAmountModel.getCharacterName());
 
         item = retrieveItem(itemAmountModel.getItemName());
+
 
         optionalItemAmount = itemAmountRepository
                 .findById(new ItemAmountId(playerCharacter.getId(), item.getId()));
@@ -191,20 +175,18 @@ public class ItemService {
             if (itemAmount.getAmount() >= itemAmountModel.getAmount()) {
                 itemAmount.setAmount(itemAmount.getAmount() - itemAmountModel.getAmount());
                 itemAmountRepository.save(itemAmount);
-                return itemAmount.toModel();
+                return itemAmount.toModel();        // TODO: Deleta 'itemAmount' om noll.
             }
             else {
-                throw new Exception();      // TODO: Om 'itemAmount.getAmount() < amount'
+                throw new BadDataException(itemAmountModel.getCharacterName() +
+                        " doesn't have the requested amount of the item '" +
+                        itemAmountModel.getItemName() + "'.");      // Om 'itemAmount.getAmount() < amount'
             }
         }
         else {
-            //itemAmount = new ItemAmount(playerCharacter, item, amount);
-            throw new Exception();      // TODO: Om 'optionalItemAmount' inte finns.
+            throw new ItemAmountNotFoundException(itemAmountModel.getCharacterName(),
+                    itemAmountModel.getItemName());      // Om 'itemAmount' inte finns.
         }
-
-        /*itemAmountRepository.save(itemAmount);
-
-        return itemAmount.toModel();*/
 
     }
 
@@ -227,7 +209,7 @@ public class ItemService {
     }
 
 
-    private Item retrieveItem(String itemName) throws Exception {
+    private Item retrieveItem(String itemName) throws ItemNotFoundException, BadDataException {
 
         if (itemName == null) {
             throw new BadDataException("The name of the item is missing.");
@@ -236,7 +218,7 @@ public class ItemService {
         Optional<Item> optionalItem = itemRepository.findByName(itemName);
 
         if (optionalItem.isEmpty()) {
-            throw new Exception();    // TODO: Om det inte finns något item med detta namn.
+            throw new ItemNotFoundException(itemName);    // Om det inte finns något item med detta namn.
         }
         else {
             return optionalItem.get();
@@ -245,7 +227,7 @@ public class ItemService {
     }
 
 
-    public int getItemAmount(String characterName, String itemName) throws Exception {
+    /*public int getItemAmount(String characterName, String itemName) throws PlayerNotFoundException, BadDataException, ItemNotFoundException {
 
         PlayerCharacter playerCharacter = retrievePlayerCharacter(characterName);
 
@@ -255,13 +237,13 @@ public class ItemService {
                 itemAmountRepository.findById(new ItemAmountId(playerCharacter.getId(), item.getId()));
 
         if (optionalItemAmount.isEmpty()) {
-            throw new Exception();    // TODO: Om det inte finns något itemAmount med detta id.
+            return 0;
         }
         else {
             return optionalItemAmount.get().getAmount();
         }
 
-    }
+    }*/
 
 
 }
