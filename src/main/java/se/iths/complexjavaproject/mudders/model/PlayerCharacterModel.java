@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 import se.iths.complexjavaproject.mudders.entity.Town;
 
+import java.util.ArrayList;
+
 @Getter
 @Setter
 public class PlayerCharacterModel {
@@ -15,6 +17,6 @@ public class PlayerCharacterModel {
     private Town currentTown;
     private int damage;
     private int currency;
-
+    private ArrayList<ItemAmountModel> itemAmountModels = new ArrayList<>();
 
 }
