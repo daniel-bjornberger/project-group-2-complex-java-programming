@@ -32,9 +32,9 @@ public class ItemAmount {
     public ItemAmount(PlayerCharacter playerCharacter, Item item, int amount) {
 
         this.playerCharacter = playerCharacter;
-        this.item = item;
-        this.id = new ItemAmountId(playerCharacter.getId(), item.getId());
-        this.amount = amount;
+        this.item            = item;
+        this.id              = new ItemAmountId(playerCharacter.getId(), item.getId());
+        this.amount          = amount;
 
     }
 
