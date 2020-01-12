@@ -5,6 +5,8 @@ import se.iths.complexjavaproject.mudders.model.PlayerCharacterModel;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -49,6 +51,9 @@ public class PlayerCharacter implements Serializable {
     @JoinColumn(name = "town_id")
     private Town currentTown;
 
+    @OneToMany(mappedBy = "playerCharacter", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<ItemAmount> itemAmounts = new HashSet<>();
+
     /*TODO: Add one to one relation with user to keep track of owner
     @Column(name = "user_id")
     private Long id;
@@ -64,6 +69,8 @@ public class PlayerCharacter implements Serializable {
         playerCharacterModel.setCurrentTown(getCurrentTown());
         playerCharacterModel.setDamage(getDamage());
         playerCharacterModel.setCurrency(getCurrency());
+
+        // TODO: Lägga till itemAmounts i modellen? Hur?
 
         return playerCharacterModel;
     }
