@@ -15,6 +15,8 @@ import se.iths.complexjavaproject.mudders.service.PlayerCharacterService;
 import se.iths.complexjavaproject.mudders.service.TownService;
 import se.iths.complexjavaproject.mudders.service.TravelService;
 
+import java.util.List;
+
 @Service
 @RestController
 @RequestMapping("/player")
@@ -29,6 +31,11 @@ public class PlayerCharacterController {
         this.playerCharacterService = playerCharacterService;
         this.travelService = travelService;
         this.townService = townService;
+    }
+
+    @ModelAttribute
+    public Iterable<PlayerCharacter> populatePCList(){
+        return this.playerCharacterService.findAll();
     }
 
     @GetMapping(path = "/all")
