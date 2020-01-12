@@ -18,7 +18,7 @@ public class ItemModel {
     private int damage;
     private int healthRecovery;
     private int maxAmount;
-    //private ArrayList<ItemAmountModel> itemAmountModels = new ArrayList<>();
+    private ArrayList<ItemAmountModel> itemAmountModels = new ArrayList<>();
 
     public Item convertToEntity() throws BadDataException {
 
