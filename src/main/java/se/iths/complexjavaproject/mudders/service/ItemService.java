@@ -135,9 +135,16 @@ public class ItemService {
             itemAmount = new ItemAmount(playerCharacter, item, itemAmountModel.getAmount());
         }
 
-        // TODO: Kolla att antalet item inte överstiger maxAmount för detta item.
+        // Kollar att antalet item inte överstiger maxAmount för detta item:
 
-        itemAmountRepository.save(itemAmount);
+        if (itemAmount.getAmount() > item.getMaxAmount()) {
+            throw new BadDataException("The amount is invalid.");
+        }
+        else {
+            itemAmountRepository.save(itemAmount);
+        }
+
+
 
         //System.out.println(playerCharacter);
         //System.out.println(item.toModel());
@@ -180,10 +187,15 @@ public class ItemService {
         if (optionalItemAmount.isPresent()) {
             itemAmount = optionalItemAmount.get();
 
-            if (itemAmount.getAmount() >= itemAmountModel.getAmount()) {
+            if (itemAmount.getAmount() > itemAmountModel.getAmount()) {
                 itemAmount.setAmount(itemAmount.getAmount() - itemAmountModel.getAmount());
                 itemAmountRepository.save(itemAmount);
-                return itemAmount.toModel();        // TODO: Deleta 'itemAmount' om noll.
+                return itemAmount.toModel();        // Deleta 'itemAmount' om noll:
+            }
+            else if (itemAmount.getAmount() == itemAmountModel.getAmount()) {
+                itemAmount.setAmount(0);
+                itemAmountRepository.delete(itemAmount);
+                return itemAmount.toModel();
             }
             else {
                 throw new BadDataException(itemAmountModel.getCharacterName() +
