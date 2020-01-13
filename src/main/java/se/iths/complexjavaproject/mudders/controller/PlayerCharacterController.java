@@ -78,6 +78,16 @@ public class PlayerCharacterController {
         }
     }
 
+    @GetMapping(path = "/travel/previous")
+    public ResponseEntity travelToPreviousTown(@RequestParam String characterName) {
+        try {
+            PlayerCharacterModel playerCharacterModel = travelService.travelToPreviousTown(characterName);
+            return ResponseEntity.status(HttpStatus.OK).body(playerCharacterModel);
+        } catch (BadDataException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e);
+        }
+    }
+
     @GetMapping(path = "/healer")
     public ResponseEntity goToHealer(@RequestBody String characterName){
         try{
@@ -103,16 +113,14 @@ public class PlayerCharacterController {
         }
     }
 
-    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping(path = "/delete")
-    public void removePlayer(@RequestParam String characterName) {
+    public ResponseEntity removePlayer(@RequestParam String characterName) {
         try {
             PlayerCharacter character = playerCharacterService.findCharacterByName(characterName);
             playerCharacterService.deleteCharacter(character);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         } catch (Exception e) {
-            ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
-
-
 }

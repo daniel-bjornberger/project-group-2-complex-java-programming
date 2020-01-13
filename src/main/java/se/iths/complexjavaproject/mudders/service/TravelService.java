@@ -52,7 +52,7 @@ public class TravelService {
         int diceRoll = ServiceUtilities.generateRandomIntIntRange(1, 100);
 
         if (playerCharacter.getCurrentTown().getId() == townService.numberOfTowns()) {
-            System.out.println("No more towns");
+            System.out.println("No more towns this way");
         }
         else if (diceRoll <= 40) {
             Town fromTown = townService.findById(playerCharacter.getCurrentTown().getId());
@@ -65,10 +65,37 @@ public class TravelService {
             townService.saveTown(fromTown);
             townService.saveTown(toTown);
 
-            System.out.println("Found a new town called " + playerCharacter.getCurrentTown().getTownName());
+            System.out.println("You have entered the town " + playerCharacter.getCurrentTown().getTownName());
         }
         else {
-            System.out.println("Got lost and returned to " + playerCharacter.getCurrentTown().getTownName());
+            System.out.println("Got lost and returned to the town " + playerCharacter.getCurrentTown().getTownName());
+        }
+        return playerCharacter.toModel();
+    }
+
+    public PlayerCharacterModel travelToPreviousTown(String requestBody) throws BadDataException {
+//        PlayerCharacter playerCharacter = playerCharacterService.findCharacterByName(PlayerCharacterService.convertToEntity(requestBody).getCharacterName());
+        PlayerCharacter playerCharacter = playerCharacterService.findCharacterByName(requestBody);
+        int random = ServiceUtilities.generateRandomIntIntRange(1, 100);
+
+        if (playerCharacter.getCurrentTown().getId() == 1) {
+            System.out.println("No more towns this way");
+        }
+        else if (random <= 90) {
+            Town fromTown = townService.findById(playerCharacter.getCurrentTown().getId());
+            Town toTown = townService.findById(playerCharacter.getCurrentTown().getId()-1);
+
+            fromTown.getPlayers().remove(playerCharacter);
+            toTown.getPlayers().add(playerCharacter);
+            playerCharacter.setCurrentTown(toTown);
+
+            townService.saveTown(fromTown);
+            townService.saveTown(toTown);
+
+            System.out.println("You have entered the town " + playerCharacter.getCurrentTown().getTownName());
+        }
+        else {
+            System.out.println("Got lost and returned to the town " + playerCharacter.getCurrentTown().getTownName());
         }
         return playerCharacter.toModel();
     }

@@ -56,9 +56,10 @@ public class PlayerCharacter implements Serializable {
     @OneToMany(mappedBy = "playerCharacter", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<ItemAmount> itemAmounts = new HashSet<>();
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User userId;
+//    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "user_id")
+    private User user;
     
 
     public PlayerCharacterModel toModel() {
