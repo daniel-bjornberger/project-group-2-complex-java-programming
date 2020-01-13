@@ -6,7 +6,6 @@ import se.iths.complexjavaproject.mudders.model.UserModel;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.util.Collection;
 import java.util.List;
 
 
@@ -45,9 +44,12 @@ public class User {
     @Column(name = "role")
     private String roles;
 
-    @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL)
+    /*@OneToMany(mappedBy = "userId", cascade = CascadeType.ALL)
     @Column(name = "character_id")
-    private List<PlayerCharacter> characters;
+    private List<PlayerCharacter> characters;*/
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private PlayerCharacter character;
 
     public UserModel toModel(){
         UserModel userModel = new UserModel();

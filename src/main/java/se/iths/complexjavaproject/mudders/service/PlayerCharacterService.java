@@ -2,7 +2,6 @@ package se.iths.complexjavaproject.mudders.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import se.iths.complexjavaproject.mudders.entity.Town;
@@ -13,10 +12,10 @@ import se.iths.complexjavaproject.mudders.exception.PlayerNotFoundException;
 import se.iths.complexjavaproject.mudders.model.PlayerCharacterModel;
 import se.iths.complexjavaproject.mudders.repository.PlayerCharacterRepository;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
-@NoArgsConstructor
 @Service
 public class PlayerCharacterService {
 
@@ -72,11 +71,10 @@ public class PlayerCharacterService {
         return playerCharacterRepository.findAll();
     public List<PlayerCharacterModel> findAll() {
         Iterable<PlayerCharacter> playerCharacters = playerCharacterRepository.findAll();
-        List<PlayerCharacterModel> playerCharacterModels = new ArrayList<>();
-        for (PlayerCharacter playerCharacter: playerCharacters) {
-            playerCharacterModels.add(playerCharacter.toModel());
-        }
-        return playerCharacterModels;
+
+        return StreamSupport.stream(playerCharacters.spliterator(), false)
+                .map(PlayerCharacter::toModel)
+                .collect(Collectors.toList());
     }
 
     public PlayerCharacterModel createNewCharacter(String name, String email) throws BadDataException {
@@ -90,13 +88,11 @@ public class PlayerCharacterService {
         User user = userService.findUserByEmail(email);
         Town town = townService.findById(1L);
 
-        playerCharacter.setUserId(user);
+        playerCharacter.setUser(user);
         playerCharacter.setCurrentTown(town);
         town.getPlayers().add(playerCharacter);
-        user.getCharacters().add(playerCharacter);
-        townService.saveTown(town); // town is the parent here, so when we save the town we also save the player and user.
-        System.out.println("INSIDE playerCharacterService!!!!!!");
-        System.out.println(playerCharacter);
+//        user.getCharacters().add(playerCharacter);
+        user.setCharacter(playerCharacter);
         savePlayerCharacter(playerCharacter);
 
         return playerCharacter.toModel();
