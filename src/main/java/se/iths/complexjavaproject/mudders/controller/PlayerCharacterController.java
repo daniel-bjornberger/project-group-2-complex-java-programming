@@ -15,8 +15,6 @@ import se.iths.complexjavaproject.mudders.service.PlayerCharacterService;
 import se.iths.complexjavaproject.mudders.service.TownService;
 import se.iths.complexjavaproject.mudders.service.TravelService;
 
-import java.util.List;
-
 @Service
 @RestController
 @RequestMapping("/player")
@@ -33,11 +31,6 @@ public class PlayerCharacterController {
         this.townService = townService;
     }
 
-    @ModelAttribute
-    public Iterable<PlayerCharacter> populatePCList(){
-        return this.playerCharacterService.findAll();
-    }
-
     @GetMapping(path = "/all")
     public ResponseEntity getAllPlayers() {
         try {
@@ -51,7 +44,6 @@ public class PlayerCharacterController {
     @PostMapping(path = "/add")
     public ResponseEntity addNewPlayerCharacter (@RequestParam String characterName) {
         try {
-            System.out.println("I'm RUNNING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             String email = "";
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             if (!(authentication instanceof AnonymousAuthenticationToken)) {
