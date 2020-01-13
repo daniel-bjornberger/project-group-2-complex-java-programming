@@ -81,7 +81,8 @@ public class PlayerCharacterService {
         town.getPlayers().add(playerCharacter);
         user.getCharacters().add(playerCharacter);
         townService.saveTown(town); // town is the parent here, so when we save the town we also save the player and user.
-
+        System.out.println("INSIDE playerCharacterService!!!!!!");
+        System.out.println(playerCharacter);
         return playerCharacter.toModel();
     }
 }

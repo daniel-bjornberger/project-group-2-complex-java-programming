@@ -45,6 +45,7 @@ public class PlayerCharacterController {
     @PostMapping(path = "/add")
     public ResponseEntity addNewPlayerCharacter (@RequestParam String characterName) {
         try {
+            System.out.println("I'm RUNNING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             String email = "";
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             if (!(authentication instanceof AnonymousAuthenticationToken)) {
