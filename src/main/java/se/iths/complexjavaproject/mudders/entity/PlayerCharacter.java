@@ -49,9 +49,10 @@ public class PlayerCharacter implements Serializable {
     @JoinColumn(name = "town_id")
     private Town currentTown;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User userId;
+//    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "user_id")
+    private User user;
 
 
     public PlayerCharacterModel toModel() {

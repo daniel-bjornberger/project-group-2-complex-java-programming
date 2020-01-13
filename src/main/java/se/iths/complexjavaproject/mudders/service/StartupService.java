@@ -1,13 +1,16 @@
 package se.iths.complexjavaproject.mudders.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import se.iths.complexjavaproject.mudders.entity.Monster;
 import se.iths.complexjavaproject.mudders.entity.NonPlayerCharacter;
 import se.iths.complexjavaproject.mudders.entity.Town;
+import se.iths.complexjavaproject.mudders.entity.User;
 import se.iths.complexjavaproject.mudders.repository.MonsterRepository;
 import se.iths.complexjavaproject.mudders.repository.NonPlayerCharacterRepository;
 import se.iths.complexjavaproject.mudders.repository.TownRepository;
+import se.iths.complexjavaproject.mudders.repository.UserRepository;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -16,14 +19,26 @@ import java.util.List;
 @Service
 public class StartupService {
 
-    @Autowired
-    NonPlayerCharacterRepository npcRepository;
+    private NonPlayerCharacterRepository npcRepository;
+    private TownRepository townRepository;
+    private MonsterRepository monsterRepository;
+    private UserRepository userRepository;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
-    TownRepository townRepository;
+    public StartupService(NonPlayerCharacterRepository npcRepository,
+                          TownRepository townRepository,
+                          MonsterRepository monsterRepository,
+                          UserRepository userRepository,
+                          PasswordEncoder passwordEncoder) {
 
-    @Autowired
-    MonsterRepository monsterRepository;
+        this.npcRepository = npcRepository;
+        this.townRepository = townRepository;
+        this.monsterRepository = monsterRepository;
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+        
+    }
 
     public void populateDbIfNeeded() {
         if (isTownAndNPCRepositoryEmpty()) {
@@ -82,6 +97,15 @@ public class StartupService {
             wolf.setName("Wolf");
             monsterRepository.save(wolf);
         }
+
+        if (isUserRepositoryEmpty()) {
+            User admin = new User();
+            admin.setPassword(passwordEncoder.encode("admin"));
+            admin.setEmail("admin@mud.com");
+            admin.setFullName("Admin");
+            admin.setRoles("ADMIN");
+            userRepository.save(admin);
+        }
     }
 
     private boolean isTownAndNPCRepositoryEmpty() {
@@ -90,5 +114,9 @@ public class StartupService {
 
     private boolean isMonsterRepositoryEmpty() {
         return monsterRepository.count() == 0;
+    }
+
+    private boolean isUserRepositoryEmpty() {
+        return userRepository.count() == 0;
     }
 }

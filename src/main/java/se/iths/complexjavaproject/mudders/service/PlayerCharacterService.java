@@ -77,10 +77,11 @@ public class PlayerCharacterService {
         User user = userService.findUserByEmail(email);
         Town town = townService.findById(1L);
 
-        playerCharacter.setUserId(user);
+        playerCharacter.setUser(user);
         playerCharacter.setCurrentTown(town);
         town.getPlayers().add(playerCharacter);
-        user.getCharacters().add(playerCharacter);
+//        user.getCharacters().add(playerCharacter);
+        user.setCharacter(playerCharacter);
         savePlayerCharacter(playerCharacter);
 
         return playerCharacter.toModel();
