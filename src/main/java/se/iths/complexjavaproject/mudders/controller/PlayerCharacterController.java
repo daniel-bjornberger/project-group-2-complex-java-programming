@@ -44,6 +44,7 @@ public class PlayerCharacterController {
     @PostMapping(path = "/add")
     public ResponseEntity addNewPlayerCharacter (@RequestParam String characterName) {
         try {
+            System.out.println("I'm RUNNING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             String email = "";
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             if (!(authentication instanceof AnonymousAuthenticationToken)) {
@@ -107,12 +108,10 @@ public class PlayerCharacterController {
     @DeleteMapping(path = "/delete")
     public void removePlayer(@RequestParam String characterName) {
         try {
-            PlayerCharacter character = playerCharacterService.findCharacterByName(characterName);
-            playerCharacterService.deleteCharacter(character);
+            playerCharacterService.removeCharacter(characterName);
         } catch (Exception e) {
             ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-
 
 }

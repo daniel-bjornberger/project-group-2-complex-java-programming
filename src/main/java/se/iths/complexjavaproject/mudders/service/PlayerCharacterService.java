@@ -59,6 +59,17 @@ public class PlayerCharacterService {
         return character;
     }
 
+    public void removeCharacter(String name){
+        PlayerCharacter character = playerCharacterRepository.findByCharacterName(name);
+        if(character == null) {
+            throw new PlayerNotFoundException("Could not find character with the name: " + name);
+        }
+        playerCharacterRepository.delete(character);
+    }
+
+    // TODO test this and maybe changed to return a list
+    public Iterable<PlayerCharacter> findAll() {
+        return playerCharacterRepository.findAll();
     public List<PlayerCharacterModel> findAll() {
         Iterable<PlayerCharacter> playerCharacters = playerCharacterRepository.findAll();
         List<PlayerCharacterModel> playerCharacterModels = new ArrayList<>();
@@ -83,6 +94,9 @@ public class PlayerCharacterService {
         playerCharacter.setCurrentTown(town);
         town.getPlayers().add(playerCharacter);
         user.getCharacters().add(playerCharacter);
+        townService.saveTown(town); // town is the parent here, so when we save the town we also save the player and user.
+        System.out.println("INSIDE playerCharacterService!!!!!!");
+        System.out.println(playerCharacter);
         savePlayerCharacter(playerCharacter);
 
         return playerCharacter.toModel();

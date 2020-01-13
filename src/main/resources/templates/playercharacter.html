@@ -11,10 +11,39 @@
         <h1>På denna sida väljer man en existerande karaktär, eller skapar en ny.</h1>
 
         <div>
+            <form action="/user/add" method="post">
+                <h3>Add User</h3>
+                User name: <input type="text" name="name">
+                User email: <input type="email" name="email">
+                <br>
+                <input type="submit" value="Submit">
+            </form>
+
+            <form action="/user/delete" method="delete">
+                <h3>Delete User</h3>
+                User name: <input type="text" name="name">
+                User email: <input type="email" name="email">
+                <br>
+                <input type="submit" value="Submit">
+            </form>
+
+            <form action="/player/all" method="get">
+                <h3>Get all characters</h3>
+                Character name: <input type="text" name="name"><br>
+                <input type="submit" value="Submit">
+            </form>
             <form action="/player/add" method="post">
+                <h3>Add character</h3>
                 Character name: <input type="text" name="characterName"><br>
                 <input type="submit" value="Submit">
             </form>
+            <form action="/player/delete" methods="delete">
+                <h3>Delete character</h3>
+                Character name: <input type="text" name="name"><br>
+                <input type="submit" value="Submit">
+            </form>
+
+
         </div>
 
     </body>
