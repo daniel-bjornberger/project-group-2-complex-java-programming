@@ -1,8 +1,6 @@
 package se.iths.complexjavaproject.mudders.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import se.iths.complexjavaproject.mudders.entity.User;
@@ -55,6 +53,11 @@ public class UserService implements IUserService {
             throw new BadDataException("User not found");
         }
         return user;
+    }
+
+    @Override
+    public void deleteUserAccount(User user) {
+        userRepository.delete(user);
     }
 
     private boolean emailExist(String email) {

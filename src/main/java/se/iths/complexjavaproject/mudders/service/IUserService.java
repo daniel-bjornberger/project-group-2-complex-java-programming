@@ -13,4 +13,6 @@ public interface IUserService {
 
     User findUserByEmail(String email) throws BadDataException;
 
+    void deleteUserAccount(User user);
+
 }
