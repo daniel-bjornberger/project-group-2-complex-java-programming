@@ -18,9 +18,9 @@ public class UserModel {
     @NotNull
     private String fullName;
 
-    @NotEmpty
+    /*@NotEmpty
     @NotNull
-    private String Role = "USER";
+    private String Role = "USER";*/
 
     //@ValidEmail
     @NotEmpty
