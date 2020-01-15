@@ -1,12 +1,14 @@
 package se.iths.complexjavaproject.mudders.entity;
 
-import lombok.Data;
-import lombok.NonNull;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Collection;
 
-@Data
+@RequiredArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 @Entity
 public class Privilege {
 

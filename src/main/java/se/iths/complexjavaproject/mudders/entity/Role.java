@@ -1,12 +1,14 @@
 package se.iths.complexjavaproject.mudders.entity;
 
-import lombok.Data;
-import lombok.NonNull;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Collection;
 
-@Data
+@NoArgsConstructor
+@RequiredArgsConstructor
+@Getter
+@Setter
 @Entity
 public class Role {
 
@@ -25,5 +27,4 @@ public class Role {
 
     @NonNull
     private String name;
-
 }
