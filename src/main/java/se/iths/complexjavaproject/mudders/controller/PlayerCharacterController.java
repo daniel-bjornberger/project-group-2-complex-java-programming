@@ -13,20 +13,21 @@ import org.springframework.web.bind.annotation.*;
 import se.iths.complexjavaproject.mudders.entity.PlayerCharacter;
 import se.iths.complexjavaproject.mudders.exception.BadDataException;
 import se.iths.complexjavaproject.mudders.model.PlayerCharacterModel;
+import se.iths.complexjavaproject.mudders.service.IPCServiceStub;
 import se.iths.complexjavaproject.mudders.service.PlayerCharacterService;
 import se.iths.complexjavaproject.mudders.service.TownService;
 import se.iths.complexjavaproject.mudders.service.TravelService;
 
-import java.util.List;
-
 @Service
-@Controller
-@RequestMapping("/player")
+@Controller("/player")
 public class PlayerCharacterController {
 
     private PlayerCharacterService playerCharacterService;
     private TravelService travelService;
     private TownService townService;
+
+    @Autowired
+    private IPCServiceStub ipcServiceStub;
 
     @Autowired
     public PlayerCharacterController(PlayerCharacterService playerCharacterService, TravelService travelService, TownService townService) {
@@ -35,47 +36,16 @@ public class PlayerCharacterController {
         this.townService = townService;
     }
 
-    /**
-     * Hard coded to find playerCharacter with long id 1, sends the name of the character to playercharacter.html
-     * @param model
-     * @return playercharacter.html
-     */
-    @RequestMapping(value="/playercharacter", method = RequestMethod.GET )
+
+    @RequestMapping(value="/", method = RequestMethod.GET, params = {"loyalty=blue"} )
     public String read(Model model){
-        PlayerCharacterModel player = playerCharacterService.findById(1);
-        model.addAttribute("player", player.getCharacterName());
-
-        return "playercharacter";
-    }
-
-    @RequestMapping(value="/savecharacter", method = RequestMethod.GET )
-    public String saveCharacter(PlayerCharacterModel playerCharacterModel){
-        playerCharacterModel.setLevel(10);
-
-        return "playercharacter";
-    }
-    @GetMapping("/addplayer")
-    //RequestMapping annotation over a method - tie out to a browser/postman
-    //value - relative path (endpoint) from a domain name.
-    //method - HTTP method
-    public String addPlayer(Model model, @RequestParam(value="characterName", required=false, defaultValue="0.0")String characterName){
-        PlayerCharacterModel playerCharacterModel = playerCharacterService.findById(1);
-        playerCharacterModel.setCharacterName(characterName);
-
-        model.addAttribute("player", playerCharacterModel);
-        return "start";
+        PlayerCharacterModel playerCharacterModel = ipcServiceStub.fetchByName("TestGettingName");
+        model.addAttribute("character", playerCharacterModel);
+        return"playercharacter";
     }
 
 
-    /*@RequestMapping(value="/playercharacter", method=RequestMethod.GET)
-    public String playGame(){
-        //send playerCharacter into game
-        //enter new page - play.html
-        return "play";
-    }*/
-
-
-    @GetMapping(path = "/all")
+   /* @GetMapping(path = "/all")
     public ResponseEntity getAllPlayers() {
         try {
             return ResponseEntity.ok().body(playerCharacterService.findAll());
@@ -83,7 +53,7 @@ public class PlayerCharacterController {
         catch(Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
-    }
+    }*/
 
     @PostMapping(path = "/add")
     public ResponseEntity addNewPlayerCharacter (@RequestParam String characterName) {

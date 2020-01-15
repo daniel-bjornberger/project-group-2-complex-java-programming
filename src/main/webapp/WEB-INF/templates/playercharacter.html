@@ -1,66 +1,60 @@
 <!DOCTYPE html>
 
-<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
     <head>
         <meta charset="UTF-8">
-        <title>Start Page</title>
+        <title>Player character</title>
     </head>
 
     <body>
-        <h1>Your Account</h1>
 
-        <div>
-            <h3>Your character:</h3>
-            <p th:text="${player}"/>
-
-            <button name="submit" type="submit" value="0">Choose</button>
-            <button name="delete" type="delete" value="0">Delete</button>
-
-            <button name="play" type="button" th:action="playgame">Play</button>
-
-           <!-- <h3>Add Character</h3>
-            <form action="#" th:action="@{/savecharacter}" th:object="${player}" method="GET">
-
-                Character name: <input type="text" name="characterName" th:field="*{characterName}"/><br/>
-                Level: <input type="text" name="level" th:field="*{level}"/><br/>
-
-                <button name="submit" type="submit" value="0">Submit</button>
-            </form>-->
-
-        </div>
+        <h2>Welcome to start page</h2>
+        <br>
+        <h3>Your character is: </h3>
+        <!--/*@thymesVar id="character" type="java"*/-->
+        <p th:action="player" th:text="${character}"/>
 
         <div>
             <form action="/user/registration" method="post">
                 <h3>Add User</h3>
                 User name: <input type="text" name="name">
-                User password: <input type="text" name="password">
                 User email: <input type="email" name="email">
+                User password:  <input type="password" name="password">
+                User confirm password:  <input type="password" name="password">
                 <br>
                 <input type="submit" value="Submit">
             </form>
 
-            <form action="/user/delete" method="post">
+            <form action="/user/delete" method="delete">
                 <h3>Delete User</h3>
+
                 User email: <input type="email" name="email">
                 <br>
                 <input type="submit" value="Submit">
             </form>
 
-            <form action="/player/all" method="get">
-                <h3>Get all characters</h3>
-                Character name: <p th:text="${characterName}">No characters!!</p><br>
-                <input type="submit" value="Submit">
-            </form>
-            <form action="/player/add" method="post">
-                <h3>Add character</h3>
-                Character name: <input type="text" name="characterName"><br>
-                <input type="submit" value="Submit">
-            </form>
-            <form action="/player/delete" methods="delete">
-                <h3>Delete character</h3>
-                Character name: <input type="text" name="characterName"><br>
-                <input type="submit" value="Submit">
+        </div>
+
+        <form action="/player/all" method="get">
+            <h3>Get all characters</h3>
+            Character name: <p th:text="${characterName}">No characters!!</p><br>
+            <input type="submit" value="Submit">
+        </form>
+        <form action="/player/add" method="post">
+            <h3>Add character</h3>
+            Character name: <input type="text" name="characterName"><br>
+            <input type="submit" value="Submit">
+        </form>
+        <form action="/player/delete" method="delete">
+            <h3>Delete character</h3>
+            Character name: <input type="text" name="characterName"><br>
+            <input type="submit" value="Submit">
+        </form>
+            <!--Logout button not working, sends to error page-->
+            <br>
+            <form name="logoutForm" th:action="@{/logout}" method="post">
+                <input type="submit" value="Sign Out"/>
             </form>
 
 

@@ -18,4 +18,5 @@ public class PlayerCharacterModel {
     private int currency;
     private ArrayList<ItemAmountModel> itemAmountModels = new ArrayList<>();
 
+
 }

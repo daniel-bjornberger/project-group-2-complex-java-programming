@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Start</title>
+</head>
+<body>
+
+<div class="topNav">
+    <a href="login.html">Login</a>
+</div>
+
+    <h2>Welcome to start page</h2>
+    <br>
+    <h3>Your character is: </h3>
+    <p th:text="${character}"/>
+
+
+        <div>
+
+            <!--Logout button -->
+            <br>
+            <form name="logoutForm" th:action="@{/logout}" method="post">
+                <input type="submit" value="Sign Out"/>
+            </form>
+
+
+        </div>
+
+</body>
+</html>

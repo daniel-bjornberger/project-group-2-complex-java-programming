@@ -3,6 +3,7 @@ package se.iths.complexjavaproject.mudders.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import se.iths.complexjavaproject.mudders.entity.Town;
 import se.iths.complexjavaproject.mudders.entity.User;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @Service
+@Component
 public class PlayerCharacterService {
 
     private PlayerCharacterRepository playerCharacterRepository;
