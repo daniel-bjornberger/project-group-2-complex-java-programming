@@ -1,6 +1,7 @@
 package se.iths.complexjavaproject.mudders.entity;
 
 import lombok.Data;
+import lombok.NonNull;
 
 import javax.persistence.*;
 import java.util.Collection;
@@ -22,6 +23,7 @@ public class Role {
             inverseJoinColumns = @JoinColumn(name = "privilege_id", referencedColumnName = "id"))
     private Collection<Privilege> privileges;
 
+    @NonNull
     private String name;
 
 }
