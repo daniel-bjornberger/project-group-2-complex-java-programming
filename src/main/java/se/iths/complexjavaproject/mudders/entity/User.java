@@ -1,20 +1,16 @@
 package se.iths.complexjavaproject.mudders.entity;
 
-import lombok.*;
-import se.iths.complexjavaproject.mudders.model.UserModel;
+import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.Collection;
 import java.util.List;
 
 
-@Getter
-@Setter
 @Table(name = "user")
-@NoArgsConstructor
-@AllArgsConstructor
-@ToString
+@Data
 @Entity
 public class User {
 
@@ -41,8 +37,11 @@ public class User {
 
     @NotNull
     @NotEmpty
-    @Column(name = "role")
-    private String roles;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "users_roles",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+    private Collection<Role> roles;
 
     /*@OneToMany(mappedBy = "userId", cascade = CascadeType.ALL)
     @Column(name = "character_id")
@@ -51,13 +50,13 @@ public class User {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private PlayerCharacter character;
 
-    public UserModel toModel(){
+    /*public UserModel toModel(){
         UserModel userModel = new UserModel();
         userModel.setEmail(getEmail());
         userModel.setFullName(getFullName());
         userModel.setPassword(getPassword());
-        userModel.setRole(getRoles());
+//        userModel.setRoles(getRoles());
         return userModel;
-    }
+    }*/
 
 }
