@@ -1,4 +1,7 @@
 package se.iths.complexjavaproject.mudders.repository;
 
-public interface PrivilegeRepository {
+import org.springframework.data.repository.CrudRepository;
+import se.iths.complexjavaproject.mudders.entity.Privilege;
+
+public interface PrivilegeRepository extends CrudRepository<Privilege, Long> {
 }
