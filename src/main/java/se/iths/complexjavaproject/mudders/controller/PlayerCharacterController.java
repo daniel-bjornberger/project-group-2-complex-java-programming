@@ -6,7 +6,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import se.iths.complexjavaproject.mudders.entity.PlayerCharacter;
 import se.iths.complexjavaproject.mudders.exception.BadDataException;
@@ -15,9 +17,10 @@ import se.iths.complexjavaproject.mudders.service.PlayerCharacterService;
 import se.iths.complexjavaproject.mudders.service.TownService;
 import se.iths.complexjavaproject.mudders.service.TravelService;
 
+import java.util.List;
+
 @Service
-@RestController
-@RequestMapping("/player")
+@Controller("/player")
 public class PlayerCharacterController {
 
     private PlayerCharacterService playerCharacterService;
@@ -30,6 +33,27 @@ public class PlayerCharacterController {
         this.travelService = travelService;
         this.townService = townService;
     }
+
+    @RequestMapping(value="/playercharacter", method = RequestMethod.GET )
+    public String read(Model model){
+        List<PlayerCharacterModel> playerList = playerCharacterService.findAll();
+
+        PlayerCharacterModel playerCharacterModel = new PlayerCharacterModel();
+        String name = String.valueOf(playerList.contains(playerCharacterModel.getCharacterName()));
+        playerCharacterModel.setCharacterName(name);
+
+        model.addAttribute("player", playerCharacterModel.getCharacterName());
+        return "playercharacter";
+    }
+
+    @RequestMapping(value="/playercharacter", method=RequestMethod.GET)
+    public String playGame(){
+        //send playerCharacter into game
+        //enter new page
+        return "play";
+    }
+
+
 
     @GetMapping(path = "/all")
     public ResponseEntity getAllPlayers() {
