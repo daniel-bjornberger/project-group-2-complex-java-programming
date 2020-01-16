@@ -48,6 +48,26 @@ public class PlayerCharacterController {
         return "playercharacter";
     }
 
+    @RequestMapping(value="/savecharacter", method = RequestMethod.GET )
+    public String saveCharacter(PlayerCharacterModel playerCharacterModel){
+        playerCharacterModel.setLevel(10);
+
+        return "playercharacter";
+    }
+
+    @GetMapping("/addplayer")
+    //RequestMapping annotation over a method - tie out to a browser/postman
+    //value - relative path (endpoint) from a domain name.
+    //method - HTTP method
+    public String addPlayer(Model model, @RequestParam(value="characterName", required=false, defaultValue="0.0")String characterName){
+        PlayerCharacterModel playerCharacterModel = playerCharacterService.findById(1);
+        playerCharacterModel.setCharacterName(characterName);
+
+        model.addAttribute("player", playerCharacterModel);
+        return "start";
+    }
+
+
     /*@RequestMapping(value="/playercharacter", method=RequestMethod.GET)
     public String playGame(){
         //send playerCharacter into game
