@@ -11,7 +11,6 @@ import javax.persistence.Table;
 @Table(name = "shop")
 @NoArgsConstructor
 @ToString
-@Entity
 public class Shop extends NonPlayerCharacter  {
 
     private static final long serialVersionUID = 4552624858238223436L;
