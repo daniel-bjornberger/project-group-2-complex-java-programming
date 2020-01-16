@@ -45,16 +45,16 @@ public class TownService {
     }
 
     public PlayerCharacterModel visitHealer(String characterName) throws BadDataException {
-        NonPlayerCharacter healer = nonPlayerCharacterRepository.findByName("healer");
-        PlayerCharacter playerCharacter = playerCharacterRepository.findByCharacterName(PlayerCharacterService.convertToEntity(characterName).getCharacterName());
-        ((Healer)healer).doctor(playerCharacter);
+        Healer healer = (Healer)nonPlayerCharacterRepository.findByName("Healer");
+        PlayerCharacter playerCharacter = playerCharacterRepository.findByCharacterName(characterName);
+        healer.doctor(playerCharacter);
         playerCharacterRepository.save(playerCharacter);
         return playerCharacter.toModel();
     }
 
     public PlayerCharacterModel visitTavern(String requestBody) throws BadDataException{
-        NonPlayerCharacter tavern = nonPlayerCharacterRepository.findByName("tavern");
-        PlayerCharacter playerCharacter = playerCharacterRepository.findByCharacterName(PlayerCharacterService.convertToEntity(requestBody).getCharacterName());
+        NonPlayerCharacter tavern = nonPlayerCharacterRepository.findByName("Tavern");
+        PlayerCharacter playerCharacter = playerCharacterRepository.findByCharacterName(requestBody);
         ((Tavern)tavern).restAtTavern(playerCharacter);
         playerCharacterRepository.save(playerCharacter);
         return playerCharacter.toModel();
