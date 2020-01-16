@@ -66,6 +66,15 @@ public class PlayerCharacterService {
                 .collect(Collectors.toList());
     }
 
+    public PlayerCharacterModel findById(long id){
+        PlayerCharacter character = playerCharacterRepository.findById(id);
+        if (character == null) {
+            throw new PlayerNotFoundException("Could not find character with the id: " + id);
+        }
+
+        return character.toModel();
+    }
+
     public PlayerCharacterModel createNewCharacter(String name, String email) throws BadDataException {
         PlayerCharacter playerCharacter = new PlayerCharacter();
 
