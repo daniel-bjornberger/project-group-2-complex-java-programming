@@ -1,10 +1,14 @@
 package se.iths.complexjavaproject.mudders.entity;
 
 import lombok.*;
+import se.iths.complexjavaproject.mudders.model.ItemAmountModel;
 import se.iths.complexjavaproject.mudders.model.PlayerCharacterModel;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -49,11 +53,14 @@ public class PlayerCharacter implements Serializable {
     @JoinColumn(name = "town_id")
     private Town currentTown;
 
+    @OneToMany(mappedBy = "playerCharacter", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<ItemAmount> itemAmounts = new HashSet<>();
+
 //    @ManyToOne(fetch = FetchType.LAZY)
     @OneToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name = "user_id")
     private User user;
-
+    
 
     public PlayerCharacterModel toModel() {
         PlayerCharacterModel playerCharacterModel = new PlayerCharacterModel();
@@ -65,6 +72,10 @@ public class PlayerCharacter implements Serializable {
         playerCharacterModel.setCurrentTown(getCurrentTown().getTownName());
         playerCharacterModel.setDamage(getDamage());
         playerCharacterModel.setCurrency(getCurrency());
+
+        ArrayList<ItemAmountModel> itemAmountModels = new ArrayList<>();
+        this.itemAmounts.forEach(itemAmount -> itemAmountModels.add(itemAmount.toModel()));
+        playerCharacterModel.setItemAmountModels(itemAmountModels);
 
         return playerCharacterModel;
     }
