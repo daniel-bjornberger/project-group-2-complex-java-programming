@@ -14,6 +14,11 @@
             <h3>Your character:</h3>
             <p th:text="${player}"/>
 
+            <button name="submit" type="submit" value="0">Submit</button>
+            <button name="delete" type="delete" value="0">Delete</button>
+
+            <button name="play" type="button" th:action="playgame">Play</button>
+
         </div>
 
         <div>
