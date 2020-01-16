@@ -7,6 +7,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import se.iths.complexjavaproject.mudders.entity.User;
+import se.iths.complexjavaproject.mudders.exception.BadDataException;
 import se.iths.complexjavaproject.mudders.exception.EmailExistsException;
 import se.iths.complexjavaproject.mudders.model.UserModel;
 import se.iths.complexjavaproject.mudders.service.UserService;
@@ -47,6 +48,17 @@ public class RegistrationController {
         else {
             return new ModelAndView("login", "user", userModel);
         }
+    }
+
+    @PostMapping("/delete")
+    public String deleteUserAccount(@RequestParam String email) {
+        try {
+            User userByEmail = userService.findUserByEmail(email);
+            userService.deleteUserAccount(userByEmail);
+        } catch (BadDataException e) {
+            e.printStackTrace();
+        }
+        return "playercharacter";
     }
 
     private User createUserAccount(UserModel userModel) {

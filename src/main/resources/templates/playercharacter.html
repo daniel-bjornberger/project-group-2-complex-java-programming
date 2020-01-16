@@ -11,17 +11,17 @@
         <h1>På denna sida väljer man en existerande karaktär, eller skapar en ny.</h1>
 
         <div>
-            <form action="/user/add" method="post">
+            <form action="/user/registration" method="post">
                 <h3>Add User</h3>
                 User name: <input type="text" name="name">
+                User password: <input type="text" name="password">
                 User email: <input type="email" name="email">
                 <br>
                 <input type="submit" value="Submit">
             </form>
 
-            <form action="/user/delete" method="delete">
+            <form action="/user/delete" method="post">
                 <h3>Delete User</h3>
-                User name: <input type="text" name="name">
                 User email: <input type="email" name="email">
                 <br>
                 <input type="submit" value="Submit">
