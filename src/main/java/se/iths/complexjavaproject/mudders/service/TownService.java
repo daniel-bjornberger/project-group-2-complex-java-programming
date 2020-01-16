@@ -16,16 +16,12 @@ import java.util.Optional;
 public class TownService {
 
     private final TownRepository townRepository;
-    private final Tavern tavern;
-    private final Shop shop;
     private final PlayerCharacterRepository playerCharacterRepository;
     private final NonPlayerCharacterRepository nonPlayerCharacterRepository;
 
     @Autowired
-    public TownService(TownRepository townRepository, Tavern tavern, Shop shop, PlayerCharacterRepository playerCharacterRepository, NonPlayerCharacterRepository nonPlayerCharacterRepository) {
+    public TownService(TownRepository townRepository, PlayerCharacterRepository playerCharacterRepository, NonPlayerCharacterRepository nonPlayerCharacterRepository) {
         this.townRepository = townRepository;
-        this.tavern = tavern;
-        this.shop = shop;
         this.playerCharacterRepository = playerCharacterRepository;
         this.nonPlayerCharacterRepository = nonPlayerCharacterRepository;
     }
@@ -57,7 +53,7 @@ public class TownService {
     }
 
     public PlayerCharacterModel visitHealer(String characterName) throws BadDataException {
-        Healer healer = new Healer();
+        NonPlayerCharacter healer = nonPlayerCharacterRepository.findByName("healer");
         PlayerCharacter playerCharacter = playerCharacterRepository.findByCharacterName(PlayerCharacterService.convertToEntity(characterName).getCharacterName());
         healer.doctor(playerCharacter);
         playerCharacterRepository.save(playerCharacter);

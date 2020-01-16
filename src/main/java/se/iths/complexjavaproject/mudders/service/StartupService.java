@@ -70,15 +70,15 @@ public class StartupService {
             List<NonPlayerCharacter> addToFirstTown = new ArrayList<>();
             List<NonPlayerCharacter> addToSecondTown = new ArrayList<>();
 
-            NonPlayerCharacter firstNPC = new NonPlayerCharacter();
-            firstNPC.setName("Ragnar");
+            NonPlayerCharacter firstNPC = new Tavern();
+            firstNPC.setName("Tavern");
             addToFirstTown.add(firstNPC);
 
-            NonPlayerCharacter secondNPC = new NonPlayerCharacter();
+            NonPlayerCharacter secondNPC = new Shop();
             secondNPC.setName("Blacksmith");
             addToSecondTown.add(secondNPC);
 
-            NonPlayerCharacter thirdNPC = new NonPlayerCharacter();
+            NonPlayerCharacter thirdNPC = new Healer();
             thirdNPC.setName("Healer");
             addToFirstTown.add(thirdNPC);
 
