@@ -18,11 +18,6 @@ public class UserModel {
     @NotNull
     private String fullName;
 
-    /*@NotEmpty
-    @NotNull
-    private String Role = "USER";*/
-
-    //@ValidEmail
     @NotEmpty
     @NotNull
     private String email;
