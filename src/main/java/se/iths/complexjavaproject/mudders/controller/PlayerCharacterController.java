@@ -42,13 +42,13 @@ public class PlayerCharacterController {
 
     @RequestMapping(value="/playercharacter", method = RequestMethod.GET )
     public String read(Model model){
-        List<PlayerCharacterModel> playerCharacterModel = playerCharacterService.findAll();
+        //List<PlayerCharacterModel> playerCharacterModel = playerCharacterService.findAll();
 
-        /*PlayerCharacterModel playerCharacterModel = new PlayerCharacterModel();
+        PlayerCharacterModel playerCharacterModel = new PlayerCharacterModel();
         playerCharacterModel.setCharacterName("TestSettingName");
-        playerCharacterModel.setCharacterName("TestSettingNameNumber2");*/
 
-        model.addAttribute("player", playerCharacterModel);
+
+        model.addAttribute("player", playerCharacterModel.getCharacterName());
         return "playercharacter";
     }
 
