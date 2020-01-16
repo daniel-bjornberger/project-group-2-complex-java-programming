@@ -56,7 +56,6 @@ public class PlayerCharacterController {
     }*/
 
 
-
     @GetMapping(path = "/all")
     public ResponseEntity getAllPlayers() {
         try {
