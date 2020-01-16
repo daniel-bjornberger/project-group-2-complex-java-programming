@@ -1,14 +1,20 @@
 <!DOCTYPE html>
 
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
 
     <head>
         <meta charset="UTF-8">
-        <title>Player character</title>
+        <title>Start Page</title>
     </head>
 
     <body>
-        <h1>På denna sida väljer man en existerande karaktär, eller skapar en ny.</h1>
+        <h1>Your Account</h1>
+
+        <div>
+            <h3>Your character:</h3>
+            <p th:text="${player}"/>
+
+        </div>
 
         <div>
             <form action="/user/registration" method="post">
