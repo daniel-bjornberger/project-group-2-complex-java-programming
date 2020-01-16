@@ -10,10 +10,15 @@
     <a href="login.html">Login</a>
 </div>
 
-    <h2>Welcome to start page</h2>
-    <br>
-    <h3>Your character is: </h3>
-    <p th:text="${character}"/>
+        <h2>Welcome</h2>
+        <br>
+            <h3>Your character is: </h3>
+            <!--/*@thymesVar id="character" type="java"*/-->
+            <p action="/player/all" th:text="${player}"/>
+
+            <h3>Your user is: </h3>
+            <!--/*@thymesVar id="character" type="java"*/-->
+            <p action="/user/" th:text="${user}"/>
 
 
         <div>

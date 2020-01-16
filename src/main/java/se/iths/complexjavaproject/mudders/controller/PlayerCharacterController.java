@@ -10,13 +10,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import se.iths.complexjavaproject.mudders.entity.PlayerCharacter;
 import se.iths.complexjavaproject.mudders.exception.BadDataException;
 import se.iths.complexjavaproject.mudders.model.PlayerCharacterModel;
+import se.iths.complexjavaproject.mudders.model.UserModel;
 import se.iths.complexjavaproject.mudders.service.IPCServiceStub;
 import se.iths.complexjavaproject.mudders.service.PlayerCharacterService;
 import se.iths.complexjavaproject.mudders.service.TownService;
 import se.iths.complexjavaproject.mudders.service.TravelService;
+
+import java.util.List;
 
 @Service
 @Controller("/player")
@@ -36,12 +40,39 @@ public class PlayerCharacterController {
         this.townService = townService;
     }
 
-
-    @RequestMapping(value="/", method = RequestMethod.GET, params = {"loyalty=blue"} )
+    @RequestMapping(value="/playercharacter", method = RequestMethod.GET )
     public String read(Model model){
-        PlayerCharacterModel playerCharacterModel = ipcServiceStub.fetchByName("TestGettingName");
-        model.addAttribute("character", playerCharacterModel);
-        return"playercharacter";
+        List<PlayerCharacterModel> playerCharacterModel = playerCharacterService.findAll();
+
+        /*PlayerCharacterModel playerCharacterModel = new PlayerCharacterModel();
+        playerCharacterModel.setCharacterName("TestSettingName");
+        playerCharacterModel.setCharacterName("TestSettingNameNumber2");*/
+
+        model.addAttribute("player", playerCharacterModel);
+        return "playercharacter";
+    }
+
+   /*@RequestMapping(value="/add")
+    public String savecharacter(PlayerCharacterModel playerCharacterModel){
+        playerCharacterModel.setCharacterName("Test");
+
+        return "playercharacter";
+
+    }*/
+
+    @RequestMapping(value = "/playercharacter", method = RequestMethod.POST)
+    public String addNewPlayerCharacter (@RequestParam String characterName) {
+        try {
+            String email = "";
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            if (!(authentication instanceof AnonymousAuthenticationToken)) {
+                email = authentication.getName();
+            }
+            PlayerCharacterModel characterModel = playerCharacterService.createNewCharacter(characterName, email);
+            return "playercharacter";
+        } catch (Exception e) {
+            return "playercharacter";
+        }
     }
 
 
@@ -55,7 +86,7 @@ public class PlayerCharacterController {
         }
     }*/
 
-    @PostMapping(path = "/add")
+   /* @PostMapping(path = "/add")
     public ResponseEntity addNewPlayerCharacter (@RequestParam String characterName) {
         try {
             String email = "";
@@ -68,7 +99,7 @@ public class PlayerCharacterController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         }
-    }
+    }*/
 
     @GetMapping(path = "/travel")
     public ResponseEntity getTravelPlayerByName(@RequestBody String characterName) {

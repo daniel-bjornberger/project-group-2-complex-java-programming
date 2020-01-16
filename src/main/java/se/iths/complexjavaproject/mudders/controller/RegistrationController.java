@@ -9,10 +9,12 @@ import org.springframework.web.servlet.ModelAndView;
 import se.iths.complexjavaproject.mudders.entity.User;
 import se.iths.complexjavaproject.mudders.exception.BadDataException;
 import se.iths.complexjavaproject.mudders.exception.EmailExistsException;
+import se.iths.complexjavaproject.mudders.model.PlayerCharacterModel;
 import se.iths.complexjavaproject.mudders.model.UserModel;
 import se.iths.complexjavaproject.mudders.service.UserService;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequestMapping("/user")
@@ -30,6 +32,15 @@ public class RegistrationController {
         UserModel userModel = new UserModel();
         model.addAttribute("user", userModel);
         return "registration";
+    }
+
+    @RequestMapping(value="/playercharacter", method = RequestMethod.GET )
+    public String read(Model model) throws BadDataException {
+
+        User userModel = userService.findUserByEmail("elinTest@test.com");
+        model.addAttribute("user", userModel.getFullName());
+
+            return "playercharacter";
     }
 
     @PostMapping("/registration")
