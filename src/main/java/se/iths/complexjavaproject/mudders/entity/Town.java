@@ -47,8 +47,4 @@ public class Town implements Serializable {
         return townModel;
     }
 
-    //player should have a Last Town variable that allows us to save info of the last town
-    //player should automatically return to last town the next time they play.
-    //Variable allows us to search List of Towns to see where they should go next.
-
 }

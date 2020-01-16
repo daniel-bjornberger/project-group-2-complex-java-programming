@@ -20,11 +20,6 @@ public class UserModel {
 
     @NotEmpty
     @NotNull
-    private String Role = "USER";
-
-    //@ValidEmail
-    @NotEmpty
-    @NotNull
     private String email;
 
     @NotEmpty

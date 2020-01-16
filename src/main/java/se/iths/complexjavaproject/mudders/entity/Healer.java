@@ -1,5 +1,9 @@
 package se.iths.complexjavaproject.mudders.entity;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import se.iths.complexjavaproject.mudders.exception.BadDataException;
@@ -8,9 +12,15 @@ import se.iths.complexjavaproject.mudders.repository.PlayerCharacterRepository;
 import se.iths.complexjavaproject.mudders.service.PlayerCharacterService;
 import se.iths.complexjavaproject.mudders.service.TownService;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.sql.SQLOutput;
 
-@Service
+@Getter
+@Setter
+@Table(name = "Healer")
+@NoArgsConstructor
+@ToString
 public class Healer extends NonPlayerCharacter implements NpcHealer {
 
     private static final long serialVersionUID = 8106546763483546385L;

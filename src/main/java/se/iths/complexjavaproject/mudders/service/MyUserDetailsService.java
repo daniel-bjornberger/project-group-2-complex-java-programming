@@ -7,12 +7,15 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import se.iths.complexjavaproject.mudders.entity.Privilege;
+import se.iths.complexjavaproject.mudders.entity.Role;
 import se.iths.complexjavaproject.mudders.entity.User;
 import se.iths.complexjavaproject.mudders.repository.UserRepository;
 import se.iths.complexjavaproject.mudders.util.RabbitMQSender;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -50,10 +53,37 @@ public class MyUserDetailsService implements UserDetailsService {
                         getAuthorities(user.getRoles()));
     }
 
-    private static List<GrantedAuthority> getAuthorities (String roles) {
-        List<GrantedAuthority> authorities = new ArrayList<>();
-            authorities.add(new SimpleGrantedAuthority(roles));
+    private final Collection<? extends GrantedAuthority> getAuthorities(final Collection<Role> roles) {
+        return getGrantedAuthorities(getPrivileges(roles));
+    }
+
+    private final List<String> getPrivileges(final Collection<Role> roles) {
+        final List<String> privileges = new ArrayList<String>();
+        final List<Privilege> collection = new ArrayList<Privilege>();
+        for (final Role role : roles) {
+            collection.addAll(role.getPrivileges());
+        }
+        for (final Privilege item : collection) {
+            privileges.add(item.getName());
+        }
+
+        return privileges;
+    }
+
+    private final List<GrantedAuthority> getGrantedAuthorities(final List<String> privileges) {
+        final List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+        for (final String privilege : privileges) {
+            authorities.add(new SimpleGrantedAuthority(privilege));
+        }
         return authorities;
     }
+
+    /*private static List<GrantedAuthority> getAuthorities (List<String> roles) {
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        for (String role : roles) {
+            authorities.add(new SimpleGrantedAuthority(role));
+        }
+        return authorities;
+    }*/
 
 }
