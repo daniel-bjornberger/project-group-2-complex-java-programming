@@ -20,7 +20,8 @@ import se.iths.complexjavaproject.mudders.service.TravelService;
 import java.util.List;
 
 @Service
-@Controller("/player")
+@Controller
+@RequestMapping("/player")
 public class PlayerCharacterController {
 
     private PlayerCharacterService playerCharacterService;
@@ -34,24 +35,25 @@ public class PlayerCharacterController {
         this.townService = townService;
     }
 
+    /**
+     * Hard coded to find playerCharacter with long id 1, sends the name of the character to playercharacter.html
+     * @param model
+     * @return playercharacter.html
+     */
     @RequestMapping(value="/playercharacter", method = RequestMethod.GET )
     public String read(Model model){
-        List<PlayerCharacterModel> playerList = playerCharacterService.findAll();
+        PlayerCharacterModel player = playerCharacterService.findById(1);
+        model.addAttribute("player", player.getCharacterName());
 
-        PlayerCharacterModel playerCharacterModel = new PlayerCharacterModel();
-        String name = String.valueOf(playerList.contains(playerCharacterModel.getCharacterName()));
-        playerCharacterModel.setCharacterName(name);
-
-        model.addAttribute("player", playerCharacterModel.getCharacterName());
         return "playercharacter";
     }
 
-    @RequestMapping(value="/playercharacter", method=RequestMethod.GET)
+    /*@RequestMapping(value="/playercharacter", method=RequestMethod.GET)
     public String playGame(){
         //send playerCharacter into game
-        //enter new page
+        //enter new page - play.html
         return "play";
-    }
+    }*/
 
 
 
