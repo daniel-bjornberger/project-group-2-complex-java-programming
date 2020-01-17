@@ -10,6 +10,7 @@ public class PlayerNotFoundException extends RuntimeException  {
 
     public PlayerNotFoundException(String exception) {
         super(exception);
+        System.out.println("Player could not be found!" + "\nCheck database.");
     }
 
 
