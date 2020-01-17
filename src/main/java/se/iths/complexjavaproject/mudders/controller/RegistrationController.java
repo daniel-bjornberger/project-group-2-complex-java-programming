@@ -34,15 +34,6 @@ public class RegistrationController {
         return "registration";
     }
 
-    @RequestMapping(value="/playercharacter", method = RequestMethod.GET )
-    public String read(Model model) throws BadDataException {
-
-        User userModel = userService.findUserByEmail("elinTest@test.com");
-        model.addAttribute("user", userModel.getFullName());
-
-            return "playercharacter";
-    }
-
     @PostMapping("/registration")
     public ModelAndView registerUserAccount(@ModelAttribute("user") @Valid UserModel userModel, BindingResult result) {
 
