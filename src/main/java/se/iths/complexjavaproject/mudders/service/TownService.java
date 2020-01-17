@@ -45,10 +45,20 @@ public class TownService {
     }
 
     public PlayerCharacterModel visitHealer(String characterName) throws BadDataException {
-        NonPlayerCharacter healer = nonPlayerCharacterRepository.findByName("healer");
-        PlayerCharacter playerCharacter = playerCharacterRepository.findByCharacterName(PlayerCharacterService.convertToEntity(characterName).getCharacterName());
-        ((Healer)healer).doctor(playerCharacter);
-        playerCharacterRepository.save(playerCharacter);
+        NonPlayerCharacter healer = nonPlayerCharacterRepository.findByName("Healer");
+        PlayerCharacter playerCharacter = playerCharacterRepository.findByCharacterName(characterName);
+        int price = 15;
+
+        if(playerCharacter.getCurrency() < price){
+            System.out.println(healer.getName() + ": Sorry, you have insufficient funds!");
+        }
+        else if(playerCharacter.getCurrency() > price){
+            System.out.println(healer.getName() + ": Oh no! You're bleeding! Medic!! Man Down!");
+            playerCharacter.setCurrency(playerCharacter.getCurrency() - price);
+            playerCharacter.setHealth(playerCharacter.getMaxHealth());
+            playerCharacterRepository.save(playerCharacter);
+            System.out.println(healer.getName() + ": One minor All Cure potion and voila! You're ready to face the world again.");
+        }
         return playerCharacter.toModel();
     }
 
