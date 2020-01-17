@@ -6,7 +6,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import se.iths.complexjavaproject.mudders.entity.PlayerCharacter;
 import se.iths.complexjavaproject.mudders.exception.BadDataException;
@@ -15,8 +17,10 @@ import se.iths.complexjavaproject.mudders.service.PlayerCharacterService;
 import se.iths.complexjavaproject.mudders.service.TownService;
 import se.iths.complexjavaproject.mudders.service.TravelService;
 
+import java.util.List;
+
 @Service
-@RestController
+@Controller
 @RequestMapping("/player")
 public class PlayerCharacterController {
 
@@ -30,6 +34,47 @@ public class PlayerCharacterController {
         this.travelService = travelService;
         this.townService = townService;
     }
+
+    /**
+     * Hard coded to find playerCharacter with long id 1, sends the name of the character to playercharacter.html
+     * @param model
+     * @return playercharacter.html
+     */
+    @RequestMapping(value="/playercharacter", method = RequestMethod.GET )
+    public String read(Model model){
+        PlayerCharacterModel player = playerCharacterService.findById(1);
+        model.addAttribute("player", player.getCharacterName());
+
+        return "playercharacter";
+    }
+
+    @RequestMapping(value="/savecharacter", method = RequestMethod.GET )
+    public String saveCharacter(PlayerCharacterModel playerCharacterModel){
+        playerCharacterModel.setLevel(10);
+
+        return "playercharacter";
+    }
+
+    @GetMapping("/addplayer")
+    //RequestMapping annotation over a method - tie out to a browser/postman
+    //value - relative path (endpoint) from a domain name.
+    //method - HTTP method
+    public String addPlayer(Model model, @RequestParam(value="characterName", required=false, defaultValue="0.0")String characterName){
+        PlayerCharacterModel playerCharacterModel = playerCharacterService.findById(1);
+        playerCharacterModel.setCharacterName(characterName);
+
+        model.addAttribute("player", playerCharacterModel);
+        return "start";
+    }
+
+
+    /*@RequestMapping(value="/playercharacter", method=RequestMethod.GET)
+    public String playGame(){
+        //send playerCharacter into game
+        //enter new page - play.html
+        return "play";
+    }*/
+
 
     @GetMapping(path = "/all")
     public ResponseEntity getAllPlayers() {
@@ -57,7 +102,7 @@ public class PlayerCharacterController {
     }
 
     @GetMapping(path = "/travel")
-    public ResponseEntity getTravelPlayerByName(@RequestBody String characterName) {
+    public ResponseEntity getTravelPlayerByName(@RequestParam String characterName) {
         try {
             PlayerCharacterModel playerCharacterModel = travelService.travel(characterName);
             return ResponseEntity
@@ -89,7 +134,7 @@ public class PlayerCharacterController {
     }
 
     @GetMapping(path = "/healer")
-    public ResponseEntity goToHealer(@RequestBody String characterName){
+    public ResponseEntity goToHealer(@RequestParam String characterName){
         try{
             PlayerCharacterModel playerCharacterModel = townService.visitHealer(characterName);
             return ResponseEntity
@@ -102,7 +147,7 @@ public class PlayerCharacterController {
     }
 
     @GetMapping(path = "/tavern")
-    public ResponseEntity playerVisitTavern(@RequestBody String characterName){
+    public ResponseEntity playerVisitTavern(@RequestParam String characterName){
         try{
             PlayerCharacterModel playerCharacterModel = townService.visitTavern(characterName);
             return ResponseEntity

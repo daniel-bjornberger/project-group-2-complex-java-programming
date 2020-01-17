@@ -11,6 +11,7 @@ import javax.persistence.Table;
 @Table(name = "tavern")
 @NoArgsConstructor
 @ToString
+@Entity
 public class Tavern extends NonPlayerCharacter implements TavernInterface {
 
     private static final long serialVersionUID = 7074554391312286112L;

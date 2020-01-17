@@ -35,7 +35,7 @@ public class TravelService {
     }
 
     public PlayerCharacterModel travel(String requestBody) throws BadDataException { // name explore or adventure??
-        PlayerCharacter playerCharacter = playerCharacterService.findCharacterByName(PlayerCharacterService.convertToEntity(requestBody).getCharacterName());
+        PlayerCharacter playerCharacter = playerCharacterService.findCharacterByName(requestBody);
         int diceRoll = ServiceUtilities.generateRandomIntIntRange(1, 20);
 
         if (diceRoll >= 11) {

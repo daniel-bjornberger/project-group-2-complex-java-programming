@@ -1,9 +1,6 @@
 package se.iths.complexjavaproject.mudders.entity;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import se.iths.complexjavaproject.mudders.exception.BadDataException;
@@ -19,7 +16,7 @@ import java.sql.SQLOutput;
 @Getter
 @Setter
 @Table(name = "Healer")
-@NoArgsConstructor
+@AllArgsConstructor
 @ToString
 public class Healer extends NonPlayerCharacter implements NpcHealer {
 
