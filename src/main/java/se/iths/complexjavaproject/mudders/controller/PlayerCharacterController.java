@@ -146,7 +146,7 @@ public class PlayerCharacterController {
     }
 
     @GetMapping(path = "/tavern")
-    public ResponseEntity playerVisitTavern(@RequestBody String characterName){
+    public ResponseEntity playerVisitTavern(@RequestParam String characterName){
         try{
             PlayerCharacterModel playerCharacterModel = townService.visitTavern(characterName);
             return ResponseEntity

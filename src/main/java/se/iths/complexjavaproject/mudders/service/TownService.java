@@ -62,10 +62,22 @@ public class TownService {
         return playerCharacter.toModel();
     }
 
-    public PlayerCharacterModel visitTavern(String requestBody) throws BadDataException{
-        NonPlayerCharacter tavern = nonPlayerCharacterRepository.findByName("tavern");
-        PlayerCharacter playerCharacter = playerCharacterRepository.findByCharacterName(PlayerCharacterService.convertToEntity(requestBody).getCharacterName());
-        ((Tavern)tavern).restAtTavern(playerCharacter);
+    public PlayerCharacterModel visitTavern(String request) throws BadDataException{
+        NonPlayerCharacter tavern = nonPlayerCharacterRepository.findByName("Tavern");
+        PlayerCharacter playerCharacter = playerCharacterRepository.findByCharacterName(request);
+        int price = 2;
+        int heal = 3;
+        if(playerCharacter.getCurrency() >= price) {
+            playerCharacter.setCurrency(playerCharacter.getCurrency() - price);
+            System.out.println(tavern.getName() + ": You recovered " + heal + " health!");
+            playerCharacter.setHealth(playerCharacter.getHealth() + heal);
+            if(playerCharacter.getHealth() > playerCharacter.getMaxHealth()){
+                playerCharacter.setHealth(playerCharacter.getMaxHealth());
+            }
+            System.out.println(tavern.getName() + ": You now have "+playerCharacter.getHealth()+ " health!");
+        }
+        else
+            System.out.println(tavern.getName() + ": Not enough money!");
         playerCharacterRepository.save(playerCharacter);
         return playerCharacter.toModel();
     }
