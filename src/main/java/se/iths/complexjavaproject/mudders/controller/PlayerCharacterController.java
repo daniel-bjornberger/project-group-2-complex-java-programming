@@ -43,7 +43,7 @@ public class PlayerCharacterController {
         System.out.println(playerCharacterModel.getCharacterName());
         return "playercharacter";
     }
-    
+
 
    /* @GetMapping(path = "/all")
     public ResponseEntity getAllPlayers() {
