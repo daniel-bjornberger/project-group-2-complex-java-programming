@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
 
     <head>
         <meta charset="UTF-8">
@@ -14,29 +14,14 @@
 
         <h3>Your character is: </h3>
 
-        <!--/*@thymesVar id="player" type="java"*/-->
         <p action="/player/all" th:text="${player}"/>
 
-
-        <!--<form action="#" th:action="@{/player/add}" th:object="${player}" method="GET">
-            Character: <input type="text" name="characterName" th:field="*{characterName}"/><br/>
-
-            <button name="submit" type="submit" value="0">Submit</button>
-        </form>-->
-
+        <!--Todo - Add a new character-->
         <form action="/player/add" method="post">
             <h3>Add character</h3>
             Character name: <input type="text" name="characterName"><br>
             <input type="submit" value="Submit">
         </form>
-
-
-        <h3>Your user is: </h3>
-
-        <!--/*@thymesVar id="user" type="java"*/-->
-        <p action="/user/" th:text="${user}"/>
-
-
 
 
         <div>
@@ -61,7 +46,7 @@
         </div>
 
 
-            <!--Logout button not working, sends to error page-->
+            <!--Logout button -->
             <br>
             <form name="logoutForm" th:action="@{/logout}" method="post">
                 <input type="submit" value="Sign Out"/>
