@@ -14,13 +14,9 @@ import org.springframework.web.servlet.ModelAndView;
 import se.iths.complexjavaproject.mudders.entity.PlayerCharacter;
 import se.iths.complexjavaproject.mudders.exception.BadDataException;
 import se.iths.complexjavaproject.mudders.model.PlayerCharacterModel;
-import se.iths.complexjavaproject.mudders.model.UserModel;
-import se.iths.complexjavaproject.mudders.service.IPCServiceStub;
 import se.iths.complexjavaproject.mudders.service.PlayerCharacterService;
 import se.iths.complexjavaproject.mudders.service.TownService;
 import se.iths.complexjavaproject.mudders.service.TravelService;
-
-import java.util.List;
 
 @Service
 @Controller("/player")
@@ -29,9 +25,6 @@ public class PlayerCharacterController {
     private PlayerCharacterService playerCharacterService;
     private TravelService travelService;
     private TownService townService;
-
-    @Autowired
-    private IPCServiceStub ipcServiceStub;
 
     @Autowired
     public PlayerCharacterController(PlayerCharacterService playerCharacterService, TravelService travelService, TownService townService) {
@@ -50,30 +43,7 @@ public class PlayerCharacterController {
         System.out.println(playerCharacterModel.getCharacterName());
         return "playercharacter";
     }
-
-   /*@RequestMapping(value="/add")
-    public String savecharacter(PlayerCharacterModel playerCharacterModel){
-        playerCharacterModel.setCharacterName("Test");
-
-        return "playercharacter";
-
-    }*/
-
-    @RequestMapping(value = "/playercharacter", method = RequestMethod.POST)
-    public String addNewPlayerCharacter (@RequestParam String characterName) {
-        try {
-            String email = "";
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            if (!(authentication instanceof AnonymousAuthenticationToken)) {
-                email = authentication.getName();
-            }
-            PlayerCharacterModel characterModel = playerCharacterService.createNewCharacter(characterName, email);
-            return "playercharacter";
-        } catch (Exception e) {
-            return "playercharacter";
-        }
-    }
-
+    
 
    /* @GetMapping(path = "/all")
     public ResponseEntity getAllPlayers() {
@@ -85,7 +55,7 @@ public class PlayerCharacterController {
         }
     }*/
 
-   /* @PostMapping(path = "/add")
+    @PostMapping(path = "/add")
     public ResponseEntity addNewPlayerCharacter (@RequestParam String characterName) {
         try {
             String email = "";
@@ -98,7 +68,7 @@ public class PlayerCharacterController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         }
-    }*/
+    }
 
     @GetMapping(path = "/travel")
     public ResponseEntity getTravelPlayerByName(@RequestBody String characterName) {
