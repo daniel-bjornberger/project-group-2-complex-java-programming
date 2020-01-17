@@ -133,7 +133,7 @@ public class PlayerCharacterController {
     }
 
     @GetMapping(path = "/healer")
-    public ResponseEntity goToHealer(@RequestBody String characterName){
+    public ResponseEntity goToHealer(@RequestParam String characterName){
         try{
             PlayerCharacterModel playerCharacterModel = townService.visitHealer(characterName);
             return ResponseEntity
@@ -146,7 +146,7 @@ public class PlayerCharacterController {
     }
 
     @GetMapping(path = "/tavern")
-    public ResponseEntity playerVisitTavern(@RequestBody String characterName){
+    public ResponseEntity playerVisitTavern(@RequestParam String characterName){
         try{
             PlayerCharacterModel playerCharacterModel = townService.visitTavern(characterName);
             return ResponseEntity
