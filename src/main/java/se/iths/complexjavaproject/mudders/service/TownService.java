@@ -45,17 +45,39 @@ public class TownService {
     }
 
     public PlayerCharacterModel visitHealer(String characterName) throws BadDataException {
-        NonPlayerCharacter healer = nonPlayerCharacterRepository.findByName("healer");
-        PlayerCharacter playerCharacter = playerCharacterRepository.findByCharacterName(PlayerCharacterService.convertToEntity(characterName).getCharacterName());
-        ((Healer)healer).doctor(playerCharacter);
-        playerCharacterRepository.save(playerCharacter);
+        NonPlayerCharacter healer = nonPlayerCharacterRepository.findByName("Healer");
+        PlayerCharacter playerCharacter = playerCharacterRepository.findByCharacterName(characterName);
+        int price = 15;
+
+        if(playerCharacter.getCurrency() < price){
+            System.out.println(healer.getName() + ": Sorry, you have insufficient funds!");
+        }
+        else if(playerCharacter.getCurrency() > price){
+            System.out.println(healer.getName() + ": Oh no! You're bleeding! Medic!! Man Down!");
+            playerCharacter.setCurrency(playerCharacter.getCurrency() - price);
+            playerCharacter.setHealth(playerCharacter.getMaxHealth());
+            playerCharacterRepository.save(playerCharacter);
+            System.out.println(healer.getName() + ": One minor All Cure potion and voila! You're ready to face the world again.");
+        }
         return playerCharacter.toModel();
     }
 
-    public PlayerCharacterModel visitTavern(String requestBody) throws BadDataException{
-        NonPlayerCharacter tavern = nonPlayerCharacterRepository.findByName("tavern");
-        PlayerCharacter playerCharacter = playerCharacterRepository.findByCharacterName(PlayerCharacterService.convertToEntity(requestBody).getCharacterName());
-        ((Tavern)tavern).restAtTavern(playerCharacter);
+    public PlayerCharacterModel visitTavern(String request) throws BadDataException{
+        NonPlayerCharacter tavern = nonPlayerCharacterRepository.findByName("Tavern");
+        PlayerCharacter playerCharacter = playerCharacterRepository.findByCharacterName(request);
+        int price = 2;
+        int heal = 3;
+        if(playerCharacter.getCurrency() >= price) {
+            playerCharacter.setCurrency(playerCharacter.getCurrency() - price);
+            System.out.println(tavern.getName() + ": You recovered " + heal + " health!");
+            playerCharacter.setHealth(playerCharacter.getHealth() + heal);
+            if(playerCharacter.getHealth() > playerCharacter.getMaxHealth()){
+                playerCharacter.setHealth(playerCharacter.getMaxHealth());
+            }
+            System.out.println(tavern.getName() + ": You now have "+playerCharacter.getHealth()+ " health!");
+        }
+        else
+            System.out.println(tavern.getName() + ": Not enough money!");
         playerCharacterRepository.save(playerCharacter);
         return playerCharacter.toModel();
     }
