@@ -86,17 +86,19 @@ public class PlayerCharacterController {
     }
 
     @PostMapping(path = "/add")
-    public ResponseEntity addNewPlayerCharacter (@RequestParam String characterName) {
+    public String addNewPlayerCharacter (@RequestParam String characterName) {
         try {
             String email = "";
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             if (!(authentication instanceof AnonymousAuthenticationToken)) {
                 email = authentication.getName();
             }
-            PlayerCharacterModel characterModel = playerCharacterService.createNewCharacter(characterName, email);
-            return ResponseEntity.status(HttpStatus.CREATED).body(characterModel);
+                playerCharacterService.createNewCharacter(characterName, email);
+            return
+                    "playercharacter";
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+            return
+                    "error";
         }
     }
 
