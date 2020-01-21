@@ -101,14 +101,19 @@ public class PlayerCharacterController {
     }
 
     @GetMapping(path = "/travel")
-    public ResponseEntity getTravelPlayerByName(@RequestParam String characterName) {
+    public String getTravelPlayerByName(@RequestParam String characterName) {
         try {
             PlayerCharacterModel playerCharacterModel = travelService.travel(characterName);
-            return ResponseEntity
-                    .status(HttpStatus.OK)
-                    .body(playerCharacterModel);
+            if (playerCharacterModel.getHealth() == 0){
+                removePlayer(playerCharacterModel.getCharacterName());
+                return
+                        "playercharacter";
+            }
+            return
+                    "play";
         } catch (Exception e) {
-            return  ResponseEntity.status(HttpStatus.NOT_FOUND).body(e);
+            return
+                    "error";
         }
     }
 
@@ -157,7 +162,7 @@ public class PlayerCharacterController {
         }
     }
 
-    @DeleteMapping(path = "/delete")
+    @GetMapping(path = "/delete")
     public ResponseEntity removePlayer(@RequestParam String characterName) {
         try {
             PlayerCharacter character = playerCharacterService.findCharacterByName(characterName);

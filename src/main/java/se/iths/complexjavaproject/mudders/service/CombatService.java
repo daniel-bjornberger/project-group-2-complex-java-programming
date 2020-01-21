@@ -56,13 +56,12 @@ public class CombatService {
                         System.out.println("=========== You failed to escape! ===========");
                     }
                 }
-                else {
+
                     System.out.println("=========== The " + monster.getName() + " attacks you ===========");
                     player.setHealth(attack(player.getHealth(), monster.getDamage()));
-                }
+
                 if (player.getHealth() == 0) {
                     System.out.println("=========== You died! ===========");
-                    playerCharacterRepository.delete(player);
                     break;
                 }
                 else {
