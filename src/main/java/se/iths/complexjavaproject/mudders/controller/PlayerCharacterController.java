@@ -42,11 +42,20 @@ public class PlayerCharacterController {
      */
     @RequestMapping(value="/playercharacter", method = RequestMethod.GET )
     public String read(Model model){
-        PlayerCharacterModel player = playerCharacterService.findById(1);
+        PlayerCharacterModel player = playerCharacterService.findById(5);
         model.addAttribute("player", player.getCharacterName());
 
         return "playercharacter";
     }
+
+  /*  @RequestMapping(value="/getlist", method = RequestMethod.GET )
+    public String showAll(Model model){
+
+        model.addAttribute("player", playerCharacterService.findAll());
+
+        return "playercharacter";
+    }*/
+
 
     @RequestMapping(value="/savecharacter", method = RequestMethod.GET )
     public String saveCharacter(PlayerCharacterModel playerCharacterModel){
@@ -67,12 +76,12 @@ public class PlayerCharacterController {
     }
 
 
-    /*@RequestMapping(value="/playercharacter", method=RequestMethod.GET)
+    @RequestMapping(value="/play", method=RequestMethod.GET)
     public String playGame(){
         //send playerCharacter into game
         //enter new page - play.html
         return "play";
-    }*/
+    }
 
 
     @GetMapping(path = "/all")
