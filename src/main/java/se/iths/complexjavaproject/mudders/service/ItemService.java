@@ -83,7 +83,7 @@ public class ItemService {
 
         Item itemToUpdate = optionalItemToUpdate.get();
 
-        itemToUpdate.setValue(itemModel.getValue());
+        itemToUpdate.setPrice(itemModel.getPrice());
         itemToUpdate.setDamage(itemModel.getDamage());
         itemToUpdate.setHealthRecovery(itemModel.getHealthRecovery());
         itemToUpdate.setMaxAmount(itemModel.getMaxAmount());
