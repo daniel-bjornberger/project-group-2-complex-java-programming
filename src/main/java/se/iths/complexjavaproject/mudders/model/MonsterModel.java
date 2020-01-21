@@ -18,6 +18,6 @@ public class MonsterModel {
     private int health;
     private int damage;
     private int givenExperience;
-//    private List<Item> monsterLoot;
+    //private List<Item> monsterLoot;
 
 }

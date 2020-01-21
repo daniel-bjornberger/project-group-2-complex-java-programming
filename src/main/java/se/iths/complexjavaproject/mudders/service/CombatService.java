@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import se.iths.complexjavaproject.mudders.controller.PlayerCharacterController;
 import se.iths.complexjavaproject.mudders.entity.PlayerCharacter;
 import se.iths.complexjavaproject.mudders.model.MonsterModel;
+import se.iths.complexjavaproject.mudders.repository.PlayerCharacterRepository;
 import se.iths.complexjavaproject.mudders.util.ServiceUtilities;
 
 /**
@@ -12,6 +13,8 @@ import se.iths.complexjavaproject.mudders.util.ServiceUtilities;
  */
 @Service
 public class CombatService {
+
+    PlayerCharacterRepository playerCharacterRepository;
 
     public void fight(PlayerCharacter player, MonsterModel monster) {
 //        Player attacks monster
@@ -53,13 +56,12 @@ public class CombatService {
                         System.out.println("=========== You failed to escape! ===========");
                     }
                 }
-                else {
+
                     System.out.println("=========== The " + monster.getName() + " attacks you ===========");
                     player.setHealth(attack(player.getHealth(), monster.getDamage()));
-                }
+
                 if (player.getHealth() == 0) {
                     System.out.println("=========== You died! ===========");
-                    player.setInCombat(false);
                     break;
                 }
                 else {

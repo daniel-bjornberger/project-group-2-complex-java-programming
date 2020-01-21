@@ -69,9 +69,10 @@ public class StartupService {
         createNpcIfNotFound("Blacksmith", townTwo);
 
         // == create initial player characters
+        /*
         createPlayerCharacterIfNotFound("Hans Yolo", admin, townOne);
         createPlayerCharacterIfNotFound("Gladiataur", user, townOne);
-
+        */
         // == create initial monsters
         createMonsterIfNotFound("Skeleton");
         createMonsterIfNotFound("Zombie");

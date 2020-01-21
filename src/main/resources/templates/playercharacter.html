@@ -12,7 +12,7 @@
 
         <div>
             <h3>Your character:</h3>
-            <p th:text="${player}"/>
+            <p action="player/all" th:text="${player}"></p>
 
             <button name="submit" type="submit" value="0">Choose</button>
             <button name="delete" type="delete" value="0">Delete</button>
@@ -25,9 +25,10 @@
         <div>
             <form action="/user/registration" method="post">
                 <h3>Add User</h3>
-                User name: <input type="text" name="name">
-                User password: <input type="text" name="password">
+                User name: <input type="text" name="fullName">
                 User email: <input type="email" name="email">
+                User password: <input type="password" name="password">
+                Confirm Password <input type="password" name="matchingPassword">
                 <br>
                 <input type="submit" value="Submit">
             </form>
@@ -53,6 +54,12 @@
                 <h3>Delete character</h3>
                 Character name: <input type="text" name="characterName"><br>
                 <input type="submit" value="Submit">
+            </form>
+
+            <br>
+            <form name="logoutForm" th:action="@{/logout}" method="post">
+                <input type="submit" value="Sign Out"/>
+
             </form>
 
 
