@@ -39,12 +39,7 @@
                 <br>
                 <input type="submit" value="Submit">
             </form>
-
-            <form action="/player/all" method="get">
-                <h3>Get all characters</h3>
-                Character name: <p th:text="${characterName}">No characters!!</p><br>
-                <input type="submit" value="Submit">
-            </form>
+            
             <form action="/player/add" method="post">
                 <h3>Add character</h3>
                 Character name: <input type="text" name="characterName"><br>
