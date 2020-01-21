@@ -11,11 +11,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import se.iths.complexjavaproject.mudders.entity.PlayerCharacter;
+import se.iths.complexjavaproject.mudders.entity.User;
 import se.iths.complexjavaproject.mudders.exception.BadDataException;
 import se.iths.complexjavaproject.mudders.model.PlayerCharacterModel;
+import se.iths.complexjavaproject.mudders.repository.UserRepository;
 import se.iths.complexjavaproject.mudders.service.PlayerCharacterService;
 import se.iths.complexjavaproject.mudders.service.TownService;
 import se.iths.complexjavaproject.mudders.service.TravelService;
+import se.iths.complexjavaproject.mudders.service.UserService;
 
 import java.util.List;
 
@@ -27,12 +30,14 @@ public class PlayerCharacterController {
     private PlayerCharacterService playerCharacterService;
     private TravelService travelService;
     private TownService townService;
+    private UserService userService;
 
     @Autowired
-    public PlayerCharacterController(PlayerCharacterService playerCharacterService, TravelService travelService, TownService townService) {
+    public PlayerCharacterController(PlayerCharacterService playerCharacterService, TravelService travelService, TownService townService, UserService userService) {
         this.playerCharacterService = playerCharacterService;
         this.travelService = travelService;
         this.townService = townService;
+        this.userService = userService;
     }
 
     /**
@@ -42,10 +47,22 @@ public class PlayerCharacterController {
      */
     @RequestMapping(value="/playercharacter", method = RequestMethod.GET )
     public String read(Model model){
-        PlayerCharacterModel player = playerCharacterService.findById(1);
-        model.addAttribute("player", player.getCharacterName());
-
-        return "playercharacter";
+        try {
+            String email = "";
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            if (!(authentication instanceof AnonymousAuthenticationToken)) {
+                email = authentication.getName();
+            }
+            User user = userService.findUserByEmail(email);
+            PlayerCharacterModel player = playerCharacterService.findByUserId(user.getId());
+            model.addAttribute("player", player.getCharacterName());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return
+                    "error";
+        }
+        return
+                "playercharacter";
     }
 
     @RequestMapping(value="/savecharacter", method = RequestMethod.GET )
@@ -74,7 +91,7 @@ public class PlayerCharacterController {
         return "play";
     }*/
 
-
+/*
     @GetMapping(path = "/all")
     public ResponseEntity getAllPlayers() {
         try {
@@ -83,7 +100,7 @@ public class PlayerCharacterController {
         catch(Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
-    }
+    }*/
 
     @PostMapping(path = "/add")
     public String addNewPlayerCharacter (@RequestParam String characterName) {

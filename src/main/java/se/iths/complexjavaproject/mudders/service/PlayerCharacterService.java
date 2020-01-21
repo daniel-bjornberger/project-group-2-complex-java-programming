@@ -99,4 +99,8 @@ public class PlayerCharacterService {
     public void deleteCharacter(PlayerCharacter character) {
         playerCharacterRepository.delete(character);
     }
+
+    public PlayerCharacterModel findByUserId(long id) {
+        return playerCharacterRepository.findByUserId(id).toModel();
+    }
 }

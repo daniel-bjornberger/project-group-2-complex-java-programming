@@ -12,7 +12,7 @@
 
         <div>
             <h3>Your character:</h3>
-            <p th:text="${player}"/>
+            <p action="player/all" th:text="${player}"></p>
 
             <button name="submit" type="submit" value="0">Choose</button>
             <button name="delete" type="delete" value="0">Delete</button>
@@ -62,6 +62,12 @@
                 <h3>Delete character</h3>
                 Character name: <input type="text" name="characterName"><br>
                 <input type="submit" value="Submit">
+            </form>
+
+            <br>
+            <form name="logoutForm" th:action="@{/logout}" method="post">
+                <input type="submit" value="Sign Out"/>
+
             </form>
 
 
