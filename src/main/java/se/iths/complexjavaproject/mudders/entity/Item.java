@@ -32,8 +32,8 @@ public class Item implements Serializable {
     @Column(name = "name", unique = true)
     private String name;
 
-    @Column(name = "value")
-    private int value;
+    @Column(name = "price")
+    private int price;
 
     @Column(name = "damage")
     private int damage;
@@ -48,9 +48,9 @@ public class Item implements Serializable {
     private Set<ItemAmount> itemAmounts = new HashSet<>();
 
 
-    public Item(String name, int value, int damage, int healthRecovery, int maxAmount) {
+    public Item(String name, int price, int damage, int healthRecovery, int maxAmount) {
         this.name           = name;
-        this.value          = value;
+        this.price          = price;
         this.damage         = damage;
         this.healthRecovery = healthRecovery;
         this.maxAmount      = maxAmount;
@@ -63,7 +63,7 @@ public class Item implements Serializable {
 
         this.itemAmounts.forEach(itemAmount -> itemAmountModels.add(itemAmount.toModel()));
 
-        return new ItemModel(this.name, this.value,
+        return new ItemModel(this.name, this.price,
                 this.damage, this.healthRecovery, this.maxAmount, itemAmountModels);
 
     }
