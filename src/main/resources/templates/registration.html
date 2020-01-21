@@ -2,10 +2,37 @@
 <html xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="../static/css/regStyle.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
     <title>Registration Page</title>
 </head>
 <body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">MUD Game</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link" href="@{/registration}">Registration <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="@{/login}">Login</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Dropdown link
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" href="#">Action</a>
+                    <a class="dropdown-item" href="#">Another action</a>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                </div>
+            </li>
+        </ul>
+    </div>
+</nav>
 
 <!--<h1 th:text="label">User Registration</h1>
 
@@ -17,31 +44,41 @@
 
 </form>-->
 
+
 <h1 th:text="#{label.form.title}">User Registration</h1>
 <form action="/user/registration" th:object="${user}" method="POST" enctype="utf8">
-    <div>
-        <label th:text="#{user.fullName}">Full name</label>
-        <input type="text" th:field="*{fullName}"/>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-default">User Name</span>
+        </div>
+        <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" name="fullName" th:field="*{fullName}">
         <p th:each="error: ${#fields.errors('fullName')}"
            th:text="${error}">Validation error</p>
     </div>
+
+   <!-- <div>
+        <label>User name</label>
+        <input type="text" th:field="*{fullName}"/>
+        <p th:each="error: ${#fields.errors('fullName')}"
+           th:text="${error}">Validation error</p>
+    </div>-->
     <div>
-        <label th:text="#{label.user.email}">Email</label>
+        <label>Email</label>
         <input type="email" th:field="*{email}"/>
         <p th:each="error : ${#fields.errors('email')}"
            th:text="${error}">Validation error</p>
     </div>
     <div>
-        <label th:text="#{label.user.password}">Password</label>
+        <label>Password</label>
         <input type="password" th:field="*{password}"/>
         <p th:each="error : ${#fields.errors('password')}"
            th:text="${error}">Validation error</p>
     </div>
     <div>
-        <label th:text="#{label.user.confirmPass}">confirm</label>
+        <label>confirm</label>
         <input type="password" th:field="*{matchingPassword}"/>
     </div>
-    <button type="submit" th:text="#{label.form.submit}">submit</button>
+    <button type="submit" th:text="#{label.form.submit}">Submit <span th:text="#{label.form.submit}"></span></button>
 </form>
 
 <a th:href="@{/login.html}" th:text="#{label.form.loginLink}">login</a>
