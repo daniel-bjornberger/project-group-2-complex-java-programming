@@ -54,7 +54,6 @@ public class PlayerCharacterController {
 
         return "playercharacter";
     }
-
     @GetMapping("/addplayer")
     //RequestMapping annotation over a method - tie out to a browser/postman
     //value - relative path (endpoint) from a domain name.
