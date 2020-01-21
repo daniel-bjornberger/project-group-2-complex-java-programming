@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class ItemModel {
 
     private String name;
-    private int value;
+    private int price;
     private int damage;
     private int healthRecovery;
     private int maxAmount;
@@ -26,8 +26,8 @@ public class ItemModel {
             throw new BadDataException("The name of the item is missing.");
         }
 
-        if (this.getValue() < 0) {
-            throw new BadDataException("The value can not be less than zero.");
+        if (this.getPrice() < 0) {
+            throw new BadDataException("The price can not be less than zero.");
         }
 
         if (this.getDamage() < 0) {
@@ -44,7 +44,7 @@ public class ItemModel {
 
         // TODO: Max-värden på damage, healthRecovery och maxAmount?
 
-        return new Item(this.getName(), this.getValue(),
+        return new Item(this.getName(), this.getPrice(),
                 this.getDamage(), this.getHealthRecovery(), this.getMaxAmount());
 
     }
