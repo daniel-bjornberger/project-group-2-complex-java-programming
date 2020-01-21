@@ -8,8 +8,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Collection;
-import java.util.List;
-
 
 @Table(name = "user")
 @Data
@@ -53,14 +51,5 @@ public class User {
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private PlayerCharacter character;
-
-    /*public UserModel toModel(){
-        UserModel userModel = new UserModel();
-        userModel.setEmail(getEmail());
-        userModel.setFullName(getFullName());
-        userModel.setPassword(getPassword());
-//        userModel.setRoles(getRoles());
-        return userModel;
-    }*/
 
 }

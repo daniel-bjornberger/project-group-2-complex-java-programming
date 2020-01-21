@@ -18,6 +18,7 @@ public class StartupService {
     private final PasswordEncoder passwordEncoder;
     private final RoleRepository roleRepository;
     private final PrivilegeRepository privilegeRepository;
+    private final PlayerCharacterRepository playerCharacterRepository;
 
     @Autowired
     public StartupService(NonPlayerCharacterRepository npcRepository,
@@ -26,7 +27,8 @@ public class StartupService {
                           UserRepository userRepository,
                           PasswordEncoder passwordEncoder,
                           RoleRepository roleRepository,
-                          PrivilegeRepository privilegeRepository) {
+                          PrivilegeRepository privilegeRepository,
+                          PlayerCharacterRepository playerCharacterRepository) {
 
         this.npcRepository = npcRepository;
         this.townRepository = townRepository;
@@ -35,9 +37,10 @@ public class StartupService {
         this.passwordEncoder = passwordEncoder;
         this.roleRepository = roleRepository;
         this.privilegeRepository = privilegeRepository;
+        this.playerCharacterRepository = playerCharacterRepository;
         
     }
-
+    // TODO: May crash if something is not found
     public void populateDbIfNeeded() {
         //		================= Create Privileges, Roles and Admin User =================
 
@@ -52,74 +55,27 @@ public class StartupService {
         final Role adminRole = createRoleIfNotFound("ROLE_ADMIN", adminPrivileges);
         final Role userRole = createRoleIfNotFound("ROLE_USER", userPrivileges);
 
-        // == create initial user
-        createUserIfNotFound("admin@mud.com", "Admin", "admin", new ArrayList<>(Collections.singletonList(adminRole)));
-        createUserIfNotFound("test_user@mud.com","Test User","password", new ArrayList<>(Collections.singletonList(userRole)));
+        // == create initial users
+        User admin = createUserIfNotFound("admin@mud.com", "Admin", "admin", new ArrayList<>(Collections.singletonList(adminRole)));
+        User user = createUserIfNotFound("test_user@mud.com","Test User","password", new ArrayList<>(Collections.singletonList(userRole)));
 
-        if (isTownAndNPCRepositoryEmpty()) {
-            //		================= Create Towns and NPCs =================
+        // == create initial towns
+        Town townOne = createTownIfNotFound("First");
+        Town townTwo = createTownIfNotFound("Second");
 
-            // == Create Towns
-            Town firstTown = new Town();
-            firstTown.setTownName("First");
+        // == create initial npcs
+        createNpcIfNotFound("Tavern", townOne);
+        createNpcIfNotFound("Healer", townOne);
+        createNpcIfNotFound("Blacksmith", townTwo);
 
-            Town secondTown = new Town();
-            secondTown.setTownName("Second");
-            
-            // == Create NPCs
-            List<NonPlayerCharacter> addToFirstTown = new ArrayList<>();
-            List<NonPlayerCharacter> addToSecondTown = new ArrayList<>();
+        // == create initial player characters
+        createPlayerCharacterIfNotFound("Hans Yolo", admin, townOne);
+        createPlayerCharacterIfNotFound("Gladiataur", user, townOne);
 
-            NonPlayerCharacter firstNPC = new NonPlayerCharacter();
-            firstNPC.setName("Ragnar");
-            addToFirstTown.add(firstNPC);
-
-            NonPlayerCharacter secondNPC = new NonPlayerCharacter();
-            secondNPC.setName("Blacksmith");
-            addToSecondTown.add(secondNPC);
-
-            NonPlayerCharacter thirdNPC = new NonPlayerCharacter();
-            thirdNPC.setName("Healer");
-            addToFirstTown.add(thirdNPC);
-
-
-            // == Set child reference in parent entity
-            firstTown.setNpcs(new HashSet<>(addToFirstTown));
-            secondTown.setNpcs(new HashSet<>(addToSecondTown));
-
-            // == Set parent reference in child entity
-            firstNPC.setTown(firstTown);
-            secondNPC.setTown(secondTown);
-            thirdNPC.setTown(firstTown);
-
-            // == Save
-            townRepository.save(firstTown);
-            townRepository.save(secondTown);
-
-        }
-
-        if (isMonsterRepositoryEmpty()) {
-            //      ================= Create Monsters =================
-            Monster skeleton = new Monster();
-            skeleton.setName("Skeleton");
-            monsterRepository.save(skeleton);
-
-            Monster zombie = new Monster();
-            zombie.setName("Zombie");
-            monsterRepository.save(zombie);
-
-            Monster wolf = new Monster();
-            wolf.setName("Wolf");
-            monsterRepository.save(wolf);
-        }
-    }
-
-    private boolean isTownAndNPCRepositoryEmpty() {
-        return npcRepository.count() == 0 && townRepository.count() == 0;
-    }
-
-    private boolean isMonsterRepositoryEmpty() {
-        return monsterRepository.count() == 0;
+        // == create initial monsters
+        createMonsterIfNotFound("Skeleton");
+        createMonsterIfNotFound("Zombie");
+        createMonsterIfNotFound("Wolf");
     }
 
     private Privilege createPrivilegeIfNotFound(final String name) {
@@ -127,6 +83,7 @@ public class StartupService {
         if (privilege == null) {
             privilege = new Privilege(name);
             privilege = privilegeRepository.save(privilege);
+            System.out.println("Created privilege: " + privilege.getName());
         }
         return privilege;
     }
@@ -135,21 +92,69 @@ public class StartupService {
         Role role = roleRepository.findByName(name);
         if (role == null) {
             role = new Role(name);
+            System.out.println("Created role: " + role.getName());
         }
         role.setPrivileges(privileges);
-        role = roleRepository.save(role);
-        return role;
+        return roleRepository.save(role);
     }
 
-    private void createUserIfNotFound(final String email, final String fullName, final String password, final Collection<Role> roles) {
+    private User createUserIfNotFound(final String email, final String fullName, final String password, final Collection<Role> roles) {
         User user = userRepository.findByEmail(email);
         if (user == null) {
             user = new User();
             user.setFullName(fullName);
             user.setPassword(passwordEncoder.encode(password));
             user.setEmail(email);
+            System.out.println("Created user: " + user.getFullName());
         }
         user.setRoles(roles);
-        userRepository.save(user);
+        return userRepository.save(user);
+    }
+
+    private Town createTownIfNotFound(final String name) {
+        Town town = townRepository.findTownByTownName(name);
+        if (town == null) {
+            town = new Town();
+            town.setTownName(name);
+            townRepository.save(town);
+            System.out.println("Created town: " + town.getTownName());
+        }
+        return town;
+    }
+
+    private void createNpcIfNotFound(String name, Town town) {
+        NonPlayerCharacter npc = npcRepository.findByName(name);
+        if (npc == null) {
+            npc = new NonPlayerCharacter();
+            npc.setName(name);
+            npc.setTown(town);
+            town.getNpcs().add(npc);
+            npcRepository.save(npc);
+            System.out.println("Created NPC: " + npc.getName());
+        }
+    }
+
+    private void createPlayerCharacterIfNotFound(String name, User user, Town town) {
+        PlayerCharacter character = playerCharacterRepository.findByCharacterName(name);
+        if (character == null) {
+            character = new PlayerCharacter();
+            character.setCharacterName(name);
+            character.setUser(user);
+            user.setCharacter(character);
+            character.setCurrentTown(town);
+            town.getPlayers().add(character);
+            playerCharacterRepository.save(character);
+            System.out.println("Created character: " + character.getCharacterName());
+        }
+    }
+
+    private void createMonsterIfNotFound(String name) {
+        Monster monster = monsterRepository.findByName(name);
+        if (monster == null) {
+            monster = new Monster();
+            monster.setName(name);
+            monsterRepository.save(monster);
+            System.out.println("Created monster: " + monster.getName());
+        }
     }
 }

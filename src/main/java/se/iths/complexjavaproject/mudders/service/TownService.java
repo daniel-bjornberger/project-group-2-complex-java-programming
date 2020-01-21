@@ -16,22 +16,14 @@ import java.util.Optional;
 public class TownService {
 
     private final TownRepository townRepository;
-    private final Tavern tavern;
-    private final Shop shop;
     private final PlayerCharacterRepository playerCharacterRepository;
     private final NonPlayerCharacterRepository nonPlayerCharacterRepository;
 
     @Autowired
-    public TownService(TownRepository townRepository, Tavern tavern, Shop shop, PlayerCharacterRepository playerCharacterRepository, NonPlayerCharacterRepository nonPlayerCharacterRepository) {
+    public TownService(TownRepository townRepository, PlayerCharacterRepository playerCharacterRepository, NonPlayerCharacterRepository nonPlayerCharacterRepository) {
         this.townRepository = townRepository;
-        this.tavern = tavern;
-        this.shop = shop;
         this.playerCharacterRepository = playerCharacterRepository;
         this.nonPlayerCharacterRepository = nonPlayerCharacterRepository;
-    }
-
-    private Town findTown(String townName){
-        return townRepository.findTownByTownName(townName);
     }
 
     Town findById(long id) throws BadDataException {
@@ -52,99 +44,50 @@ public class TownService {
         townRepository.save(town);
     }
 
-    private NonPlayerCharacterModel findNpcByName(String name) {
-        return nonPlayerCharacterRepository.findByName(name).toModel();
-    }
-
     public PlayerCharacterModel visitHealer(String characterName) throws BadDataException {
-        Healer healer = new Healer();
-        PlayerCharacter playerCharacter = playerCharacterRepository.findByCharacterName(PlayerCharacterService.convertToEntity(characterName).getCharacterName());
-        healer.doctor(playerCharacter);
-        playerCharacterRepository.save(playerCharacter);
+        NonPlayerCharacter healer = nonPlayerCharacterRepository.findByName("Healer");
+        PlayerCharacter playerCharacter = playerCharacterRepository.findByCharacterName(characterName);
+        int price = 15;
+
+        if(playerCharacter.getCurrency() < price){
+            System.out.println(healer.getName() + ": Sorry, you have insufficient funds!");
+        }
+        else if(playerCharacter.getCurrency() > price){
+            System.out.println(healer.getName() + ": Oh no! You're bleeding! Medic!! Man Down!");
+            playerCharacter.setCurrency(playerCharacter.getCurrency() - price);
+            playerCharacter.setHealth(playerCharacter.getMaxHealth());
+            playerCharacterRepository.save(playerCharacter);
+            System.out.println(healer.getName() + ": One minor All Cure potion and voila! You're ready to face the world again.");
+        }
         return playerCharacter.toModel();
     }
 
-    public String getTownGreeter(String townName, String npcName){
-
-        /*findTown(townName).getNpcs();
-        findNpcByName(npcName);*/ //get string message
-
-        //NPC - Welcome to Town! What do you want do now?
-
-        return null;
-    }
-
-    // TODO: Borde skapas i startup och användas genom town.getNpc -> innKeeper -> rest. Måste även först kolla om det finns en tavern i staden.
-    public PlayerCharacterModel visitTavern(String requestBody) throws BadDataException{
-        PlayerCharacter playerCharacter = playerCharacterRepository.findByCharacterName(PlayerCharacterService.convertToEntity(requestBody).getCharacterName());
-        tavern.restAtTavern(playerCharacter);
+    public PlayerCharacterModel visitTavern(String request) throws BadDataException{
+        NonPlayerCharacter tavern = nonPlayerCharacterRepository.findByName("Tavern");
+        PlayerCharacter playerCharacter = playerCharacterRepository.findByCharacterName(request);
+        int price = 2;
+        int heal = 3;
+        if(playerCharacter.getCurrency() >= price) {
+            playerCharacter.setCurrency(playerCharacter.getCurrency() - price);
+            System.out.println(tavern.getName() + ": You recovered " + heal + " health!");
+            playerCharacter.setHealth(playerCharacter.getHealth() + heal);
+            if(playerCharacter.getHealth() > playerCharacter.getMaxHealth()){
+                playerCharacter.setHealth(playerCharacter.getMaxHealth());
+            }
+            System.out.println(tavern.getName() + ": You now have "+playerCharacter.getHealth()+ " health!");
+        }
+        else
+            System.out.println(tavern.getName() + ": Not enough money!");
         playerCharacterRepository.save(playerCharacter);
         return playerCharacter.toModel();
     }
 
     public PlayerCharacterModel visitShop(String requestBody) throws BadDataException{
+        NonPlayerCharacter shop = nonPlayerCharacterRepository.findByName("shop");
         PlayerCharacter playerCharacter = playerCharacterRepository.findByCharacterName(PlayerCharacterService.convertToEntity(requestBody).getCharacterName());
-        shop.shopping(playerCharacter);
+        ((Shop)shop).shopping(playerCharacter);
         playerCharacterRepository.save(playerCharacter);
         return playerCharacter.toModel();
     }
 
-
-
-
-
-    //TODO: create function to allow for NPC to greet player
-    //TODO: create function to allow Player to choose options to do in town.
-    public void greeterMessage(){
-        String welcome = "Welcome weary traveller to our magnificent city!";
-        String options = "What would you like to do next?"
-                +"\nInput the corresponding digit to make your choice:"
-                +"\nVisit the Pub 5 copper: 1"
-                +"\nVisit the blacksmith: 2"
-                +"\nTreasure Hunt: 3"
-                +"\nVisit the doctor and recover your health, 15 copper: 4"
-                +"\nTravel to the next town: 5";
-
-        //sout("You visit the pub and got drunk")
-
-        int option = 0;
-
-        System.out.println(welcome);
-        System.out.println(options);
-
-        // wait for input
-
-        switch(option){
-            case 1:
-                System.out.println("Let me show you to the Pub");
-                //get pub npc
-                break;
-            case 2:
-                System.out.println("Let me show you the way!");
-                //get blacksmith npc
-                break;
-            case 3:
-                System.out.println("Cool! Have fun.");
-                //potOfGold()??
-                break;
-            case 4:
-                System.out.println("Oh no you're bleeding!! Medic! Man Down!");
-                //get player send to doctor method.
-                //doctor();
-                break;
-            case 5:
-                System.out.println("Oh ok, Goodbye then and safe travels");
-                //get player send to travel method.
-                //world.travel();
-                break;
-        }
-
-    }
-
-    /*
-     * Blacksmith - Welcome traveller! How can I help you?
-     * Options: fix broken weapon, upgrade weapon.
-     * Smithy
-     *
-     * */
 }

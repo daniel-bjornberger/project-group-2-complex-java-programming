@@ -1,6 +1,9 @@
 package se.iths.complexjavaproject.mudders.model;
 
 import lombok.*;
+import se.iths.complexjavaproject.mudders.entity.Item;
+
+import java.util.List;
 
 /**
  * Skapad av Elin och Tonny 26/11.
@@ -15,6 +18,6 @@ public class MonsterModel {
     private int health;
     private int damage;
     private int givenExperience;
-//    private Set<Loot> monsterLoot;
+//    private List<Item> monsterLoot;
 
 }

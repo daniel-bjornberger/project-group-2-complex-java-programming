@@ -3,6 +3,7 @@ package se.iths.complexjavaproject.mudders.entity;
 import lombok.*;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Getter
@@ -10,7 +11,6 @@ import javax.persistence.Table;
 @Table(name = "shop")
 @NoArgsConstructor
 @ToString
-@Service
 public class Shop extends NonPlayerCharacter  {
 
     private static final long serialVersionUID = 4552624858238223436L;
