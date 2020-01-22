@@ -39,6 +39,12 @@ public class CombatService {
                 player.setExperience(player.getExperience() + monster.getGivenExperience());
                 System.out.println("=========== " + monster.getName() + " killed! ===========");
                 System.out.println("=========== " + monster.getGivenExperience() + " experience gained! ===========");
+                if (player.getExperience() >= 10*player.getLevel()) {
+                    player.setLevel(player.getLevel()+1);
+                    player.setHealth(player.getHealth()+5);
+                    player.setDamage(player.getDamage()+2);
+                    player.setExperience(0);
+                }
                 player.setInCombat(false);
             }
             else {
