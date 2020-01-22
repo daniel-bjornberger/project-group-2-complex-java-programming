@@ -129,7 +129,7 @@ public class PlayerCharacterController {
     }
 
     @GetMapping(path = "/travel")
-    public String getTravelPlayerByName(@RequestParam String characterName) {
+    public String getTravelPlayerByName(Model model, @RequestParam String characterName) {
         try {
             PlayerCharacterModel playerCharacterModel = travelService.travel(characterName);
             if (playerCharacterModel.getHealth() == 0){
@@ -137,6 +137,7 @@ public class PlayerCharacterController {
                 return
                         "playercharacter";
             }
+            model.addAttribute("player", playerCharacterModel);
             return
                     "play";
         } catch (Exception e) {

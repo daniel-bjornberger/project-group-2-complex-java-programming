@@ -49,9 +49,10 @@
 
     <div>
         <!--Need to be connected to method in controller-->
-        <form action="/player/travel" method="GET">
-            <button name="characterName" type="submit">Travel</button>
-        </form>
+
+        <a th:href="@{'/player/travel?characterName=' + ${player.characterName}}">
+            <button>Travel</button>
+        </a>
 
 
         <button name="submit" type="submit" value="0">Healer</button><br>

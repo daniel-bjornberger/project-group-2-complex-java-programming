@@ -39,12 +39,8 @@
             <h3>Your character:</h3>
             <p th:text="${player}" th:object="${player}"></p>
 
-            <!--<form action="/player/playgame" th:object="${player}" method="GET">
-
-                <button type="submit">Play</button>
-            </form>-->
             <a th:href="@{'/player/playgame?characterName=' + ${player}}">
-                <span>Play</span>
+                <button>Play</button>
             </a>
 
 
