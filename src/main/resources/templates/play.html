@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <title>Welcome to MUD</title>
@@ -10,6 +10,30 @@
     <div>
         <h3>Character Info</h3>
 
+        <fieldset>
+        <table>
+            <thead>
+
+                <th> Name:
+                    <p th:text="${player.characterName}"></p>
+                </th>
+
+                <th> Health: <p th:text="${player.health}"></p></th>
+                <th> Damage:  <p th:text="${player.damage}"></th>
+                <th> Level:  <p th:text="${player.level}"></th>
+                <th> Experience: <p th:text="${player.experience}"></th>
+                <th> Town: <p th:text="${player.currentTown}"></th>
+                <th> Currency:  <p th:text="${player.currency}"></th>
+
+            </thead>
+        </table>
+        </fieldset>
+
+
+
+
+
+
     </div>
 
     <div>
@@ -17,11 +41,17 @@
         <!--Needs to be connected to method in controller-->
         <h3>Information</h3>
 
+
+
     </div>
 
     <div>
         <!--Need to be connected to method in controller-->
-        <button name="submit" type="submit" value="0">Travel</button><br>
+
+        <a th:href="@{'/player/travel?characterName=' + ${player.characterName}}">
+            <button>Travel</button>
+        </a>
+
 
         <button name="submit" type="submit" value="0">Healer</button><br>
 

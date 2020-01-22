@@ -37,12 +37,12 @@
 
         <div>
             <h3>Your character:</h3>
-            <p action="player/all" th:text="${player}"></p>
+            <p th:text="${player}" th:object="${player}"></p>
 
-            <button name="submit" type="submit" value="0">Choose</button>
-            <button name="delete" type="delete" value="0">Delete</button>
+            <a th:href="@{'/player/playgame?characterName=' + ${player}}">
+                <button>Play</button>
+            </a>
 
-            <button name="play" type="button" th:action="playgame">Play</button>
 
         </div>
     <br/>
@@ -53,7 +53,7 @@
             </a>
 
         </div>-->
-       <!-- <div sec:authorize="hasRole(ADMIN)">-->
+        <div sec:authorize="hasAuthority('WRITE_PRIVILEGE')">
             <form action="/user/registration" method="post">
                 <div class="input-group input-group-sm mb-3">
                     <div class="input-group-prepend">
@@ -84,13 +84,17 @@
             </form>
 
             <form action="/user/delete" method="post">
-                <h3>Delete User</h3>
-                User email: <input type="email" name="email">
-                <br>
-                <input type="submit" value="Submit">
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">Delete user:</span>
+                    </div>
+                    <input type="email" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" name="email">
+                    <input type="submit" value="Submit">
+                </div>
+
             </form>
 
-        <!--</div>-->
+        </div>
 
             <form action="/player/add" method="post">
                 <h3>Add character</h3>
