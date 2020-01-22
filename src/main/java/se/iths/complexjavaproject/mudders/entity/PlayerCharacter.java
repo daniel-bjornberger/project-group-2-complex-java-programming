@@ -80,4 +80,13 @@ public class PlayerCharacter implements Serializable {
         return playerCharacterModel;
     }
 
+    @Override
+    public String toString() {
+        return "PlayerCharacter{" +
+                "characterName='" + characterName + '\'' +
+                ", experience=" + experience +
+                ", level=" + level +
+                ", currentTown=" + currentTown +
+                '}';
+    }
 }

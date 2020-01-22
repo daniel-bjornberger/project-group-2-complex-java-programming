@@ -1,51 +1,60 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="../static/css/regStyle.css">
-    <title>Registration</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <title>Registration Page</title>
 </head>
 <body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">MUD Game</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Registration <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="@{/login}">Login</a>
+            </li>
+        </ul>
+    </div>
+</nav>
 
-<div class="topNav">
-    <a class="active" href="#reg">Registration</a>
-    <a href="/login">Login</a>
-</div>
-
-<div class="reg">
-    <h2>New User Registration</h2>
-    <form action="/user/reg" th:object="${user}" method="POST" enctype="utf8">
-        <div class="reg-form">
-            <div class="input-section">
-               <!--<label for="fullName">
-                    <span th:text="#{user.fullName}">Full name</span>
-                </label>
-                <input type="text" th:field="*{fullName}">-->
-
-                <label>Full name</label>
-                <input type="text" th:field="*{fullName}"/>
-                <!--  <p th:each="error: ${#fields.errors('fullName')}"
-                     th:text="${error}">Validation error</p>-->
+<div class="container-fluid">
+    <form action="/user/registration" method="post">
+        <div class="input-group input-group-sm mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-sm">User name:</span>
             </div>
-            <div class="input-section">
-                <label>Email</label>
-                <input class="email-input" type="email" th:field="*{email}"/>
-                <!--  <p th:each="error : ${#fields.errors('email')}"
-                     th:text="${error}">Validation error</p>-->
-            </div>
-            <div class="input-section">
-                <label>password</label>
-                <input type="password" th:field="*{password}"/>
-              <!--  <p th:each="error : ${#fields.errors('password')}"
-                   th:text="${error}">Validation error</p>-->
-            </div>
-            <div class="input-section">
-                <label>confirm</label>
-                <input type="password" th:field="*{matchingPassword}"/>
-            </div>
-            <button class="btn" type="submit">submit</button>
+            <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" name="fullName">
         </div>
+        <div class="input-group input-group-sm mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-sm">User email:</span>
+            </div>
+            <input type="email" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" name="email">
+        </div>
+        <div class="input-group input-group-sm mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-sm">Password:</span>
+            </div>
+            <input type="password" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" name="password">
+        </div>
+        <div class="input-group input-group-sm mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-sm">Confirm password:</span>
+            </div>
+            <input type="password" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" name="matchingPassword">
+        </div>
+        <button name="submit" type="submit" value="0">Submit</button>
+
     </form>
+
+    <!--<a th:href="@{/login.html}" th:text="#{label.form.loginLink}">login</a>-->
 
 </div>
 
