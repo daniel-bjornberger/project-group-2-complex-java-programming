@@ -19,23 +19,16 @@
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav">
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="#">Start <span class="sr-only">(current)</span></a>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Dropdown link
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item" href=@{/user/registration}>Registration</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <a class="dropdown-item" href="#">Something else here</a>
-                    </div>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/user/registration}">Registration</a>
                 </li>
             </ul>
         </div>
     </nav>
 
-        <div>
+        <div class="container-fluid">
             <h3>Your character:</h3>
             <p th:text="${player}" th:object="${player}"></p>
 
@@ -43,17 +36,10 @@
                 <button>Play</button>
             </a>
 
-
         </div>
     <br/>
 
-        <!--<div class="list-group" th:each="player : ${players}">
-            <a th:href="@{/playercharacter}" class="list-group-item list-group-item-action">
-            <p th:text="${specimen}"/>
-            </a>
-
-        </div>-->
-        <div sec:authorize="hasAuthority('WRITE_PRIVILEGE')">
+        <div class="container-fluid" sec:authorize="hasAuthority('WRITE_PRIVILEGE')">
             <form action="/user/registration" method="post">
                 <div class="input-group input-group-sm mb-3">
                     <div class="input-group-prepend">
@@ -96,6 +82,7 @@
 
         </div>
 
+    <div class="container-fluid">
             <form action="/player/add" method="post">
                 <h3>Add character</h3>
                 Character name: <input type="text" name="characterName"><br>
@@ -112,7 +99,6 @@
                 <input type="submit" value="Sign Out"/>
 
             </form>
-
 
         </div>
 
