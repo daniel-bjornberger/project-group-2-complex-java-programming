@@ -80,7 +80,7 @@ public class CombatService {
     private int attack(int health, int damage) {
         int healthLeft = health - damage;
         if (healthLeft <= 0) {
-            return 0;
+            healthLeft = 0;
         }
         return healthLeft;
     }
