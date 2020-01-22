@@ -1,11 +1,8 @@
 package se.iths.complexjavaproject.mudders.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import se.iths.complexjavaproject.mudders.controller.PlayerCharacterController;
 import se.iths.complexjavaproject.mudders.entity.PlayerCharacter;
 import se.iths.complexjavaproject.mudders.model.MonsterModel;
-import se.iths.complexjavaproject.mudders.repository.PlayerCharacterRepository;
 import se.iths.complexjavaproject.mudders.util.ServiceUtilities;
 
 /**
@@ -13,8 +10,6 @@ import se.iths.complexjavaproject.mudders.util.ServiceUtilities;
  */
 @Service
 public class CombatService {
-
-    PlayerCharacterRepository playerCharacterRepository;
 
     public void fight(PlayerCharacter player, MonsterModel monster) {
 //        Player attacks monster
@@ -41,7 +36,7 @@ public class CombatService {
                 System.out.println("=========== " + monster.getGivenExperience() + " experience gained! ===========");
                 if (player.getExperience() >= 10*player.getLevel()) {
                     player.setLevel(player.getLevel()+1);
-                    player.setHealth(player.getHealth()+5);
+                    player.setMaxHealth(player.getMaxHealth()+5);
                     player.setDamage(player.getDamage()+2);
                     player.setExperience(0);
                 }
@@ -78,14 +73,14 @@ public class CombatService {
     }
 
     private boolean escape() {
-        int random = ServiceUtilities.generateRandomIntIntRange(1,5);
+        int random = ServiceUtilities.generateRandomIntIntRange(1,8);
         return random == 1;
     }
 
     private int attack(int health, int damage) {
         int healthLeft = health - damage;
         if (healthLeft <= 0) {
-            return 0;
+            healthLeft = 0;
         }
         return healthLeft;
     }
