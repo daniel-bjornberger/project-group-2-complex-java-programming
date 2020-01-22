@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <title>Welcome to MUD</title>
@@ -10,6 +10,32 @@
     <div>
         <h3>Character Info</h3>
 
+      <!--  <form action="#" th:action="@{/player/getcharacter}" th:object="${player}" method="GET">
+        <fieldset>
+            <table>
+                <thead>
+                <tr>
+                    <th> Name</th>
+                    <th> Health</th>
+                    <th> Level</th>
+                    <th> Experience</th>
+                    <th> Town</th>
+                    <th> Currency</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="player, itemStat : *players}">
+                    <td><input th:field="*{players[__${itemStat.index}__].characterName}" /></td>
+                    <td><input th:field="*{players[__${itemStat.index}__].health}" /></td>
+                    <td><input th:field="*{players[__${itemStat.index}__].health}" /></td>
+                    <td><input th:field="*{players[__${itemStat.index}__].health}" /></td>
+
+                </tr>
+                </tbody>
+            </table>
+        </fieldset>
+    </form>-->
+
     </div>
 
     <div>
@@ -17,11 +43,16 @@
         <!--Needs to be connected to method in controller-->
         <h3>Information</h3>
 
+
+
     </div>
 
     <div>
         <!--Need to be connected to method in controller-->
-        <button name="submit" type="submit" value="0">Travel</button><br>
+        <form action="/player/travel" method="GET">
+            <button name="characterName" type="submit">Travel</button>
+        </form>
+
 
         <button name="submit" type="submit" value="0">Healer</button><br>
 

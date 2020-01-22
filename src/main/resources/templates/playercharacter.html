@@ -37,37 +37,19 @@
 
         <div>
             <h3>Your character:</h3>
-            <p action="player/all" th:text="${player}"></p>
+            <p th:text="${player}" th:object="${player}"></p>
 
-            <form action="/player/playgame" method="GET">
-                <button name="play" type="submit">Play</button>
-            </form>
+            <!--<form action="/player/playgame" th:object="${player}" method="GET">
+
+                <button type="submit">Play</button>
+            </form>-->
+            <a th:href="@{'/player/playgame?characterName=' + ${player}}">
+                <span>Play</span>
+            </a>
+
 
         </div>
     <br/>
-
-  <!--  <form action="#" th:action="@{/player/all}" th:object="${player}" method="post">
-        <fieldset>
-            <table>
-                <thead>
-                <tr>
-                    <th> Name</th>
-                    <th> Health</th>
-                    <th> Level</th>
-                    <th> Experience</th>
-                    <th> Town</th>
-                    <th> Currency</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="player, itemStat : *{books}">
-                    <td><input th:field="*{books[__${itemStat.index}__].title}" /></td>
-                    <td><input th:field="*{books[__${itemStat.index}__].author}" /></td>
-                </tr>
-                </tbody>
-            </table>
-        </fieldset>
-    </form>-->
 
         <!--<div class="list-group" th:each="player : ${players}">
             <a th:href="@{/playercharacter}" class="list-group-item list-group-item-action">

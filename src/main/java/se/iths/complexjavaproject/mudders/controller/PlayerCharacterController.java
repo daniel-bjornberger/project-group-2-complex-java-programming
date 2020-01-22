@@ -83,13 +83,22 @@ public class PlayerCharacterController {
         return "start";
     }
 
+    @GetMapping("/playgame")
+    public String playGame(Model model, @RequestParam String characterName ){
+        try {
+            System.out.println("CharacterName: " + characterName);
+            PlayerCharacterModel player = playerCharacterService.findCharacterByName(characterName).toModel();
+            model.addAttribute("player", player);
 
-    /*@RequestMapping(value="/playercharacter", method=RequestMethod.GET)
-    public String playGame(){
-        //send playerCharacter into game
-        //enter new page - play.html
-        return "play";
-    }*/
+            System.out.println("player:" + player.getCharacterName());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return
+                    "error";
+        }
+        return
+                "play";
+    }
 
 /*
     @GetMapping(path = "/all")
