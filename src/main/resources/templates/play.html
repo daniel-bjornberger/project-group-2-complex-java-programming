@@ -10,31 +10,29 @@
     <div>
         <h3>Character Info</h3>
 
-      <!--  <form action="#" th:action="@{/player/getcharacter}" th:object="${player}" method="GET">
         <fieldset>
-            <table>
-                <thead>
-                <tr>
-                    <th> Name</th>
-                    <th> Health</th>
-                    <th> Level</th>
-                    <th> Experience</th>
-                    <th> Town</th>
-                    <th> Currency</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="player, itemStat : *players}">
-                    <td><input th:field="*{players[__${itemStat.index}__].characterName}" /></td>
-                    <td><input th:field="*{players[__${itemStat.index}__].health}" /></td>
-                    <td><input th:field="*{players[__${itemStat.index}__].health}" /></td>
-                    <td><input th:field="*{players[__${itemStat.index}__].health}" /></td>
+        <table>
+            <thead>
 
-                </tr>
-                </tbody>
-            </table>
+                <th> Name:
+                    <p th:text="${player.characterName}"></p>
+                </th>
+
+                <th> Health: <p th:text="${player.health}"></p></th>
+                <th> Damage:  <p th:text="${player.damage}"></th>
+                <th> Level:  <p th:text="${player.level}"></th>
+                <th> Experience: <p th:text="${player.experience}"></th>
+                <th> Town: <p th:text="${player.currentTown}"></th>
+                <th> Currency:  <p th:text="${player.currency}"></th>
+
+            </thead>
+        </table>
         </fieldset>
-    </form>-->
+
+
+
+
+
 
     </div>
 
