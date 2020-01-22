@@ -26,7 +26,7 @@
                         Dropdown link
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item" href="@{/registration}">Registration</a>
+                        <a class="dropdown-item" href=@{/user/registration}>Registration</a>
                         <a class="dropdown-item" href="#">Another action</a>
                         <a class="dropdown-item" href="#">Something else here</a>
                     </div>
@@ -53,12 +53,7 @@
             </a>
 
         </div>-->
-    <div sec:authorize="isAnonymous()">
-    <a th:href="@{/login}">Log in</a>
-    <br>
-    <a th:href="@{/register}">Register</a>
-    </div>
-        <div sec:authorize="hasRole('ADMIN')">
+       <!-- <div sec:authorize="hasRole(ADMIN)">-->
             <form action="/user/registration" method="post">
                 <div class="input-group input-group-sm mb-3">
                     <div class="input-group-prepend">
@@ -85,13 +80,7 @@
                     <input type="password" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" name="matchingPassword">
                 </div>
                 <button name="submit" type="submit" value="0">Submit</button>
-                <!--<h3>Add User</h3>
-                User name: <input type="text" name="fullName">
-                User email: <input type="email" name="email">
-                User password: <input type="password" name="password">
-                Confirm Password <input type="password" name="matchingPassword">
-                <br>
-                <input type="submit" value="Submit">-->
+
             </form>
 
             <form action="/user/delete" method="post">
@@ -101,7 +90,7 @@
                 <input type="submit" value="Submit">
             </form>
 
-        </div>
+        <!--</div>-->
 
             <form action="/player/add" method="post">
                 <h3>Add character</h3>

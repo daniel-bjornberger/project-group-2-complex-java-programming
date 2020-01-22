@@ -15,7 +15,7 @@
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav">
             <li class="nav-item active">
-                <a class="nav-link" href="@{/registration}">Registration <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="@{/user/registration}">Registration <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="@{/login}">Login</a>
@@ -44,7 +44,36 @@
 
 </form>-->
 
+<form action="/user/registration" method="post">
+    <div class="input-group input-group-sm mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-sm">User name:</span>
+        </div>
+        <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" name="fullName">
+    </div>
+    <div class="input-group input-group-sm mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-sm">User email:</span>
+        </div>
+        <input type="email" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" name="email">
+    </div>
+    <div class="input-group input-group-sm mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-sm">Password:</span>
+        </div>
+        <input type="password" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" name="password">
+    </div>
+    <div class="input-group input-group-sm mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-sm">Confirm password:</span>
+        </div>
+        <input type="password" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" name="matchingPassword">
+    </div>
+    <button name="submit" type="submit" value="0">Submit</button>
 
+</form>
+
+<!--
 <h1 th:text="#{label.form.title}">User Registration</h1>
 <form action="/user/registration" th:object="${user}" method="POST" enctype="utf8">
     <div class="input-group mb-3">
@@ -56,12 +85,12 @@
            th:text="${error}">Validation error</p>
     </div>
 
-   <!-- <div>
+   &lt;!&ndash; <div>
         <label>User name</label>
         <input type="text" th:field="*{fullName}"/>
         <p th:each="error: ${#fields.errors('fullName')}"
            th:text="${error}">Validation error</p>
-    </div>-->
+    </div>&ndash;&gt;
     <div>
         <label>Email</label>
         <input type="email" th:field="*{email}"/>
@@ -79,7 +108,7 @@
         <input type="password" th:field="*{matchingPassword}"/>
     </div>
     <button type="submit" th:text="#{label.form.submit}">Submit <span th:text="#{label.form.submit}"></span></button>
-</form>
+</form>-->
 
 <a th:href="@{/login.html}" th:text="#{label.form.loginLink}">login</a>
 
