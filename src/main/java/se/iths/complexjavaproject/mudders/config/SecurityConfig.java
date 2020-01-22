@@ -32,7 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/user/reg*").permitAll()
+                .antMatchers("/user/registration*").permitAll()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/user/delete*").hasAuthority("WRITE_PRIVILEGE")
 //                .antMatchers("/user/del*").hasRole("ADMIN")
