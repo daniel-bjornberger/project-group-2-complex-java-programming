@@ -73,7 +73,7 @@ public class CombatService {
     }
 
     private boolean escape() {
-        int random = ServiceUtilities.generateRandomIntIntRange(1,5);
+        int random = ServiceUtilities.generateRandomIntIntRange(1,8);
         return random == 1;
     }
 
