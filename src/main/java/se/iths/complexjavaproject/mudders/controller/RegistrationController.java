@@ -29,7 +29,7 @@ public class RegistrationController {
     public String showRegistrationForm(Model model) {
         UserModel userModel = new UserModel();
         model.addAttribute("user", userModel);
-        return "registration";
+        return "reg";
     }
 
     @PostMapping("/registration")
