@@ -22,11 +22,15 @@ import se.iths.complexjavaproject.mudders.service.TravelService;
 import se.iths.complexjavaproject.mudders.service.UserService;
 
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Service
 @Controller
 @RequestMapping("/player")
 public class PlayerCharacterController {
+
+    Logger log = LoggerFactory.getLogger(this.getClass());
 
     private PlayerCharacterService playerCharacterService;
     private TravelService travelService;
@@ -59,29 +63,28 @@ public class PlayerCharacterController {
             model.addAttribute("player", player.getCharacterName());
         } catch (Exception e) {
             e.printStackTrace();
-            return
-                    "error";
+            log.error("Possible authentication error!");
+            return "error";
         }
-        return
-                "playercharacter";
+        return "playercharacter";
     }
 
-    @GetMapping("/showAllCharacters")
+   /* @GetMapping("/showAllCharacters")
     public ModelAndView showAllCharacters(Model model) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("playercharacters");
         List<PlayerCharacterModel> players = playerCharacterService.findAll();
         modelAndView.addObject("players", players);
         return modelAndView;
-    }
+    }*/
 
-    @RequestMapping(value="/savecharacter", method = RequestMethod.GET )
+   /* @RequestMapping(value="/savecharacter", method = RequestMethod.GET )
     public String saveCharacter(PlayerCharacterModel playerCharacterModel){
         playerCharacterModel.setLevel(10);
 
         return "playercharacter";
-    }
-    @GetMapping("/addplayer")
+    }*/
+    /*@GetMapping("/addplayer")
     //RequestMapping annotation over a method - tie out to a browser/postman
     //value - relative path (endpoint) from a domain name.
     //method - HTTP method
@@ -91,23 +94,20 @@ public class PlayerCharacterController {
 
         model.addAttribute("player", playerCharacterModel);
         return "start";
-    }
+    }*/
 
     @GetMapping("/playgame")
     public String playGame(Model model, @RequestParam String characterName ){
         try {
-            System.out.println("CharacterName: " + characterName);
             PlayerCharacterModel player = playerCharacterService.findCharacterByName(characterName).toModel();
             model.addAttribute("player", player);
 
-            System.out.println("player:" + player.getCharacterName());
         } catch (Exception e) {
             e.printStackTrace();
-            return
-                    "error";
+            log.error("Unable to send playerCharacter to play.html");
+            return "error";
         }
-        return
-                "play";
+        return "play";
     }
 
 /*
@@ -130,11 +130,11 @@ public class PlayerCharacterController {
                 email = authentication.getName();
             }
                 playerCharacterService.createNewCharacter(characterName, email);
-            return
-                    "playercharacter";
+            return "playercharacter";
         } catch (Exception e) {
-            return
-                    "error";
+            e.printStackTrace();
+            log.error("Unable to add new playerCharacter");
+            return "error";
         }
     }
 
@@ -144,63 +144,91 @@ public class PlayerCharacterController {
             PlayerCharacterModel playerCharacterModel = travelService.travel(characterName);
             if (playerCharacterModel.getHealth() == 0){
                 removePlayer(playerCharacterModel.getCharacterName());
-                return
-                        "playercharacter";
+                return "playercharacter";
             }
             model.addAttribute("player", playerCharacterModel);
-            return
-                    "play";
+            return "play";
         } catch (Exception e) {
-            return
-                    "error";
+            e.printStackTrace();
+            log.error("Unable to use endpoint /travel");
+            return "error";
         }
     }
 
-    @GetMapping(path = "/travel/next")
-    public ResponseEntity travelToNextTown(@RequestParam String characterName) {
+    /**
+     * Allows playerCharacter to travel to next town.
+     * @param model
+     * @param characterName
+     * @return play.html or error.html
+     */
+        @GetMapping(path = "/travel/next")
+    public String travelToNextTown(Model model, @RequestParam String characterName) {
         try {
             PlayerCharacterModel playerCharacterModel = travelService.travelToNextTown(characterName);
-            return  ResponseEntity.status(HttpStatus.OK).body(playerCharacterModel);
+            model.addAttribute("player", playerCharacterModel);
+            return "play";
         } catch (BadDataException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e);
+            e.printStackTrace();
+            log.error("Unable to use endpoint travel/next");
+            return "error";
         }
     }
 
     @GetMapping(path = "/travel/previous")
-    public ResponseEntity travelToPreviousTown(@RequestParam String characterName) {
+    public String travelToPreviousTown(Model model, @RequestParam String characterName) {
         try {
             PlayerCharacterModel playerCharacterModel = travelService.travelToPreviousTown(characterName);
-            return ResponseEntity.status(HttpStatus.OK).body(playerCharacterModel);
-        } catch (BadDataException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e);
-        }
-    }
-
-    @GetMapping(path = "/healer")
-    public ResponseEntity goToHealer(@RequestParam String characterName){
-        try{
-            PlayerCharacterModel playerCharacterModel = townService.visitHealer(characterName);
-            return ResponseEntity
-                    .status(HttpStatus.OK)
-                    .body(playerCharacterModel);
+            model.addAttribute("player", playerCharacterModel);
+            return "play";
         } catch (BadDataException e) {
             e.printStackTrace();
-            return  ResponseEntity.status(HttpStatus.NOT_FOUND).body(e);
+            log.error("Unable to use endpoint travel/next");
+            return "error";
         }
     }
 
+    /**
+     * Uses visitHealer() in townService to heal playerCharacter if conditions are met.
+     * @param model
+     * @param characterName
+     * @return play.html
+     */
+    @GetMapping(path = "/healer")
+    public String goToHealer(Model model, @RequestParam String characterName) {
+        try {
+            PlayerCharacterModel playerCharacterModel = townService.visitHealer(characterName);
+            model.addAttribute("player", playerCharacterModel);
+            return "play";
+
+        } catch (Exception e) {
+            log.error("Unable to visit Healer");
+            return "error";
+        }
+    }
+
+    /**
+     * Uses visitTavern() in townService to allow minor healing if conditions are met.
+     * @param model
+     * @param characterName
+     * @return play.html
+     */
     @GetMapping(path = "/tavern")
-    public ResponseEntity playerVisitTavern(@RequestParam String characterName){
+    public String playerVisitTavern(Model model, @RequestParam String characterName){
         try{
             PlayerCharacterModel playerCharacterModel = townService.visitTavern(characterName);
-            return ResponseEntity
-                    .status(HttpStatus.OK)
-                    .body(playerCharacterModel);
+            model.addAttribute("player", playerCharacterModel);
+            return "play";
         } catch (Exception e) {
-            return  ResponseEntity.status(HttpStatus.NOT_FOUND).body(e);
+            log.error("Unable to visit Tavern");
+            return "error";
         }
     }
 
+    /**
+     * Removes playerCharacter from database.
+     * @param characterName
+     * @return
+     */
     @GetMapping(path = "/delete")
     public ResponseEntity removePlayer(@RequestParam String characterName) {
         try {
