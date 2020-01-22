@@ -39,13 +39,35 @@
             <h3>Your character:</h3>
             <p action="player/all" th:text="${player}"></p>
 
-            <button name="submit" type="submit" value="0">Choose</button>
-            <button name="delete" type="delete" value="0">Delete</button>
-
-            <button name="play" type="button" th:action="playgame">Play</button>
+            <form action="/player/playgame" method="GET">
+                <button name="play" type="submit">Play</button>
+            </form>
 
         </div>
     <br/>
+
+  <!--  <form action="#" th:action="@{/player/all}" th:object="${player}" method="post">
+        <fieldset>
+            <table>
+                <thead>
+                <tr>
+                    <th> Name</th>
+                    <th> Health</th>
+                    <th> Level</th>
+                    <th> Experience</th>
+                    <th> Town</th>
+                    <th> Currency</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="player, itemStat : *{books}">
+                    <td><input th:field="*{books[__${itemStat.index}__].title}" /></td>
+                    <td><input th:field="*{books[__${itemStat.index}__].author}" /></td>
+                </tr>
+                </tbody>
+            </table>
+        </fieldset>
+    </form>-->
 
         <!--<div class="list-group" th:each="player : ${players}">
             <a th:href="@{/playercharacter}" class="list-group-item list-group-item-action">
@@ -53,7 +75,7 @@
             </a>
 
         </div>-->
-       <!-- <div sec:authorize="hasRole(ADMIN)">-->
+        <div sec:authorize="hasAuthority('WRITE_PRIVILEGE')">
             <form action="/user/registration" method="post">
                 <div class="input-group input-group-sm mb-3">
                     <div class="input-group-prepend">
@@ -84,13 +106,17 @@
             </form>
 
             <form action="/user/delete" method="post">
-                <h3>Delete User</h3>
-                User email: <input type="email" name="email">
-                <br>
-                <input type="submit" value="Submit">
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">Delete user:</span>
+                    </div>
+                    <input type="email" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" name="email">
+                    <input type="submit" value="Submit">
+                </div>
+
             </form>
 
-        <!--</div>-->
+        </div>
 
             <form action="/player/add" method="post">
                 <h3>Add character</h3>
