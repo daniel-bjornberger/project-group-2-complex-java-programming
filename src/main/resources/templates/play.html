@@ -1,37 +1,110 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
-    <title>Welcome to MUD</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <title>Play MUD Game</title>
 </head>
 <body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">MUD Game</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Play <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/user/registration}">Registration</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="@{/login}">Login</a>
+            </li>
+        </ul>
+    </div>
+</nav>
 
 <div>
-    <div>
+    <div class="container-fluid">
+
+        <h3>Information</h3>
+        <fieldset>
+            <p>Your families farm and village have been raided by bandits from a neighbouring kingdom!
+                To lighten the burden for your family you decide to try your luck looking for work in Tulip City.
+                The capitol is said to be wondrous place but the journey there is long and filled with peril.
+                Who knows what the journey to the capitol may bring. Fame and Fortune or Death and Despair!
+                You must first travel to First Town and from there it may be prudent to pick up some sword skills.
+                Good Speed on your journey and may you the Gods favour your endeavours.
+            </p>
+
+            <p th:text="${player.characterName} +  ' has started their journey'"></p>
+
+        </fieldset>
+
+    </div>
+
+    <div class="container-fluid">
         <h3>Character Info</h3>
 
+        <fieldset>
+        <table class="table table-bordered">
+            <thead>
+            <th scope="col">#</th>
+                <th scope="col"> Name </th>
+                <th scope="col"> Health</th>
+                <th scope="col"> Damage</th>
+                <th scope="col"> Level </th>
+                <th scope="col"> Experience </th>
+                <th scope="col"> Town </th>
+                <th scope="col"> Currency </th>
+            </thead>
+            <tbody>
+            <tr>
+                <th scope="row">1</th>
+                <td> <p th:text="${player.characterName}"></p></td>
+                <td> <p th:text="${player.health}"></p> </td>
+                <td> <p th:text="${player.damage}"> </td>
+                <td> <p th:text="${player.level}"> </td>
+                <td> <p th:text="${player.experience}"> </td>
+                <td> <p th:text="${player.currentTown}"> </td>
+                <td> <p th:text="${player.currency}"> </td>
+            </tr>
+        </table>
+        </fieldset>
+
     </div>
 
-    <div>
+    <div class="container-fluid">
 
-        <!--Needs to be connected to method in controller-->
-        <h3>Information</h3>
+        <a th:href="@{'/player/travel?characterName=' + ${player.characterName}}">
+            <button type="button" class="btn btn-danger">Travel</button>
+        </a>
+
+        <a th:href="@{'/player/healer?characterName=' + ${player.characterName}}">
+            <button type="button" class="btn btn-primary">Healer</button>
+        </a>
+
+        <a th:href="@{'/player/tavern?characterName=' + ${player.characterName}}">
+            <button type="button" class="btn btn-warning">Tavern</button>
+        </a>
+
+        <a th:href="@{'/player/travel/next?characterName=' + ${player.characterName}}">
+            <button type="button" class="btn btn-success">Next Town</button>
+        </a>
+        <a th:href="@{'/player/travel/previous?characterName=' + ${player.characterName}}">
+            <button type="button" class="btn btn-dark">Previous Town</button>
+        </a>
 
     </div>
+    <br>
 
-    <div>
-        <!--Need to be connected to method in controller-->
-        <button name="submit" type="submit" value="0">Submit</button><br>
-
-        <button name="submit" type="submit" value="0">Healer</button><br>
-
-        <button name="submit" type="submit" value="0">Tavern</button><br>
-
-        <button name="submit" type="submit" value="0">Fight</button><br>
-
-        <button name="submit" type="submit" value="0">Flee</button><br>
-
-        <button name="submit" type="submit" value="0">Town</button><br>
+    <div class="container-fluid">
+        <a th:href="@{'/player/playercharacter'}">
+            <button type="button" class="btn btn-info">Back to Start</button>
+        </a>
 
     </div>
 

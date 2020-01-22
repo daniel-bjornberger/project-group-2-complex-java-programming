@@ -1,80 +1,124 @@
 <!DOCTYPE html>
 
-<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
     <head>
         <meta charset="UTF-8">
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
         <title>Start Page</title>
     </head>
 
     <body>
-        <h1>Your Account</h1>
 
-        <div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">MUD Game</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Start <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/user/registration}">Registration</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/player/playercharacter}">Refresh Page</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+        <div class="container-fluid">
             <h3>Your character:</h3>
-            <p action="player/all" th:text="${player}"></p>
+            <p th:text="${player}" th:object="${player}"></p>
 
-            <button name="submit" type="submit" value="0">Choose</button>
-            <button name="delete" type="delete" value="0">Delete</button>
-
-            <button name="play" type="button" th:action="playgame">Play</button>
-
-           <!-- <h3>Add Character</h3>
-            <form action="#" th:action="@{/savecharacter}" th:object="${player}" method="GET">
-
-                Character name: <input type="text" name="characterName" th:field="*{characterName}"/><br/>
-                Level: <input type="text" name="level" th:field="*{level}"/><br/>
-
-                <button name="submit" type="submit" value="0">Submit</button>
-            </form>-->
+            <a th:href="@{'/player/playgame?characterName=' + ${player}}">
+                <button type="button" class="btn btn-success">Play</button>
+            </a>
 
         </div>
+    <br/>
 
-        <div>
+        <div class="container-fluid" sec:authorize="hasAuthority('WRITE_PRIVILEGE')">
             <form action="/user/registration" method="post">
-                <h3>Add User</h3>
-                User name: <input type="text" name="fullName">
-                User email: <input type="email" name="email">
-                User password: <input type="password" name="password">
-                Confirm Password <input type="password" name="matchingPassword">
-                <br>
-                <input type="submit" value="Submit">
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">User name:</span>
+                    </div>
+                    <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" name="fullName">
+                </div>
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">User email:</span>
+                    </div>
+                    <input type="email" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" name="email">
+                </div>
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">Password:</span>
+                    </div>
+                    <input type="password" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" name="password">
+                </div>
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">Confirm password:</span>
+                    </div>
+                    <input type="password" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" name="matchingPassword">
+                </div>
+                <button name="submit" type="submit" value="0">Submit</button>
+
             </form>
+            <br>
 
             <form action="/user/delete" method="post">
-                <h3>Delete User</h3>
-                User email: <input type="email" name="email">
-                <br>
-                <input type="submit" value="Submit">
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">Delete user:</span>
+                    </div>
+                    <input type="email" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" name="email">
+
+                </div>
+                <button name="submit" type="submit" value="0">Submit</button>
+
             </form>
 
-            <form action="/player/all" method="get">
-                <h3>Get all characters</h3>
-                Character name: <p th:text="${characterName}">No characters!!</p><br>
-                <input type="submit" value="Submit">
-            </form>
+        </div>
+    <br>
+
+    <div class="container-fluid">
             <form action="/player/add" method="post">
                 <h3>Add character</h3>
-                Character name: <input type="text" name="characterName"><br>
-                <input type="submit" value="Submit">
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">Character name:</span>
+                    </div>
+                    <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" name="characterName">
+                </div>
+                <button type="submit" value="Submit">Submit</button>
             </form>
             <form action="/player/delete" methods="delete">
                 <h3>Delete character</h3>
-                Character name: <input type="text" name="characterName"><br>
-                <input type="submit" value="Submit">
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">Character name:</span>
+                    </div>
+                    <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" name="characterName">
+                </div>
+
+                <button type="submit" value="Submit">Submit</button>
             </form>
 
             <br>
             <form name="logoutForm" th:action="@{/logout}" method="post">
-                <input type="submit" value="Sign Out"/>
+                <button class="btn btn-danger" type="submit" value="Sign Out">Sign Out</button>
 
             </form>
-
 
         </div>
 
     </body>
-
-
 
 </html>
