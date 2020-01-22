@@ -19,6 +19,7 @@ public class StartupService {
     private final RoleRepository roleRepository;
     private final PrivilegeRepository privilegeRepository;
     private final PlayerCharacterRepository playerCharacterRepository;
+    private final ItemRepository itemRepository;
 
     @Autowired
     public StartupService(NonPlayerCharacterRepository npcRepository,
@@ -28,7 +29,8 @@ public class StartupService {
                           PasswordEncoder passwordEncoder,
                           RoleRepository roleRepository,
                           PrivilegeRepository privilegeRepository,
-                          PlayerCharacterRepository playerCharacterRepository) {
+                          PlayerCharacterRepository playerCharacterRepository,
+                          ItemRepository itemRepository) {
 
         this.npcRepository = npcRepository;
         this.townRepository = townRepository;
@@ -38,6 +40,7 @@ public class StartupService {
         this.roleRepository = roleRepository;
         this.privilegeRepository = privilegeRepository;
         this.playerCharacterRepository = playerCharacterRepository;
+        this.itemRepository = itemRepository;
         
     }
     // TODO: May crash if something is not found
@@ -76,6 +79,11 @@ public class StartupService {
         createMonsterIfNotFound("Skeleton");
         createMonsterIfNotFound("Zombie");
         createMonsterIfNotFound("Wolf");
+
+        // == create initial items
+        createItemIfNotFound("Sword", 1000, 10, 0, 10);
+        createItemIfNotFound("Potion", 10, 0, 10, 100000);
+        
     }
 
     private Privilege createPrivilegeIfNotFound(final String name) {
@@ -157,4 +165,18 @@ public class StartupService {
             System.out.println("Created monster: " + monster.getName());
         }
     }
+
+    private void createItemIfNotFound(String name, int price,
+                                      int damage, int healthRecovery, int maxAmount) {
+
+        Optional<Item> optionalItem = itemRepository.findByName(name);
+
+        if (optionalItem.isEmpty()) {
+            itemRepository.save(new Item(name, price, damage, healthRecovery, maxAmount));
+        }
+
+        System.out.println("Created item: " + name);
+
+    }
+
 }
