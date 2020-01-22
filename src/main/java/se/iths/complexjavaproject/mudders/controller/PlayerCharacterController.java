@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import se.iths.complexjavaproject.mudders.entity.PlayerCharacter;
 import se.iths.complexjavaproject.mudders.entity.User;
 import se.iths.complexjavaproject.mudders.exception.BadDataException;
@@ -63,6 +64,15 @@ public class PlayerCharacterController {
         }
         return
                 "playercharacter";
+    }
+
+    @GetMapping("/showAllCharacters")
+    public ModelAndView showAllCharacters(Model model) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("playercharacters");
+        List<PlayerCharacterModel> players = playerCharacterService.findAll();
+        modelAndView.addObject("players", players);
+        return modelAndView;
     }
 
     @RequestMapping(value="/savecharacter", method = RequestMethod.GET )
