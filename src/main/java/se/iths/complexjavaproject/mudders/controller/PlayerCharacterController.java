@@ -122,20 +122,25 @@ public class PlayerCharacterController {
     }*/
 
     @PostMapping(path = "/add")
-    public String addNewPlayerCharacter (@RequestParam String characterName) {
+    public ModelAndView addNewPlayerCharacter (@RequestParam String characterName) {
+        log.debug("Add new playerCharacter");
+        ModelAndView mav = new ModelAndView();
         try {
             String email = "";
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             if (!(authentication instanceof AnonymousAuthenticationToken)) {
                 email = authentication.getName();
+                log.warn("Authenticating");
             }
                 playerCharacterService.createNewCharacter(characterName, email);
-            return "playercharacter";
+            mav.setViewName("playercharacter");
+
         } catch (Exception e) {
             e.printStackTrace();
             log.error("Unable to add new playerCharacter");
-            return "error";
+            mav.setViewName("error");
         }
+        return mav;
     }
 
     @GetMapping(path = "/travel")
