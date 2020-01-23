@@ -27,6 +27,9 @@ public class NonPlayerCharacter implements Serializable {
     private Town town;
 
     public NonPlayerCharacterModel toModel() {
-        return new NonPlayerCharacterModel(getId(), getName());
+        NonPlayerCharacterModel npcModel = new NonPlayerCharacterModel();
+        npcModel.setName(this.getName());
+        npcModel.setTown(this.getTown().getTownName());
+        return npcModel;
     }
 }
