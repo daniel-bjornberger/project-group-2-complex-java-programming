@@ -9,6 +9,7 @@ The following are necessary to successfully run the program.
 * MySQL version 8 or higher
 * Maven
 * Spring
+* Thymeleaf
 
 Download and place the project in your prefered directory.
 Run MuddersApplcation and RabbitMQReciever.
