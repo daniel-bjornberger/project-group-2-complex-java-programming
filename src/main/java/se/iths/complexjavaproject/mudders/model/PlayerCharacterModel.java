@@ -12,6 +12,7 @@ public class PlayerCharacterModel {
     private String characterName;
     private int experience;
     private int health;
+    private int maxHealth;
     private int level;
     private String currentTown;
     private int damage;
