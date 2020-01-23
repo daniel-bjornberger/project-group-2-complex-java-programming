@@ -57,11 +57,10 @@ public class StartupService {
 
         // == create initial users
         User admin = createUserIfNotFound("admin@mud.com", "Admin", "admin", new ArrayList<>(Collections.singletonList(adminRole)));
-        User user = createUserIfNotFound("test_user@mud.com","Test User","password", new ArrayList<>(Collections.singletonList(userRole)));
 
         // == create initial towns
-        Town townOne = createTownIfNotFound("First");
-        Town townTwo = createTownIfNotFound("Second");
+        Town townOne = createTownIfNotFound("Draculas Castle");
+        Town townTwo = createTownIfNotFound("Sunflower City");
 
         // == create initial npcs
         createNpcIfNotFound("Tavern", townOne);
