@@ -15,7 +15,7 @@ import java.util.Set;
 @Table(name = "player_character")
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
+//@ToString
 @Entity
 public class PlayerCharacter implements Serializable {
 
@@ -57,7 +57,7 @@ public class PlayerCharacter implements Serializable {
     private Set<ItemAmount> itemAmounts = new HashSet<>();
 
 //    @ManyToOne(fetch = FetchType.LAZY)
-    @OneToOne(fetch = FetchType.LAZY)
+    //@OneToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name = "user_id")
     //private User user;
     

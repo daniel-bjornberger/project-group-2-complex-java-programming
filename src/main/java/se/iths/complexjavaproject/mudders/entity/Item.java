@@ -13,11 +13,9 @@ import java.util.Set;
 
 @Entity
 @Table(name = "item")
-//@Data
 @Getter
 @Setter
 @ToString
-//@RequiredArgsConstructor
 @NoArgsConstructor
 public class Item implements Serializable {
 

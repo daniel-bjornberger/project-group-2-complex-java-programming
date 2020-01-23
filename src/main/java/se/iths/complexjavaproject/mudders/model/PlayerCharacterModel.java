@@ -14,7 +14,7 @@ public class PlayerCharacterModel {
     private int health;
     private int maxHealth;
     private int level;
-    private String currentTown;
+    //private String currentTown;
     private int damage;
     private int currency;
     private ArrayList<ItemAmountModel> itemAmountModels = new ArrayList<>();

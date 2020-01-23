@@ -98,12 +98,12 @@ public class PlayerCharacterService {
         playerCharacterRepository.delete(character);
     }
 
-    public PlayerCharacterModel findByUserId(long id) throws BadDataException {
+    /*public PlayerCharacterModel findByUserId(long id) throws BadDataException {
         PlayerCharacter playerCharacter = playerCharacterRepository.findByUserId(id);
         if(playerCharacter == null){
             return new PlayerCharacterModel();
         }
 
         return playerCharacter.toModel();
-    }
+    }*/
 }

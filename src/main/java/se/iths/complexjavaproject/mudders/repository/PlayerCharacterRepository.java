@@ -11,7 +11,7 @@ public interface PlayerCharacterRepository extends CrudRepository<PlayerCharacte
 
     PlayerCharacter findById(long id);
 
-    PlayerCharacter findByUserId(long id);
+    //PlayerCharacter findByUserId(long id);
 
     boolean existsByCharacterName(String characterName);
 
