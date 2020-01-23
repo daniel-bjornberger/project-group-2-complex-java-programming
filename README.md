@@ -42,6 +42,11 @@ spring.jpa.hibernate.ddl-auto=update
 
 ## Start localhost
 Now you can try the program via localhost and a port of your choice.
+```
+localhost:****/login
+
+```
+
 We automaticly create an account with admin privleges which you can use to try all functions with.
 Make sure you log in with: 
  * Enter email: Admin@mud.com  
