@@ -46,6 +46,7 @@ We automaticly create an account with admin privleges which you can use to try a
 Make sure you log in with: 
  * Enter email: Admin@mud.com  
  * Enter Password: admin
+ 
 The user only has basic priveleges to play the game.
 
 Please enjoy and thanks for trying our program!
