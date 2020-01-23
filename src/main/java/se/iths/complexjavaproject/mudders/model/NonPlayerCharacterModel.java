@@ -1,17 +1,13 @@
 package se.iths.complexjavaproject.mudders.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-import java.io.Serializable;
+@Getter
+@Setter
+public class NonPlayerCharacterModel {
 
-@Data
-@AllArgsConstructor
-public class NonPlayerCharacterModel implements Serializable {
-
-    private static final long serialVersionUID = -4298562145638460068L;
-
-    private Long id;
     private String name;
+    private String town;
 
 }

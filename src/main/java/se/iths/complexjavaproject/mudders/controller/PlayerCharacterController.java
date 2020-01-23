@@ -122,6 +122,26 @@ public class PlayerCharacterController {
     }*/
 
     @PostMapping(path = "/add")
+    public String addNewPlayerCharacter (@RequestParam String characterName) {
+        log.debug("Add new playerCharacter");
+        try {
+            String email = "";
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            if (!(authentication instanceof AnonymousAuthenticationToken)) {
+                email = authentication.getName();
+                log.warn("Authenticating");
+            }
+            playerCharacterService.createNewCharacter(characterName, email);
+            return "playercharacter";
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error("Unable to add new playerCharacter");
+            return "error";
+        }
+    }
+
+    /*@PostMapping(path = "/add")
     public ModelAndView addNewPlayerCharacter (@RequestParam String characterName) {
         log.debug("Add new playerCharacter");
         ModelAndView mav = new ModelAndView();
@@ -141,7 +161,7 @@ public class PlayerCharacterController {
             mav.setViewName("error");
         }
         return mav;
-    }
+    }*/
 
     @GetMapping(path = "/travel")
     public String getTravelPlayerByName(Model model, @RequestParam String characterName) {
@@ -235,13 +255,13 @@ public class PlayerCharacterController {
      * @return
      */
     @GetMapping(path = "/delete")
-    public ResponseEntity removePlayer(@RequestParam String characterName) {
+    public String removePlayer(@RequestParam String characterName) {
         try {
             PlayerCharacter character = playerCharacterService.findCharacterByName(characterName);
             playerCharacterService.deleteCharacter(character);
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+            return "playercharacter";
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+            return "error";
         }
     }
 }
