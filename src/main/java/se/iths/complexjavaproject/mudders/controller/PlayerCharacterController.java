@@ -53,7 +53,6 @@ public class PlayerCharacterController {
     @RequestMapping(value="/playercharacter", method = RequestMethod.GET )
     public String read(Model model){
         try {
-            log.warn("Only one playerCharacter allowed!");
             String email = "";
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             if (!(authentication instanceof AnonymousAuthenticationToken)) {
@@ -64,6 +63,7 @@ public class PlayerCharacterController {
             model.addAttribute("player", player.getCharacterName());
         } catch (Exception e) {
             e.printStackTrace();
+            log.warn("Only one playerCharacter allowed!");
             log.error("Possible authentication error!");
             return "error";
         }
