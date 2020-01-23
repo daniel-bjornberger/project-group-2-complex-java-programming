@@ -1,22 +1,13 @@
 package se.iths.complexjavaproject.mudders;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import se.iths.complexjavaproject.mudders.service.StartupService;
-@SpringBootApplication()
-public class MuddersApplication implements CommandLineRunner {
 
-	@Autowired
-	StartupService startupService;
+@SpringBootApplication()
+public class MuddersApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(MuddersApplication.class, args);
 	}
 
-	@Override
-	public void run(String... args) throws Exception {
-		startupService.populateDbIfNeeded();
-	}
 }

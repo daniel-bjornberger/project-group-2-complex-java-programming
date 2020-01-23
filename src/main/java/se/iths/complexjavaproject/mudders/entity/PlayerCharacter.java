@@ -49,9 +49,9 @@ public class PlayerCharacter implements Serializable {
 
     private boolean inCombat = false;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    /*@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "town_id")
-    private Town currentTown;
+    private Town currentTown;*/
 
     @OneToMany(mappedBy = "playerCharacter", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<ItemAmount> itemAmounts = new HashSet<>();
@@ -59,7 +59,7 @@ public class PlayerCharacter implements Serializable {
 //    @ManyToOne(fetch = FetchType.LAZY)
     @OneToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name = "user_id")
-    private User user;
+    //private User user;
     
 
     public PlayerCharacterModel toModel() {
@@ -70,7 +70,7 @@ public class PlayerCharacter implements Serializable {
         playerCharacterModel.setLevel(getLevel());
         playerCharacterModel.setHealth(getHealth());
         playerCharacterModel.setMaxHealth(getMaxHealth());
-        playerCharacterModel.setCurrentTown(getCurrentTown().getTownName());
+        //playerCharacterModel.setCurrentTown(getCurrentTown().getTownName());
         playerCharacterModel.setDamage(getDamage());
         playerCharacterModel.setCurrency(getCurrency());
 
@@ -87,7 +87,7 @@ public class PlayerCharacter implements Serializable {
                 "characterName='" + characterName + '\'' +
                 ", experience=" + experience +
                 ", level=" + level +
-                ", currentTown=" + currentTown +
+                //", currentTown=" + currentTown +
                 '}';
     }
 }

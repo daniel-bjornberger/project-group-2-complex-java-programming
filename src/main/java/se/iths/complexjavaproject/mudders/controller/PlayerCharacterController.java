@@ -1,29 +1,17 @@
 package se.iths.complexjavaproject.mudders.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-import se.iths.complexjavaproject.mudders.entity.PlayerCharacter;
-import se.iths.complexjavaproject.mudders.entity.User;
-import se.iths.complexjavaproject.mudders.exception.BadDataException;
-import se.iths.complexjavaproject.mudders.model.PlayerCharacterModel;
-import se.iths.complexjavaproject.mudders.repository.UserRepository;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import se.iths.complexjavaproject.mudders.service.PlayerCharacterService;
-import se.iths.complexjavaproject.mudders.service.TownService;
-import se.iths.complexjavaproject.mudders.service.TravelService;
-import se.iths.complexjavaproject.mudders.service.UserService;
-
-import java.util.List;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Service
 @Controller
@@ -33,24 +21,24 @@ public class PlayerCharacterController {
     Logger log = LoggerFactory.getLogger(this.getClass());
 
     private PlayerCharacterService playerCharacterService;
-    private TravelService travelService;
+    /*private TravelService travelService;
     private TownService townService;
-    private UserService userService;
+    private UserService userService;*/
 
     @Autowired
-    public PlayerCharacterController(PlayerCharacterService playerCharacterService, TravelService travelService, TownService townService, UserService userService) {
+    public PlayerCharacterController(PlayerCharacterService playerCharacterService/*, TravelService travelService, TownService townService, UserService userService*/) {
         this.playerCharacterService = playerCharacterService;
-        this.travelService = travelService;
+        /*this.travelService = travelService;
         this.townService = townService;
-        this.userService = userService;
+        this.userService = userService;*/
     }
 
     /**
      * Hard coded to find playerCharacter with long id 1, sends the name of the character to playercharacter.html
-     * @param model
-     * @return playercharacter.html
+     //* @param model
+     //* @return playercharacter.html
      */
-    @RequestMapping(value="/playercharacter", method = RequestMethod.GET )
+    /*@RequestMapping(value="/playercharacter", method = RequestMethod.GET )
     public String read(Model model){
         try {
             String email = "";
@@ -68,9 +56,9 @@ public class PlayerCharacterController {
             return "error";
         }
         return "playercharacter";
-    }
+    }*/
 
-    @GetMapping("/playgame")
+    /*@GetMapping("/playgame")
     public String playGame(Model model, @RequestParam String characterName ){
         try {
             PlayerCharacterModel player = playerCharacterService.findCharacterByName(characterName).toModel();
@@ -82,7 +70,7 @@ public class PlayerCharacterController {
             return "error";
         }
         return "play";
-    }
+    }*/
 
 
     @PostMapping(path = "/add")
@@ -90,11 +78,11 @@ public class PlayerCharacterController {
         log.debug("Add new playerCharacter");
         try {
             String email = "";
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            /*Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             if (!(authentication instanceof AnonymousAuthenticationToken)) {
                 email = authentication.getName();
                 log.warn("Authenticating");
-            }
+            }*/
             playerCharacterService.createNewCharacter(characterName, email);
             return "playercharacter";
 
@@ -107,11 +95,11 @@ public class PlayerCharacterController {
 
     /**
      * Allows playerCharacter to travel around figthing or finding gold, unless they are dead.
-     * @param model
-     * @param characterName
-     * @return play.html, error.html, playercharacter.html
+     //* @param model
+     //* @param characterName
+     //* @return play.html, error.html, playercharacter.html
      */
-    @GetMapping(path = "/travel")
+    /*@GetMapping(path = "/travel")
     public String getTravelPlayerByName(Model model, @RequestParam String characterName) {
         try {
             PlayerCharacterModel playerCharacterModel = travelService.travel(characterName);
@@ -126,15 +114,15 @@ public class PlayerCharacterController {
             log.error("Unable to use endpoint /travel");
             return "error";
         }
-    }
+    }*/
 
     /**
      * Allows playerCharacter to travel to next town.
-     * @param model
-     * @param characterName
-     * @return play.html or error.html
+     //* @param model
+     //* @param characterName
+     //* @return play.html or error.html
      */
-        @GetMapping(path = "/travel/next")
+        /*@GetMapping(path = "/travel/next")
     public String travelToNextTown(Model model, @RequestParam String characterName) {
         try {
             PlayerCharacterModel playerCharacterModel = travelService.travelToNextTown(characterName);
@@ -145,9 +133,9 @@ public class PlayerCharacterController {
             log.error("Unable to use endpoint travel/next");
             return "error";
         }
-    }
+    }*/
 
-    @GetMapping(path = "/travel/previous")
+    /*@GetMapping(path = "/travel/previous")
     public String travelToPreviousTown(Model model, @RequestParam String characterName) {
         try {
             PlayerCharacterModel playerCharacterModel = travelService.travelToPreviousTown(characterName);
@@ -158,15 +146,15 @@ public class PlayerCharacterController {
             log.error("Unable to use endpoint travel/next");
             return "error";
         }
-    }
+    }*/
 
     /**
      * Uses visitHealer() in townService to heal playerCharacter if conditions are met.
-     * @param model
-     * @param characterName
-     * @return play.html
+     //* @param model
+     //* @param characterName
+     //* @return play.html
      */
-    @GetMapping(path = "/healer")
+    /*@GetMapping(path = "/healer")
     public String goToHealer(Model model, @RequestParam String characterName) {
         try {
             PlayerCharacterModel playerCharacterModel = townService.visitHealer(characterName);
@@ -177,15 +165,15 @@ public class PlayerCharacterController {
             log.error("Unable to visit Healer");
             return "error";
         }
-    }
+    }*/
 
     /**
      * Uses visitTavern() in townService to allow minor healing if conditions are met.
-     * @param model
-     * @param characterName
-     * @return play.html
+     //* @param model
+     //* @param characterName
+     //* @return play.html
      */
-    @GetMapping(path = "/tavern")
+    /*@GetMapping(path = "/tavern")
     public String playerVisitTavern(Model model, @RequestParam String characterName){
         try{
             PlayerCharacterModel playerCharacterModel = townService.visitTavern(characterName);
@@ -195,14 +183,14 @@ public class PlayerCharacterController {
             log.error("Unable to visit Tavern");
             return "error";
         }
-    }
+    }*/
 
     /**
      * Removes playerCharacter from database.
-     * @param characterName
-     * @return
+     //* @param characterName
+     //* @return
      */
-    @GetMapping(path = "/delete")
+    /*@GetMapping(path = "/delete")
     public String removePlayer(@RequestParam String characterName) {
         try {
             PlayerCharacter character = playerCharacterService.findCharacterByName(characterName);
@@ -211,5 +199,5 @@ public class PlayerCharacterController {
         } catch (Exception e) {
             return "error";
         }
-    }
+    }*/
 }
