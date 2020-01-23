@@ -69,6 +69,7 @@ public class PlayerCharacter implements Serializable {
         playerCharacterModel.setExperience(getExperience());
         playerCharacterModel.setLevel(getLevel());
         playerCharacterModel.setHealth(getHealth());
+        playerCharacterModel.setMaxHealth(getMaxHealth());
         playerCharacterModel.setCurrentTown(getCurrentTown().getTownName());
         playerCharacterModel.setDamage(getDamage());
         playerCharacterModel.setCurrency(getCurrency());

@@ -63,38 +63,12 @@ public class PlayerCharacterController {
             model.addAttribute("player", player.getCharacterName());
         } catch (Exception e) {
             e.printStackTrace();
+            log.warn("Only one playerCharacter allowed!");
             log.error("Possible authentication error!");
             return "error";
         }
         return "playercharacter";
     }
-
-   /* @GetMapping("/showAllCharacters")
-    public ModelAndView showAllCharacters(Model model) {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("playercharacters");
-        List<PlayerCharacterModel> players = playerCharacterService.findAll();
-        modelAndView.addObject("players", players);
-        return modelAndView;
-    }*/
-
-   /* @RequestMapping(value="/savecharacter", method = RequestMethod.GET )
-    public String saveCharacter(PlayerCharacterModel playerCharacterModel){
-        playerCharacterModel.setLevel(10);
-
-        return "playercharacter";
-    }*/
-    /*@GetMapping("/addplayer")
-    //RequestMapping annotation over a method - tie out to a browser/postman
-    //value - relative path (endpoint) from a domain name.
-    //method - HTTP method
-    public String addPlayer(Model model, @RequestParam(value="characterName", required=false, defaultValue="0.0")String characterName){
-        PlayerCharacterModel playerCharacterModel = playerCharacterService.findById(1);
-        playerCharacterModel.setCharacterName(characterName);
-
-        model.addAttribute("player", playerCharacterModel);
-        return "start";
-    }*/
 
     @GetMapping("/playgame")
     public String playGame(Model model, @RequestParam String characterName ){
@@ -110,21 +84,10 @@ public class PlayerCharacterController {
         return "play";
     }
 
-/*
-    @GetMapping(path = "/all")
-    public ResponseEntity getAllPlayers() {
-        try {
-            return ResponseEntity.ok().body(playerCharacterService.findAll());
-        }
-        catch(Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-    }*/
 
     @PostMapping(path = "/add")
-    public ModelAndView addNewPlayerCharacter (@RequestParam String characterName) {
+    public String addNewPlayerCharacter (@RequestParam String characterName) {
         log.debug("Add new playerCharacter");
-        ModelAndView mav = new ModelAndView();
         try {
             String email = "";
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -132,17 +95,22 @@ public class PlayerCharacterController {
                 email = authentication.getName();
                 log.warn("Authenticating");
             }
-                playerCharacterService.createNewCharacter(characterName, email);
-            mav.setViewName("playercharacter");
+            playerCharacterService.createNewCharacter(characterName, email);
+            return "playercharacter";
 
         } catch (Exception e) {
             e.printStackTrace();
             log.error("Unable to add new playerCharacter");
-            mav.setViewName("error");
+            return "error";
         }
-        return mav;
     }
 
+    /**
+     * Allows playerCharacter to travel around figthing or finding gold, unless they are dead.
+     * @param model
+     * @param characterName
+     * @return play.html, error.html, playercharacter.html
+     */
     @GetMapping(path = "/travel")
     public String getTravelPlayerByName(Model model, @RequestParam String characterName) {
         try {
@@ -235,13 +203,13 @@ public class PlayerCharacterController {
      * @return
      */
     @GetMapping(path = "/delete")
-    public ResponseEntity removePlayer(@RequestParam String characterName) {
+    public String removePlayer(@RequestParam String characterName) {
         try {
             PlayerCharacter character = playerCharacterService.findCharacterByName(characterName);
             playerCharacterService.deleteCharacter(character);
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+            return "playercharacter";
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+            return "error";
         }
     }
 }

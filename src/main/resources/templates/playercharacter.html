@@ -33,7 +33,7 @@
 
         <div class="container-fluid">
             <h3>Your character:</h3>
-            <p th:text="${player}" th:object="${player}"></p>
+            <p class="font-weight-bold" th:text="${player}" th:object="${player}"></p>
 
             <a th:href="@{'/player/playgame?characterName=' + ${player}}">
                 <button type="button" class="btn btn-success">Play</button>
@@ -97,6 +97,7 @@
                     </div>
                     <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm" name="characterName">
                 </div>
+                <p>Notice: Do not add a character into the database before first deleting any existing characters!</p>
                 <button type="submit" value="Submit">Submit</button>
             </form>
             <form action="/player/delete" methods="delete">

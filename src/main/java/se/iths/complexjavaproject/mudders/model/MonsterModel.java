@@ -9,7 +9,8 @@ import java.util.List;
  * Skapad av Elin och Tonny 26/11.
  */
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 public class MonsterModel {
 

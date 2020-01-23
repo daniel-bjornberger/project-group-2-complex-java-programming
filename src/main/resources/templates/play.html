@@ -36,7 +36,7 @@
                 To lighten the burden for your family you decide to try your luck looking for work in Tulip City.
                 The capitol is said to be wondrous place but the journey there is long and filled with peril.
                 Who knows what the journey to the capitol may bring. Fame and Fortune or Death and Despair!
-                You must first travel to First Town and from there it may be prudent to pick up some sword skills.
+                You must first travel to Draculas Castle and on your way there you might wish to pick up a stake and some silver bolts.
                 Good Speed on your journey and may you the Gods favour your endeavours.
             </p>
 
@@ -65,7 +65,7 @@
             <tr>
                 <th scope="row">1</th>
                 <td> <p th:text="${player.characterName}"></p></td>
-                <td> <p th:text="${player.health}"></p> </td>
+                <td> <p th:text="${player.health} + '/' + ${player.maxHealth}"></p> </td>
                 <td> <p th:text="${player.damage}"> </td>
                 <td> <p th:text="${player.level}"> </td>
                 <td> <p th:text="${player.experience}"> </td>
@@ -84,11 +84,11 @@
         </a>
 
         <a th:href="@{'/player/healer?characterName=' + ${player.characterName}}">
-            <button type="button" class="btn btn-primary">Healer</button>
+            <button type="button" class="btn btn-primary">Healer 15c</button>
         </a>
 
         <a th:href="@{'/player/tavern?characterName=' + ${player.characterName}}">
-            <button type="button" class="btn btn-warning">Tavern</button>
+            <button type="button" class="btn btn-warning">Tavern 2c</button>
         </a>
 
         <a th:href="@{'/player/travel/next?characterName=' + ${player.characterName}}">

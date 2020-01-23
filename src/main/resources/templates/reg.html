@@ -18,13 +18,18 @@
                 <a class="nav-link" href="#">Registration <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="@{/login}">Login</a>
+                <a class="nav-link" href="/login">Login</a>
             </li>
         </ul>
     </div>
 </nav>
 
 <div class="container-fluid">
+    <h2>Register</h2>
+    <p>
+        User account will removed by admin if misused!
+    </p>
+    <br>
     <form action="/user/registration" method="post">
         <div class="input-group input-group-sm mb-3">
             <div class="input-group-prepend">
@@ -53,8 +58,6 @@
         <button name="submit" type="submit" value="0">Submit</button>
 
     </form>
-
-    <!--<a th:href="@{/login.html}" th:text="#{label.form.loginLink}">login</a>-->
 
 </div>
 
