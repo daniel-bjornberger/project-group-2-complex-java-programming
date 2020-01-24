@@ -3,8 +3,11 @@ package se.iths.complexjavaproject.mudders.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -71,7 +74,7 @@ public class PlayerCharacterController {
 
 
     @PostMapping(path = "/add")
-    public String addNewPlayerCharacter (@RequestParam String characterName) {
+    public ResponseEntity<?> addNewPlayerCharacter (@RequestParam String characterName) {
         log.debug("Add new playerCharacter");
         try {
             String email = "";
@@ -80,15 +83,31 @@ public class PlayerCharacterController {
                 email = authentication.getName();
                 log.warn("Authenticating");
             }*/
-            playerCharacterService.createNewCharacter(characterName, email);
-            return "playercharacter";
+            //playerCharacterService.createNewCharacter(characterName, email);
+            //return "playercharacter";
+            return ResponseEntity.ok().body(playerCharacterService.createNewCharacter(characterName, email));
 
         } catch (Exception e) {
-            e.printStackTrace();
-            log.error("Unable to add new playerCharacter");
-            return "error";
+            //e.printStackTrace();
+            //log.error("Unable to add new playerCharacter");
+            //return "error";
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
+
+
+    @GetMapping(path = "/all")
+    public ResponseEntity<?> getAllPlayers() {
+        try {
+            return ResponseEntity.ok().body(playerCharacterService.findAll());
+        }
+        catch(Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+
+
 
     /**
      * Allows playerCharacter to travel around figthing or finding gold, unless they are dead.
