@@ -73,7 +73,9 @@ public class ItemService {
     }
 
 
-    public ItemModel updateItemData(ItemModel itemModel) throws ItemNotFoundException {
+    public ItemModel updateItemData(ItemModel itemModel) throws ItemNotFoundException, BadDataException {
+
+        Item item = itemModel.convertToEntity();    // För att få en koll av om värdena är okej.
 
         Optional<Item> optionalItemToUpdate = itemRepository.findByName(itemModel.getName());
 
@@ -144,7 +146,7 @@ public class ItemService {
             itemAmountRepository.save(itemAmount);
         }
 
-        playerCharacter.getItemAmounts().forEach(itemAmount1 -> System.out.println(itemAmount1.getItem().getName() + ", " + itemAmount1.getAmount()));
+        //playerCharacter.getItemAmounts().forEach(itemAmount1 -> System.out.println(itemAmount1.getItem().getName() + ", " + itemAmount1.getAmount()));
 
         return itemAmount.toModel();
 
